@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>로그인</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .login-box {
+            width: 300px;
+            margin: 100px auto;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        input[type=text], input[type=password] {
+            width: 100%; padding: 10px; margin: 10px 0;
+        }
+        input[type=submit] {
+            width: 100%; padding: 10px; background: #4CAF50; color: white; border: none;
+        }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h2>로그인</h2>
+    <form action="${pageContext.request.contextPath}/user/login" method="post">
+        <input type="text" name="username" placeholder="아이디" required>
+        <input type="password" name="password" placeholder="비밀번호" required>
+        <input type="submit" value="로그인">
+    </form>
+
+
+    <p style="text-align:center; margin-top:10px;">
+        <a href="${pageContext.request.contextPath}/user/signup">회원가입</a>
+    </p>
+</div>
+
+</body>
+</html>
