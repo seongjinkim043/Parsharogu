@@ -17,8 +17,27 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public String login(@RequestParam String username) {
-		
+		// 로그인 처리 구현
 		return "redirect:/mypage";
 	}
+	
+	@GetMapping("/signup")
+	public String signupForm() {
+		return "user/signup";
+	}
+	
+//	@PostMapping("/signup")
+//	public String signup(userDTO userDTO) {
+//		//회원가입 처리 구현
+//		
+//		return "redirect:/user/login";
+//	}
+//	
+//	@GetMapping("/mypage")
+//	public String mypage(Model model) {
+//		//마이페이지 내용 보여주기
+//		
+//		return "user/mypage";
+//	}
 
 }
