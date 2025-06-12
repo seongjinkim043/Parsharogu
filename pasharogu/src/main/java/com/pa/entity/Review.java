@@ -1,5 +1,7 @@
 package com.pa.entity;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class Review {
     private String placeId;
     private String content;
     private String imageUrl;
+    private Date createdAt;
 
     // getters/setters
 }
