@@ -15,6 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
   <style>
+  	
     body {
       background: #fff8f0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
