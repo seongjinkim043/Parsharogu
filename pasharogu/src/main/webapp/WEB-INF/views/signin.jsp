@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -26,15 +27,14 @@
             width: 100%;
             max-width: 1920px;
             margin: 0 auto;
-            position: relative;
+            position: absolute;
             min-height: 100vh;
         }
 
         .header {
-            position: absolute;
-            top: 73px;
-            right: 460px;
-            z-index: 10;
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
         }
 
         .logo {
@@ -42,6 +42,7 @@
             font-weight: 700;
             color: #000000;
             line-height: 1.2;
+            text-decoration: none; /* 링크 스타일 제거 */
         }
 
         .main-form {
@@ -83,7 +84,7 @@
         }
 
         .profile-image::after {
-            content: 'イメージ';
+            content: 'イメージ　選択';
             font-size: 12px;
             color: #000000;
             font-weight: 400;
@@ -154,6 +155,27 @@
         .submit-button:active {
             background-color: #5D5D5D;
         }
+        .profile-image-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .delete-image-button {
+            font-size: 14px;
+            color: #000000;
+            background-color: #E0E0E0;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .delete-image-button:hover {
+            background-color: #C0C0C0;
+        }
 
         /* Responsive design */
         @media (max-width: 1400px) {
@@ -162,10 +184,7 @@
                 transform: translateX(-50%);
             }
             
-            .header {
-                right: 50%;
-                transform: translateX(50%);
-            }
+            
         }
 
         @media (max-width: 1080px) {
@@ -179,11 +198,7 @@
                 width: 100%;
             }
             
-            .header {
-                position: static;
-                text-align: center;
-                padding: 20px;
-            }
+            
         }
 
         @media (max-width: 768px) {
@@ -223,17 +238,20 @@
 <body>
     <div class="container">
         <header class="header">
-            <div class="logo">パシャログ</div>
-        </header>
+        <a href="/" class="logo">パシャログ</a>
+</header>
         
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">アカウント制作</h1>
                 
                 <form id="signupForm">
-                    <div class="profile-image" onclick="document.getElementById('imageInput').click()">
-                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                    </div>
+                    
+                        <div class="profile-image" onclick="document.getElementById('imageInput').click()">
+                            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        </div>
+                        <button type="button" class="delete-image-button" onclick="deleteProfileImage()">削除</button>
+                    
                     
                     <div class="form-group">
                         <label for="nickname" class="form-label">ニックネーム</label>
@@ -262,6 +280,15 @@
     </div>
 
     <script>
+        function deleteProfileImage() {
+            const profileImage = document.querySelector('.profile-image');
+            const imageInput = document.getElementById('imageInput');
+            
+            // 이미지 제거 및 초기 상태 복구
+            profileImage.style.backgroundImage = '';
+            profileImage.innerHTML = '';
+            imageInput.value = ''; // 파일 입력 초기화
+        }
         // 이미지 업로드 기능
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
