@@ -1,4 +1,4 @@
-package com.pa.controller;
+package com.pa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
