@@ -1,4 +1,4 @@
-package com.pa.pasharogu;
+package com.pa.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
