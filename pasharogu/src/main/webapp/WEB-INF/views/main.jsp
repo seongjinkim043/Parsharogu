@@ -1,7 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>리뷰 지도 서비스</title>
     <style>
         body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
@@ -29,7 +29,7 @@
         .left-box button {
             margin-top: 30px;
             padding: 12px 24px;
-            background-color: red; 
+            background-color: red;
             color: white;
             border: none;
             border-radius: 5px;
@@ -61,17 +61,17 @@
 
 <div class="container">
     <div class="left-box">
-        <h1>地域ごとに<br>感想を共有する、<br>レビュー地図サービス</h1>
+        <h1>지역마다 감상을 나누는<br>리뷰 지도 서비스</h1>
         <p>사용자들이 일본 각 지역에 남긴 후기를 지도 위에서 쉽게 보고<br>공감하며 공유할 수 있습니다.</p>
-        <a th:href="@{/region}">
-            <button>지역별로 보기</button>
-        </a>
+        <form action="/region" method="get">
+            <button type="submit">지역별로 보기</button>
+        </form>
     </div>
 
     <div class="right-map">
-        <div class="region-btn region1" th:onclick="'location.href=\'/diary/list?region=홋카이도\''">삿포로</div>
-        <div class="region-btn region2" th:onclick="'location.href=\'/diary/list?region=도쿄\''">도쿄</div>
-        <div class="region-btn region3" th:onclick="'location.href=\'/diary/list?region=오사카\''">오사카</div>
+        <div class="region-btn region1">삿포로</div>
+        <div class="region-btn region2">도쿄</div>
+        <div class="region-btn region3">오사카</div>
     </div>
 </div>
 

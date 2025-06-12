@@ -1,4 +1,4 @@
-package com.pa.pasharogu;
+package com.pa.controller;
 
 public class IkitaiController {
 
