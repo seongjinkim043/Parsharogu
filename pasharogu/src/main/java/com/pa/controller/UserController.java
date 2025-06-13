@@ -7,17 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import com.pa.dto.LoginFormDTO;
 import com.pa.repository.UserRepository;
 import com.pa.entity.User;
 
-import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -26,11 +22,11 @@ public class UserController {
 	@GetMapping("/login")
 	public String loginForm() {
 	    // 로그인 폼 요청
-		return "user/login";
+		return "login";
 	}
 	
 	@PostMapping("/login")
-	public String login(LoginFormDTO form, HttpSession session, Model model) {
+	public String login(LoginFormDTO form, Model model) {
 		
 		//입력받은 ID, 비밀번호 받기
 	    String username = form.getLoginId();
@@ -45,25 +41,25 @@ public class UserController {
 	        return "user/login";
 	    }
 
-	    User user = optionalUser.get();
+//	    User user = optionalUser.get();
 
-	    // 로그인 성공 → 세션에 저장
-	    session.setAttribute("loginUser", user);
+//	    // 로그인 성공 → 세션에 저장
+//	    session.setAttribute("loginUser", user);
 
 	    return "redirect:/main";
 	}
 	
 	
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-	    session.invalidate(); // 세션 초기화
-	    return "redirect:/login";
-	}
-	
-	@GetMapping("/signup")
-	public String signupForm() {
-		return "user/signup";
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpSession session) {
+//	    session.invalidate(); // 세션 초기화
+//	    return "redirect:/login";
+//	}
+//	
+//	@GetMapping("/signup")
+//	public String signupForm() {
+//		return "signin";
+//	}
 	
 //	@PostMapping("/signup")
 //	public String signup(userDTO userDTO) {

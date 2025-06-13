@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -235,11 +235,11 @@
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
                 
-                <c:if test="${not empty error}">
+                <%-- <c:if test="${not empty error}">
 		            <div style="color: red; margin-bottom: 20px; font-weight: bold;">
 		                ${error}
 		            </div>
-		        </c:if>
+		        </c:if> --%>
                 <!-- 이부분으로 로그인 정보가 들어온다. -->
                 <form id="loginForm" action="/user/login" method="post">
                     <div class="form-group">
