@@ -1,9 +1,17 @@
 package com.pa.dto;
 import lombok.Data;
 
-public class ScheduleDTO {
+import lombok.Data;
 
-	private String id;
+
+@Data
+public class ScheduleDTO {
+    private int scheduleId;
+    private String description;
+    private String startDate;
+    private String endDate;
+
+	  private String id;
     private String title;
     private String start;  // FullCalendar는 문자열 "yyyy-MM-ddTHH:mm:ss" 형식으로 요구
     private String end;
