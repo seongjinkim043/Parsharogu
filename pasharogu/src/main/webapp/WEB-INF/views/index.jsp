@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,34 +24,38 @@
       width: 100vw;
       overflow: hidden;
     }
-    #calendar {
-       position: fixed;
-  top: 200px;
-  left: 100px;
-  width: 40vw;
-  height: 40vh;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
-  padding: 20px;
-  z-index: 9999;
+
+    .calendar-wrapper {
+      position: fixed;
+      top: 120px;
+      left: 80px;
+      display: flex;
+      gap: 30px;
     }
+
+    #calendar1, #calendar2 {
+      width: 40vw;
+      height: 40vh;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
+      padding: 20px;
+    }
+
     .fc-header-toolbar {
       margin-bottom: 15px;
     }
-    .fc-button {
-      background: #ff9f9f !important;
-      border: none !important;
-      color: white !important;
-      font-weight: 700;
-      border-radius: 10px !important;
-      box-shadow: 0 4px 10px rgba(255, 159, 159, 0.4);
-      transition: background-color 0.3s ease;
+
+    .fc-toolbar-chunk:first-child,
+    .fc-toolbar-chunk:last-child {
+      display: none !important; /* 기본 이전/다음/today 버튼 숨김 */
     }
-    .fc-button:hover, .fc-button:focus {
-      background: #ff6f6f !important;
-      box-shadow: 0 6px 14px rgba(255, 111, 111, 0.6);
+
+    .fc-toolbar-title {
+      font-size: 1.5rem;
+      font-weight: bold;
     }
+
     .fc-event {
       background: #ffb6b9 !important;
       border: none !important;
@@ -75,112 +78,90 @@
       border-radius: 15px;
       transition: background-color 0.3s ease;
     }
+
+    .calendar-controls {
+      position: fixed;
+      top: 60px;
+      left: 100px;
+    }
+    .calendar-controls button {
+      background-color: #ffa3b1;
+      border: none;
+      padding: 10px 18px;
+      margin-right: 10px;
+      font-weight: bold;
+      color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255, 133, 157, 0.4);
+      cursor: pointer;
+    }
+    .calendar-controls button:hover {
+      background-color: #ff6f91;
+    }
+
     #eventModal {
       display: none;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      backdrop-filter: blur(4px);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      animation: fadeIn 0.3s ease forwards;
     }
     #eventModal .modal-content {
-      background: #ffffff;
+      background: white;
+      padding: 30px;
       border-radius: 20px;
-      padding: 30px 35px;
-      width: 350px;
-      box-shadow: 0 4px 8px rgba(245, 222, 179, 1);
-      position: relative;
-      font-weight: 600;
-      color: #80334d;
-      font-size: 1rem;
-      animation: slideUp 0.4s ease forwards;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      width: 90%;
     }
-    #eventModal label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 700;
-      color: #a64d79;
-      font-size: 0.9rem;
-    }
-    #eventModal input {
+    #eventModal input[type="text"],
+    #eventModal input[type="date"] {
       width: 100%;
-      padding: 10px 12px;
-      margin-top: 6px;
-      border-radius: 12px;
-      border: 2px solid #f4c2c2;
-      font-size: 1rem;
-      font-weight: 500;
-      color: #6b3a56;
-      outline: none;
-      transition: border-color 0.3s ease;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
     }
-    #eventModal input:focus {
-      border-color: #ff6f91;
-      box-shadow: 0 0 6px #ff6f91;
-    }
-    #eventModal .btn-group {
-      margin-top: 25px;
-      text-align: right;
-    }
-    #saveEventBtn {
-      background-color: #ff69b4;
+    #eventModal button {
+      background-color: #ff6f91;
       border: none;
-      padding: 10px 22px;
-      border-radius: 15px;
-      font-weight: 700;
+      padding: 10px 15px;
+      margin-right: 10px;
       color: white;
+      border-radius: 10px;
+      font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
-      transition: background-color 0.3s ease;
     }
-    #saveEventBtn:hover {
-      background-color: #d5387a;
-      box-shadow: 0 8px 22px rgba(213, 56, 122, 0.8);
-    }
-    #closeModalBtn {
-      background-color: #fcd1e5;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 15px;
-      font-weight: 700;
-      color: #a6446a;
-      margin-left: 12px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    #closeModalBtn:hover {
-      background-color: #f9a7c1;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    @keyframes slideUp {
-      from {transform: translateY(40px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
+    #eventModal button:hover {
+      background-color: #ff3f6d;
     }
   </style>
 </head>
 <body>
 
-  <div id='calendar'></div>
+  <!-- 사용자 정의 이전/다음 버튼 -->
+  <div class="calendar-controls">
+    <button id="prevBtn">← 이전 달</button>
+    <button id="nextBtn">다음 달 →</button>
+  </div>
 
-  <!-- 일정 추가용 모달 -->
+  <div class="calendar-wrapper">
+    <div id='calendar1'></div>
+    <div id='calendar2'></div>
+  </div>
+
+  <!-- 모달: 일정 추가 -->
   <div id="eventModal">
     <div class="modal-content">
       <h2 style="margin-top:0; text-align:center;">새 일정 추가</h2>
-
       <label for="eventTitle">제목</label>
       <input type="text" id="eventTitle" placeholder="일정 제목 입력" />
-
       <label for="eventStart">시작일</label>
       <input type="date" id="eventStart" />
-
       <label for="eventEnd">종료일</label>
       <input type="date" id="eventEnd" />
-
       <div class="btn-group">
         <button id="saveEventBtn">저장</button>
         <button id="closeModalBtn">취소</button>
@@ -190,33 +171,37 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
+      const calendarEl1 = document.getElementById('calendar1');
+      const calendarEl2 = document.getElementById('calendar2');
+      const today = new Date();
 
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      const calendar1 = new FullCalendar.Calendar(calendarEl1, {
         initialView: 'dayGridMonth',
-      
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
+        initialDate: today,
         events: '/scheduleList.do',
-        select: function(info) {
+        headerToolbar: {
+          left: '',
+          center: 'title',
+          right: ''
+        },
+        dateClick: function(info) {
           $('#eventModal').css('display', 'flex');
-          $('#eventStart').val(info.startStr);
-          $('#eventEnd').val(info.endStr ? info.endStr : info.startStr);
+          $('#eventStart').val(info.dateStr);
+          $('#eventEnd').val(info.dateStr);
           $('#eventTitle').val('');
         },
         eventClick: function(info) {
-          if(confirm(`'${info.event.title}' 일정을 삭제하시겠습니까?`)) {
+          if (confirm(`'${info.event.title}' 일정을 삭제하시겠습니까?`)) {
             $.ajax({
               url: '/scheduleDelete.do',
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify({ id: info.event.id }),
-              success: function() {
+              success: function () {
                 info.event.remove();
                 alert('일정이 삭제되었습니다.');
               },
-              error: function() {
+              error: function () {
                 alert('일정 삭제 중 오류가 발생했습니다.');
               }
             });
@@ -224,25 +209,44 @@
         }
       });
 
-      calendar.render();
+      const calendar2 = new FullCalendar.Calendar(calendarEl2, {
+        initialView: 'dayGridMonth',
+        initialDate: new Date(today.getFullYear(), today.getMonth() + 1, 1),
+        headerToolbar: {
+          left: '',
+          center: 'title',
+          right: ''
+        },
+        selectable: false
+      });
+
+      calendar1.render();
+      calendar2.render();
+
+      $('#nextBtn').click(function() {
+        calendar1.next();
+        calendar2.next();
+      });
+
+      $('#prevBtn').click(function() {
+        calendar1.prev();
+        calendar2.prev();
+      });
 
       $('#closeModalBtn').click(function() {
         $('#eventModal').hide();
       });
 
       $('#saveEventBtn').click(function() {
-        var title = $('#eventTitle').val().trim();
-        var start = $('#eventStart').val();
-        var end = $('#eventEnd').val();
+        const title = $('#eventTitle').val().trim();
+        const start = $('#eventStart').val();
+        const end = $('#eventEnd').val();
 
-        if (!title) {
-          alert('일정 제목을 입력해주세요!');
+        if (!title || !start) {
+          alert('제목과 시작일은 필수입니다!');
           return;
         }
-        if (!start) {
-          alert('시작일을 선택해주세요!');
-          return;
-        }
+
         if (end && end < start) {
           alert('종료일은 시작일 이후여야 해요!');
           return;
@@ -252,13 +256,9 @@
           url: '/scheduleAdd.do',
           type: 'POST',
           contentType: 'application/json',
-          data: JSON.stringify({
-            title: title,
-            start: start,
-            end: end
-          }),
+          data: JSON.stringify({ title, start, end }),
           success: function(newEvent) {
-            calendar.addEvent(newEvent);
+            calendar1.addEvent(newEvent);
             $('#eventModal').hide();
           },
           error: function() {
