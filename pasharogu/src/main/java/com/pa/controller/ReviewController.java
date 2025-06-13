@@ -3,6 +3,7 @@ package com.pa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.pa.dto.ReviewDTO;
 import com.pa.entity.Review;
 import com.pa.service.ReviewService;
 
@@ -19,8 +20,13 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/user/{userId}")
-    public List<Review> getUserReviews(@PathVariable String userId) {
-        return reviewService.getReviewsByUserId(userId);
+//    @GetMapping("/user/{userId}")
+//    public List<Review> getUserReviews(@PathVariable String userId) {
+//        return reviewService.getReviewsByUserId(userId);
+//    }
+    
+    @GetMapping("/list")
+    public List<ReviewDTO> getReviewList(@RequestParam String region) {
+    	return reviewService.getReviewsByRegion(region);
     }
 }

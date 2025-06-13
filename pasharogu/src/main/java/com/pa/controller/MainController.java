@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
-
-	
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String root() {
 		return "main";
 	}
@@ -18,4 +16,8 @@ public class MainController {
 	public String index() {
 		return "index";
 	}
+	
+	
+	
+	
 }
