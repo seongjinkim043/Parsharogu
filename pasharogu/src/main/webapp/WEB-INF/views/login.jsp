@@ -231,7 +231,6 @@
     </header>
 </div>
         
-             
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
