@@ -38,7 +38,7 @@ public class UserController {
 	    // 사용자 존재 여부 체크
 	    if (optionalUser.isEmpty() || !optionalUser.get().getPassword().equals(password)) {
 	        model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-	        return "user/login";
+	        return "login";
 	    }
 
 //	    User user = optionalUser.get();
@@ -49,17 +49,19 @@ public class UserController {
 	    return "redirect:/main";
 	}
 	
+	@GetMapping("/signin")
+	public String signinform() {
+	    
+		return "signin";
+	}
 	
-//	@GetMapping("/logout")
-//	public String logout(HttpSession session) {
-//	    session.invalidate(); // 세션 초기화
-//	    return "redirect:/login";
-//	}
-//	
-//	@GetMapping("/signup")
-//	public String signupForm() {
-//		return "signin";
-//	}
+	@GetMapping("/logout")
+	public String logout() {
+	    
+	    return "redirect:/";
+	}
+	
+
 	
 //	@PostMapping("/signup")
 //	public String signup(userDTO userDTO) {
