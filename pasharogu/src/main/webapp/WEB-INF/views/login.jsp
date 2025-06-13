@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +62,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            margin: 0 auto; 
+            margin: 0 auto;
         }
 
         .form-container {
@@ -143,9 +145,9 @@
         }
 
         .forgot-link {
-            text-align: center; /* 가운데 정렬 */
-            margin-top: -20px;   /* 위 여백 */
-            margin-bottom: 40px; /* 아래 여백 */
+            text-align: center;
+            margin-top: -20px;   
+            margin-bottom: 40px; 
         }
 
         .forgot-password-link {
@@ -164,11 +166,11 @@
         /* Responsive design */
        @media (max-width: 1400px) {
     .main-form {
-       
+    
         left: unset;
         transform: none;
+            }
     }
-
         @media (max-width: 1080px) {
             .main-form {
                 width: 90%;
@@ -228,51 +230,46 @@
     </header>
 </div>
         
+             
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
+                
+                <c:if test="${not empty error}">
+		            <div style="color: red; margin-bottom: 20px; font-weight: bold;">
+		                ${error}
+		            </div>
+		        </c:if>
                 <!-- 이부분으로 로그인 정보가 들어온다. -->
-                <form id="loginForm">
+                <form id="loginForm" action="/user/login" method="post">
                     <div class="form-group">
-                        <label for="loginId" class="form-label">ログインID</label>
-                        <input type="text" id="loginId" name="loginId" class="form-input" placeholder="ログインIDを入力" required>
+                        <label class="form-label" for="loginId">ログインID</label>
+                        <input type="text" id="username" name="loginId" class="form-input" placeholder="ログインIDを入力" required autofocus>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="password">パスワード</label>
+                        <label class="form-label" for="password">パスワード (半角英数字)</label>
                         <input type="password" id="password" class="form-input" placeholder="パスワードを入力してください">
                     </div>
-
-
+                    
                     <div class="forgot-link">
                         <a href="#" class="forgot-password-link">ログインができない方はこちら</a>
                     </div>
+                    <div class="alert-password">
+                        <a type="text">※パスワードは定期的に推測されにくいものへご変更をお願いします。</a>
+                    </div>
 
                     <button type="submit" class="login-button">ログインする</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
                 </form>
             </div>
         </main>
         
         
-    </div>
+        
+   
 
     <script>
-        // 폼 제출 처리
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const loginId = document.getElementById('loginId').value;
-            const password = document.getElementById('password').value;
-            
-            if (!loginId || !password) {
-                alert('ログインIDとパスワードを入力してください。');
-                return;
-            }
-            
-            // 여기에 실제 로그인 로직을 구현할 수 있습니다
-            console.log('Login attempt:', { loginId, password });
-            alert('ログイン処理中...');
-        });
 
         // 입력 필드 포커스 효과
         const inputs = document.querySelectorAll('.form-input');

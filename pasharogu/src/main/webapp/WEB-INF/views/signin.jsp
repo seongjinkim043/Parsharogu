@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -177,6 +179,22 @@
             background-color: #C0C0C0;
         }
 
+        .password-message {
+            font-size: 16px;
+            margin-top: 8px;
+            font-weight: 400;
+            line-height: 1.2;
+            min-height: 20px;
+        }
+
+        .password-message.match {
+            color: #4CAF50;
+        }
+
+        .password-message.no-match {
+            color: #8B4513;
+        }
+
         /* Responsive design */
         @media (max-width: 1400px) {
             .main-form {
@@ -232,6 +250,10 @@
                 height: 120px;
                 margin: 0 auto 30px;
             }
+
+            .password-message {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -255,7 +277,7 @@
                     
                     <div class="form-group">
                         <label for="nickname" class="form-label">ニックネーム</label>
-                        <input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
+                        <input type="text" id="nickname" name="username" class="form-input" placeholder="ニックネーム入力" required>
                     </div>
                     
                     <div class="form-group">
@@ -271,6 +293,7 @@
                     <div class="form-group">
                         <label for="passwordConfirm" class="form-label">パスワード(再確認)</label>
                         <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-input" placeholder="パスワードを入力" required>
+                        <div id="passwordMessage" class="password-message"></div>
                     </div>
                     
                     <button type="submit" class="submit-button">アカウント制作完了</button>
@@ -289,6 +312,28 @@
             profileImage.innerHTML = '';
             imageInput.value = ''; // 파일 입력 초기화
         }
+
+        // 비밀번호 일치 확인 함수
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const messageElement = document.getElementById('passwordMessage');
+            
+            if (passwordConfirm === '') {
+                messageElement.textContent = '';
+                messageElement.className = 'password-message';
+                return;
+            }
+            
+            if (password === passwordConfirm) {
+                messageElement.textContent = '一致します！';
+                messageElement.className = 'password-message match';
+            } else {
+                messageElement.textContent = '一致しません。';
+                messageElement.className = 'password-message no-match';
+            }
+        }
+
         // 이미지 업로드 기능
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -304,6 +349,10 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        // 비밀번호 입력 필드에 이벤트 리스너 추가
+        document.getElementById('password').addEventListener('input', checkPasswordMatch);
+        document.getElementById('passwordConfirm').addEventListener('input', checkPasswordMatch);
 
         // 폼 제출 처리
         document.getElementById('signupForm').addEventListener('submit', function(e) {
