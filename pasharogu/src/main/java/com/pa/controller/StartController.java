@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class StartController {
 
-
-	
-	@GetMapping("/start")
+	@GetMapping("/")
 	public String start() {
 		return "start";
 	}
+	
 }
