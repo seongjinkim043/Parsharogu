@@ -15,7 +15,7 @@
   }
 
   .logo {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: bold;
     color: #2962FF;
     text-decoration: none;
@@ -24,7 +24,7 @@
 
   .nav-menu {
     display: flex;
-    gap: 24px;
+    gap: 30px;
     font-size: 16px;
   }
 
