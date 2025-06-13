@@ -1,20 +1,11 @@
 package com.pa.dto;
 
-import java.sql.Date;
+import lombok.Data;
 
+@Data
 public class ReviewDTO {
-    private Long id;
-    private String placeId;
-    private String content;
-    private String imageUrl;
-    private Date createdAt;
-    
-    public ReviewDTO(String content, String imageUrl, Date createdAt) {
-    	this.id = id;
-    	this.placeId = placeId;
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
-    }
-    // getters/setters
+    private String username;      // 작성자 이름
+    private String content;       // 리뷰 내용
+    private int rating;           // 별점
+    private String createdDate;   // 작성일 (문자열로 포맷팅)
 }
