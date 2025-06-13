@@ -12,7 +12,7 @@
 
     <!-- 🗾 지도 영역 -->
     <div class="map-area">
-        <img src="/images/japan-map.png" alt="일본 지도" class="japan-map-img"/>
+        <img src="/img/japan.svg" alt="일본 지도" class="japan-map-img"/>
 
         <!-- 예시: 위치 클릭 박스 -->
         <div class="region-btn" style="top:20%; left:60%;" onclick="loadRegion('도쿄')">도쿄</div>

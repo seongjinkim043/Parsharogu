@@ -26,7 +26,7 @@ public class UserController {
 	@GetMapping("/login")
 	public String loginForm() {
 	    // 로그인 폼 요청
-		return "user/login";
+		return "login";
 	}
 	
 	@PostMapping("/login")
