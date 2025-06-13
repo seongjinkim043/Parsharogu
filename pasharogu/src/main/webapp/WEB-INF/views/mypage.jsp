@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.pa.dto.ReviewDTO" %>
+<%@ page import="java.util.List" %>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
