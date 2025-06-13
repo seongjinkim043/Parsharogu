@@ -1,5 +1,11 @@
 package com.pa.dto;
 
-public class ScheduleDTO {
+import lombok.Data;
 
+@Data
+public class ScheduleDTO {
+    private int scheduleId;
+    private String description;
+    private String startDate;
+    private String endDate;
 }
