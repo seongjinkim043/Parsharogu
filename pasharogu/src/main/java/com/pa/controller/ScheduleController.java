@@ -1,6 +1,8 @@
 package com.pa.controller;
 
-import org.springframework.http.HttpStatus;
+import com.pa.entity.Schedule;
+import com.pa.service.ScheduleService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -8,80 +10,86 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Controller
 public class ScheduleController {
 
-    // 서버 내 임시 일정 저장소 (스레드 안전 리스트)
-    private final List<Map<String, Object>> scheduleStore = new CopyOnWriteArrayList<>();
+    // 서비스 주입
+    private final ScheduleService scheduleService;
 
-    public ScheduleController() {
-        // 초기 예시 일정 등록
-        Map<String, Object> schedule01 = new HashMap<>();
-        schedule01.put("id", "sch01");
-        schedule01.put("title", "이건 하드코딩 직접 입력한 거");
-        schedule01.put("start", "2025-06-17");
-        schedule01.put("end", "2025-06-24");
-        schedule01.put("allDay", true);
-
-        Map<String, Object> schedule02 = new HashMap<>();
-        schedule02.put("id", "sch02");
-        schedule02.put("title", "일정02");
-        schedule02.put("start", "2025-05-14T09:00:00");
-        schedule02.put("end", "2025-05-16T09:00:00");
-        schedule02.put("allDay", false);
-
-        scheduleStore.add(schedule01);
-        scheduleStore.add(schedule02);
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
     }
 
-    // 일정 페이지 호출
+    // 페이지 호출
     @GetMapping("/schedule.do")
     public String schedulePage() {
-        return "schedule";  // schedule.jsp 호출
+        return "schedule"; // schedule.jsp 호출
     }
 
-    // 일정 리스트 반환
+    // 일정 리스트 반환 (FullCalendar 형식에 맞춤)
     @ResponseBody
     @GetMapping("/scheduleList.do")
     public ResponseEntity<List<Map<String, Object>>> scheduleList() {
-        return new ResponseEntity<>(scheduleStore, HttpStatus.OK);
+        List<Schedule> schedules = scheduleService.findAll();
+
+        List<Map<String, Object>> response = schedules.stream().map(schedule -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", schedule.getId());
+            map.put("title", schedule.getTitle());
+            map.put("start", schedule.getStartDate().toLocalDate().toString());
+
+            // end 처리 → FullCalendar는 end 날짜 '다음날'까지 표시해야 함 (+1 day)
+            if (schedule.getEndDate() != null) {
+                map.put("end", schedule.getEndDate().toLocalDate().plusDays(1).toString());
+            } else {
+                map.put("end", schedule.getStartDate().toLocalDate().plusDays(1).toString());
+            }
+
+            map.put("allDay", schedule.getAllDay() == 1);
+
+            return map;
+        }).toList();
+
+        return ResponseEntity.ok(response);
     }
 
-    // 일정 추가 - AJAX POST 요청 처리
-    @PostMapping("/scheduleAdd.do")
+    // 일정 추가
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> scheduleAdd(@RequestBody Map<String, Object> payload) {
-        String title = (String) payload.get("title");
-        String start = (String) payload.get("start");
-        String end = (String) payload.get("end");
+    @PostMapping("/scheduleAdd.do")
+    public ResponseEntity<Schedule> scheduleAdd(@RequestBody Map<String, Object> payload) {
+        Schedule schedule = new Schedule();
+        schedule.setId(UUID.randomUUID().toString());
+        schedule.setTitle((String) payload.get("title"));
 
-        // allDay 판단: start와 end가 날짜만(시간 없는 형식)인지 확인
-        boolean allDay = isAllDayEvent(start, end);
+        // 날짜 포맷터
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-        String id = UUID.randomUUID().toString();
+        // 시작일 설정
+        schedule.setStartDate(LocalDateTime.parse(payload.get("start") + "T00:00:00", formatter));
 
-        Map<String, Object> event = new HashMap<>();
-        event.put("id", id);
-        event.put("title", title);
-        event.put("start", start);
-        event.put("end", end);
-        event.put("allDay", allDay);
+        // 종료일 설정
+        if (payload.get("end") != null && !payload.get("end").toString().isEmpty()) {
+            schedule.setEndDate(LocalDateTime.parse(payload.get("end") + "T00:00:00", formatter));
+        } else {
+            schedule.setEndDate(null);
+        }
 
-        scheduleStore.add(event);  // 서버 내 저장소에 추가
+        // allDay 처리 (1 고정)
+        schedule.setAllDay(1);
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        // 저장 처리
+        Schedule saved = scheduleService.save(schedule);
+
+        return ResponseEntity.ok(saved);
     }
 
-    // allDay 이벤트 판단 유틸 메서드
-    private boolean isAllDayEvent(String start, String end) {
-        // 시간이 포함되어 있으면 false, 없으면 true
-        if (start == null) return false;
-
-        boolean startIsDateOnly = !start.contains("T");
-        boolean endIsDateOnly = (end == null) || !end.contains("T");
-
-        return startIsDateOnly && endIsDateOnly;
+    // 일정 삭제
+    @ResponseBody
+    @PostMapping("/scheduleDelete.do")
+    public ResponseEntity<Void> scheduleDelete(@RequestBody Map<String, Object> payload) {
+        String id = (String) payload.get("id");
+        scheduleService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
