@@ -5,9 +5,12 @@ import lombok.Data;
 @Data
 public class RegionDTO {
 
+	private String regionId;
 	private String name;
 	private String description;
-	private double rating;
+	private String svgId;
+	
+	private Double averageRating;
 	
 	public String getName() {
 		return name;
