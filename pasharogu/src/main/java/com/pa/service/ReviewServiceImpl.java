@@ -42,4 +42,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         return list;
     }
+    
+    @Override
+    public List<ReviewDTO> getReviewsByUserId(String userId) {
+    	List<ReviewDTO> list = new ArrayList<>();
+    	
+    	return list;
+    }
 }
