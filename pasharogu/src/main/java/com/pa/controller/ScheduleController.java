@@ -38,7 +38,7 @@ public class ScheduleController {
 
         List<Map<String, Object>> response = schedules.stream().map(schedule -> {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", schedule.getId());
+            map.put("id", schedule.getScheduleId());
             map.put("title", schedule.getTitle());
             map.put("start", schedule.getStartDate().toString());
 
@@ -68,7 +68,7 @@ public class ScheduleController {
     @PostMapping("/scheduleAdd.do")
     public ResponseEntity<Map<String, Object>> scheduleAdd(@RequestBody Map<String, Object> payload) {
         Schedule schedule = new Schedule();
-        schedule.setId(UUID.randomUUID().toString());
+        schedule.setScheduleId(UUID.randomUUID().toString());
         schedule.setTitle((String) payload.get("title"));
 
         schedule.setStartDate(LocalDateTime.parse((String) payload.get("start")));
@@ -84,7 +84,7 @@ public class ScheduleController {
         Schedule saved = scheduleService.save(schedule);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("id", saved.getId());
+        response.put("id", saved.getScheduleId());
         response.put("title", saved.getTitle());
         response.put("start", saved.getStartDate().toString());
         response.put("end", saved.getEndDate() != null ? saved.getEndDate().toString() : saved.getStartDate().toString());
