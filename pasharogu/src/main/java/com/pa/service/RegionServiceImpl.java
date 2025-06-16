@@ -15,13 +15,13 @@ public class RegionServiceImpl implements RegionService {
 
         if ("도쿄".equals(regionName)) {
             dto.setDescription("일본의 수도 도쿄는 문화와 기술의 중심지입니다.");
-            dto.setRating(4.8);
+            dto.setAverageRating(4.8);
         } else if ("오사카".equals(regionName)) {
             dto.setDescription("오사카는 먹거리와 유쾌한 분위기로 유명합니다.");
-            dto.setRating(4.5);
+            dto.setAverageRating(4.5);
         } else {
             dto.setDescription("해당 지역 정보가 없습니다.");
-            dto.setRating(0.0);
+            dto.setAverageRating(0.0);
         }
 
         return dto;
