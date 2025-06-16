@@ -34,7 +34,7 @@
 
         <!-- ➕ 리뷰 작성 버튼 -->
         <div class="write-btn-box">
-            <a href="#" id="write-btn">
+            <a href="/review/write?region=TKY" id="write-btn">
                 <button>리뷰 작성하기</button>
             </a>
         </div>

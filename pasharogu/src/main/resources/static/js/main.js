@@ -1,21 +1,21 @@
-function loadRegion(regionName) {
+function loadRegion(name) {
     // 지역 정보 불러오기
     $.ajax({
         url: '/region/info',
-        data: { region: regionName },
+        data: { region: name },
         success: function(data) {
             $('#region-summary').html(`
                 <h2>${data.name} <span>${data.rating} ★</span></h2>
                 <p>${data.description}</p>
             `);
-            $('#write-btn').attr('href', '/diary/write.jsp?region=' + regionName);
+            $('#write-btn').attr('href', '/api/reviews/write?regionId=' + name);
         }
     });
 
     // 리뷰 리스트 불러오기
     $.ajax({
         url: '/review/list',
-        data: { region: regionName },
+        data: { region: name },
         success: function(data) {
             let html = '<ul>';
             if (data.length === 0) {
