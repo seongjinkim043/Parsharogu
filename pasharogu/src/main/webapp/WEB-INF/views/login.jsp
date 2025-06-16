@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -230,18 +231,17 @@
     </header>
 </div>
         
-             
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
                 
-                <c:if test="${not empty error}">
+                <%-- <c:if test="${not empty error}">
 		            <div style="color: red; margin-bottom: 20px; font-weight: bold;">
 		                ${error}
 		            </div>
-		        </c:if>
+		        </c:if> --%>
                 <!-- 이부분으로 로그인 정보가 들어온다. -->
-                <form id="loginForm" action="/user/login" method="post">
+                <form id="loginForm" action="/login" method="post">
                     <div class="form-group">
                         <label class="form-label" for="loginId">ログインID</label>
                         <input type="text" id="username" name="loginId" class="form-input" placeholder="ログインIDを入力" required autofocus>
@@ -253,7 +253,7 @@
                     </div>
                     
                     <div class="forgot-link">
-                        <a href="#" class="forgot-password-link">ログインができない方はこちら</a>
+                        <a href="http://localhost:8080/signin" class="forgot-password-link">ログインができない方はこちら</a>
                     </div>
                     <div class="alert-password">
                         <a type="text">※パスワードは定期的に推測されにくいものへご変更をお願いします。</a>

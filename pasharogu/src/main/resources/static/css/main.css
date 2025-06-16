@@ -31,3 +31,15 @@
     margin-top: 20px;
     text-align: right;
 }
+
+#japan-map path {
+    transition: 0.3s;
+    fill: #ccc;
+    stroke: #333;
+}
+
+#japan-map path:hover {
+    fill: orange;
+    cursor: pointer;
+}
+

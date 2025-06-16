@@ -63,9 +63,7 @@
       }
     </style>
   </head>
-
   <body>
-
     <div class="container">
       <div class="left-content">
         <div class="title">

@@ -12,5 +12,7 @@ import java.util.List;
 public interface ReviewService {
 
 	List<ReviewDTO> getReviewsByRegion(String regionName);
+	
+	List<ReviewDTO> getReviewsByUserId(String userId);
    
 }
