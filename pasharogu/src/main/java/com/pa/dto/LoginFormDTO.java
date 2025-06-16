@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class LoginFormDTO {
 	
-	private String loginId;
+	private String loginid;
     private String password;
     
 }

@@ -41,7 +41,12 @@ dependencies {
     // JSP 엔진 관련 의존성
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'  // JSP 엔진
     implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'  // JSTL 의존성 (Apache Taglibs)
-}
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+    // 오라클 의존성 추가
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	
+	}
 tasks.named('test') {
     useJUnitPlatform()
 }
