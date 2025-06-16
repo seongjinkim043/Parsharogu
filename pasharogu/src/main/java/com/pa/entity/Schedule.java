@@ -33,6 +33,10 @@ public class Schedule {
     @Column(name = "CREATED_AT", updatable = false, insertable = false)
     private LocalDateTime createdAt;
 
+    
+    @Column(name = "AMOUNT")
+    private Integer amount;// 쓴 돈 저장
+    
     // 기본 생성자 필수
     public Schedule() {}
 
