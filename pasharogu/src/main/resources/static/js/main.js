@@ -1,6 +1,3 @@
-let viewBox = [0, 0, 1000, 1000];
-const svg = document.getElementById('region-map');
-
 svg.addEventListener('wheel', function(e) {
   e.preventDefault();
   const zoomFactor = 0.1;
