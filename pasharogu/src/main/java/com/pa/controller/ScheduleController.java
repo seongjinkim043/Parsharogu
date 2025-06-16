@@ -1,87 +1,131 @@
 package com.pa.controller;
 
-import org.springframework.http.HttpStatus;
+import com.pa.entity.Schedule;
+import com.pa.service.ScheduleService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Controller
 public class ScheduleController {
 
-    // 서버 내 임시 일정 저장소 (스레드 안전 리스트)
-    private final List<Map<String, Object>> scheduleStore = new CopyOnWriteArrayList<>();
+    private final ScheduleService scheduleService;
 
-    public ScheduleController() {
-        // 초기 예시 일정 등록
-        Map<String, Object> schedule01 = new HashMap<>();
-        schedule01.put("id", "sch01");
-        schedule01.put("title", "이건 하드코딩 직접 입력한 거");
-        schedule01.put("start", "2025-06-17");
-        schedule01.put("end", "2025-06-24");
-        schedule01.put("allDay", true);
-
-        Map<String, Object> schedule02 = new HashMap<>();
-        schedule02.put("id", "sch02");
-        schedule02.put("title", "일정02");
-        schedule02.put("start", "2025-05-14T09:00:00");
-        schedule02.put("end", "2025-05-16T09:00:00");
-        schedule02.put("allDay", false);
-
-        scheduleStore.add(schedule01);
-        scheduleStore.add(schedule02);
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
     }
 
-    // 일정 페이지 호출
     @GetMapping("/schedule.do")
     public String schedulePage() {
-        return "schedule";  // schedule.jsp 호출
+        return "schedule";
     }
+    
 
-    // 일정 리스트 반환
+    @GetMapping("/index")
+       public String index() {
+       	return "index";
+       }
+
     @ResponseBody
     @GetMapping("/scheduleList.do")
     public ResponseEntity<List<Map<String, Object>>> scheduleList() {
-        return new ResponseEntity<>(scheduleStore, HttpStatus.OK);
+        List<Schedule> schedules = scheduleService.findAll();
+
+        List<Map<String, Object>> response = schedules.stream().map(schedule -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", schedule.getId());
+            map.put("title", schedule.getTitle());
+            map.put("start", schedule.getStartDate().toString());
+
+            if (schedule.getEndDate() != null) {
+                map.put("end", schedule.getEndDate().toString());
+            } else {
+                map.put("end", schedule.getStartDate().toString());
+            }
+
+            // DayView 정상 표시를 위해 allDay false 고정
+            map.put("allDay", false);
+
+            // multiDayFlag 계산
+            long daysBetween = ChronoUnit.DAYS.between(
+                schedule.getStartDate().toLocalDate(),
+                schedule.getEndDate() != null ? schedule.getEndDate().toLocalDate() : schedule.getStartDate().toLocalDate()
+            );
+            map.put("multiDayFlag", daysBetween >= 1);
+
+            return map;
+        }).toList();
+
+        return ResponseEntity.ok(response);
     }
 
-    // 일정 추가 - AJAX POST 요청 처리
-    @PostMapping("/scheduleAdd.do")
     @ResponseBody
+    @PostMapping("/scheduleAdd.do")
     public ResponseEntity<Map<String, Object>> scheduleAdd(@RequestBody Map<String, Object> payload) {
-        String title = (String) payload.get("title");
-        String start = (String) payload.get("start");
-        String end = (String) payload.get("end");
+        Schedule schedule = new Schedule();
+        schedule.setId(UUID.randomUUID().toString());
+        schedule.setTitle((String) payload.get("title"));
 
-        // allDay 판단: start와 end가 날짜만(시간 없는 형식)인지 확인
-        boolean allDay = isAllDayEvent(start, end);
+        schedule.setStartDate(LocalDateTime.parse((String) payload.get("start")));
 
-        String id = UUID.randomUUID().toString();
+        if (payload.get("end") != null && !payload.get("end").toString().isEmpty()) {
+            schedule.setEndDate(LocalDateTime.parse((String) payload.get("end")));
+        } else {
+            schedule.setEndDate(null);
+        }
 
-        Map<String, Object> event = new HashMap<>();
-        event.put("id", id);
-        event.put("title", title);
-        event.put("start", start);
-        event.put("end", end);
-        event.put("allDay", allDay);
+        schedule.setAllDay(0);
 
-        scheduleStore.add(event);  // 서버 내 저장소에 추가
+        Schedule saved = scheduleService.save(schedule);
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", saved.getId());
+        response.put("title", saved.getTitle());
+        response.put("start", saved.getStartDate().toString());
+        response.put("end", saved.getEndDate() != null ? saved.getEndDate().toString() : saved.getStartDate().toString());
+        response.put("allDay", false);
+
+        long daysBetween = ChronoUnit.DAYS.between(
+            saved.getStartDate().toLocalDate(),
+            saved.getEndDate() != null ? saved.getEndDate().toLocalDate() : saved.getStartDate().toLocalDate()
+        );
+        response.put("multiDayFlag", daysBetween >= 1);
+
+        return ResponseEntity.ok(response);
     }
 
-    // allDay 이벤트 판단 유틸 메서드
-    private boolean isAllDayEvent(String start, String end) {
-        // 시간이 포함되어 있으면 false, 없으면 true
-        if (start == null) return false;
+    @ResponseBody
+    @PostMapping("/scheduleUpdate.do")
+    public ResponseEntity<Void> scheduleUpdate(@RequestBody Map<String, Object> payload) {
+        String id = (String) payload.get("id");
+        Schedule schedule = scheduleService.findById(id);
 
-        boolean startIsDateOnly = !start.contains("T");
-        boolean endIsDateOnly = (end == null) || !end.contains("T");
+        schedule.setTitle((String) payload.get("title"));
+        schedule.setStartDate(LocalDateTime.parse((String) payload.get("start")));
 
-        return startIsDateOnly && endIsDateOnly;
+        if (payload.get("end") != null && !payload.get("end").toString().isEmpty()) {
+            schedule.setEndDate(LocalDateTime.parse((String) payload.get("end")));
+        } else {
+            schedule.setEndDate(null);
+        }
+
+        schedule.setAllDay(0);
+
+        scheduleService.save(schedule);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @ResponseBody
+    @PostMapping("/scheduleDelete.do")
+    public ResponseEntity<Void> scheduleDelete(@RequestBody Map<String, Object> payload) {
+        String id = (String) payload.get("id");
+        scheduleService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
