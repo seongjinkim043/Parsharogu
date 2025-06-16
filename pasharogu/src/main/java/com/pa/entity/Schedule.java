@@ -14,12 +14,6 @@ import java.time.LocalDateTime;
 @ToString
 public class Schedule {
 
-    private int scheduleId;
-    private String description;
-    private String startDate; 
-    private String endDate;
-
-
     @Id
     @Column(name = "ID", length = 50)
     private String id;
