@@ -38,9 +38,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     runtimeOnly 'org.postgresql:postgresql'
 
-    // JSP 엔진 관련 의존성
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'  // JSP 엔진
-    implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'  // JSTL 의존성 (Apache Taglibs)
+    // JSP 엔진
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	// Jakarta EE 9 이상 JSP + JSTL API
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
 }
 tasks.named('test') {
     useJUnitPlatform()
