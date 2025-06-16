@@ -16,19 +16,22 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
+    
     @Column(nullable = false, unique = true)
-    private String username;
-
+    private String loginid;     // 아이디 (예: みょんみょん36)
+    
     @Column(nullable = false)
-    private String password;
-
-    private String email;
-    private String bio;
+    private String password;     // 비밀번호 (예: ヨルシカ01)
+    
+    @Column(nullable = false, unique = true)  
+    private String nickname;    // 닉네임 (예: 黒川７７)
+    
+    private String email;	// 이메일
     private String profileImg; // 이미지 경로
+    // private String bio;     
 
     // 기본 생성자
     public User() {}
-
+    
     // 생성자, getter/setter 생략 (Lombok 가능)
 }

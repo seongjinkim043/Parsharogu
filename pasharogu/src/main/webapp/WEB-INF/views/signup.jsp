@@ -267,24 +267,29 @@
             <div class="form-container">
                 <h1 class="form-title">アカウント制作</h1>
                 
-                <form id="signupForm">
+                <form id="signupForm" action="/signup" method="post">
                     
-                        <div class="profile-image" onclick="document.getElementById('imageInput').click()">
-                            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                      <!--   <div class="profile-image" onclick="document.getElementById('imageInput').click()">
+                            <input type="file" id="imageInput" name="profileImg" accept="image/*" style="display: none;">
                         </div>
                         <button type="button" class="delete-image-button" onclick="deleteProfileImage()">削除</button>
-                    
-                    
-                    <div class="form-group">
-                        <label for="nickname" class="form-label">ニックネーム</label>
-                        <input type="text" id="nickname" name="username" class="form-input" placeholder="ニックネーム入力" required>
-                    </div>
+                     -->
                     
                     <div class="form-group">
                         <label for="loginId" class="form-label">ID</label>
-                        <input type="text" id="loginId" name="loginId" class="form-input" placeholder="ログインIDを入力" required>
+                        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
                     </div>
                     
+                    <div class="form-group">
+						<label for="nickname" class="form-label">ニックネーム</label>
+						<input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
+					</div>
+					
+					<div class="form-group">
+					   <label for="email" class="form-label">メール</label>
+					   <input type="email" id="email" name="email" class="form-input" placeholder="メールアドレスを入力" required>
+					</div>
+					                    
                     <div class="form-group">
                         <label for="password" class="form-label">パスワード</label>
                         <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
@@ -292,7 +297,7 @@
                     
                     <div class="form-group">
                         <label for="passwordConfirm" class="form-label">パスワード(再確認)</label>
-                        <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-input" placeholder="パスワードを入力" required>
+                        <input type="password" id="passwordConfirm" class="form-input" placeholder="パスワードを入力" required oninput="checkPasswordMatch()">
                         <div id="passwordMessage" class="password-message"></div>
                     </div>
                     
@@ -367,7 +372,7 @@
             }
             
             // 여기에 실제 회원가입 로직을 구현할 수 있습니다
-            alert('アカウント制作が完了しました！');
+            /* alert('アカウント制作が完了しました！'); */
         });
 
         // 입력 필드 포커스 효과

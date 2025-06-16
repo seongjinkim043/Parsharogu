@@ -8,7 +8,9 @@ import com.pa.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
-    boolean existsByUsername(String username);
+	Optional<User> findByLoginid(String loginid);      // 로그인 시 사용
+    Optional<User> findByNickname(String nickname);    // 닉네임으로 검색 JM
+    Optional<User> findByEmail(String email);          // 이메일로 검색 JM
+    boolean existsByLoginid(String loginid);
 }
 
