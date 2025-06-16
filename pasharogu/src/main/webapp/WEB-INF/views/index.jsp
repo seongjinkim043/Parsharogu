@@ -26,7 +26,7 @@
 
 <style>
 body {
-	background: #fff8f0;
+	
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	color: #5a3e36;
 	margin: 0;
@@ -37,30 +37,63 @@ body {
 	overflow: hidden;
 }
 
+.fc {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  color: #222222;
+  
+}
+
+/* 날짜 셀 영역 */
+.fc-daygrid-day {
+  background-color: #ffffff;
+  transition: background 0.2s ease;
+}
+/* 주말 구분 */
+.fc-day-sat, .fc-day-sun {
+  background-color: #fafafa;
+}
+
+
+.fc-day-today {
+  background-color: #f0f0f0 !important;
+  font-weight: bold;
+  border: none;
+}
+
 .calendar-wrapper {
-	position: fixed;
-	top: 120px;
-	left: 80px;
-	display: flex;
-	gap: 30px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  overflow: hidden; /* ✅ 내부 넘침 방지 */
 }
 
 #calendar1, #calendar2 {
-	width: 20vw;
-	height: 40vh;
-	background: #fff;
-	border-radius: 20px;
-	box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
-	padding: 20px;
+  flex: 1;
+  max-width: 48%; /* ✅ 한쪽이 너무 커지지 않게 제한 */
+  height: 100%;
+  box-sizing: border-box;
 }
 
 #calendarDayView {
-	width: 80vw;
-	height: 80vh;
-	background: #fff;
-	border-radius: 20px;
-	box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
-	padding: 20px;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
+    padding: 20px;	
+    box-sizing: border-box;
+}
+
+.calendar {
+  width: 100%;
+  height: 500px;
+  overflow: hidden; /* ✅ 안에서 캘린더가 튀어나가지 않도록 */
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .fc-header-toolbar {
@@ -77,24 +110,27 @@ body {
 }
 
 .fc-event {
-	background: #ffb6b9 !important;
-	border: none !important;
-	border-radius: 12px !important;
-	box-shadow: 0 4px 6px rgba(255, 182, 185, 0.6);
-	font-weight: 600;
-	color: #611d1d !important;
-	cursor: pointer;
-	padding-left: 8px !important;
-	padding-right: 8px !important;
-	transition: transform 0.2s ease;
+  background-color: #222222 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 2px 6px !important;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.fc-daygrid-day:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 /* multiDay event 색상 */
 .multi-day-event {
-	background: #cdb4db !important;
-	color: #3d1f40 !important;
+  background-color: #444444 !important; /* 딥 그레이 */
+  color: #ffffff !important;            /* 흰 글씨 */
+  border-radius: 8px !important;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
 .calendar-controls {
 	position: fixed;
 	top: 60px;
@@ -102,21 +138,20 @@ body {
 }
 
 .calendar-controls button {
-	background-color: #ffa3b1;
-	border: none;
-	padding: 10px 18px;
-	margin-right: 10px;
-	font-weight: bold;
-	color: white;
-	border-radius: 12px;
-	box-shadow: 0 4px 10px rgba(255, 133, 157, 0.4);
-	cursor: pointer;
+  background-color: #222222;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  margin-right: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
 }
 
 .calendar-controls button:hover {
-	background-color: #ff6f91;
+  background-color: #444444;
 }
-
 #eventModal {
 	display: none;
 	position: fixed;
@@ -149,27 +184,47 @@ body {
 }
 
 #eventModal button {
-	background-color: #ff6f91;
-	border: none;
-	padding: 10px 15px;
-	margin-right: 10px;
-	color: white;
-	border-radius: 10px;
-	font-weight: bold;
-	cursor: pointer;
+  background-color: #222;  /* 기본: 진한 검정 */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-right: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #eventModal button:hover {
-	background-color: #ff3f6d;
+  background-color: #444;
+}
+
+#deleteEventBtn {
+  background-color: #888 !important; /* 회색 */
+  color: white;
+}
+
+#deleteEventBtn:hover {
+  background-color: #666 !important;
+}
+
+#goDayViewBtn {
+  background-color: #ccc !important; /* 연한 회색 */
+  color: #111;
+}
+
+#goDayViewBtn:hover {
+  background-color: #aaa !important;
 }
 
 .btn-group {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	margin-top: 10px;
-	gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
 }
+
 </style>
 </head>
 <body>
@@ -192,15 +247,7 @@ body {
 	</div>
 
 
-	<!-- 메모 박스 -->
-	<div style="position: fixed; bottom: 20px; left: 80px; right: 80px;">
-		<label for="memoBox"
-			style="font-weight: bold; display: block; margin-bottom: 5px;">한
-			거 / 해야할 거</label>
-		<textarea id="memoBox" rows="3"
-			style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 1rem; font-family: inherit; resize: vertical;"
-			placeholder="지금 되는 거 : 클릭해서 일정 추가/수정/삭제 / Day View 보기 가능"></textarea>
-	</div>
+	
 
 	<!-- 모달: 일정 추가/수정 -->
 	<div id="eventModal">
@@ -453,36 +500,31 @@ body {
             $('#goDayViewBtn').show(); // 1일짜리 → DayView 가능
           }
         }
-
         document.getElementById("downloadPdfCalendarBtn").addEventListener("click", async function () {
-        	const fontResponse = await fetch('/fonts/NanumGothic.ttf');
-        	const fontBlob = await fontResponse.blob();
-        	const fontReader = new FileReader();
+        	  const today = new Date();
+        	  const todayStr = today.toISOString().slice(0, 10); // 'YYYY-MM-DD'
 
-        	await new Promise((resolve) => {
-        	  fontReader.onload = function () {
-        	    const fontData = fontReader.result.split(',')[1]; // base64 부분만 추출
-        	    window.jspdf.jsPDF.API.events.push(["addFonts", function () {
-        	      this.addFileToVFS("NanumGothic.ttf", fontData);
-        	      this.addFont("NanumGothic.ttf", "NanumGothic", "normal");
-        	    }]);
-        	    resolve();
-        	  };
-        	  fontReader.readAsDataURL(fontBlob);
-        	});
-        	function formatTime(dateStr) {
-        		  const d = new Date(dateStr);
-        		  if (isNaN(d)) return '';
-        		  const hour = d.getHours().toString().padStart(2, '0');
-        		  const min = d.getMinutes().toString().padStart(2, '0');
-        		  return `${hour}:${min}`;
-        		}
+        	  const fontResponse = await fetch('/fonts/NanumGothic.ttf');
+        	  const fontBlob = await fontResponse.blob();
+        	  const fontReader = new FileReader();
 
-        	const view = calendar1.view;
+        	  await new Promise((resolve) => {
+        	    fontReader.onload = function () {
+        	      const fontData = fontReader.result.split(',')[1];
+        	      window.jspdf.jsPDF.API.events.push(["addFonts", function () {
+        	        this.addFileToVFS("NanumGothic.ttf", fontData);
+        	        this.addFont("NanumGothic.ttf", "NanumGothic", "normal");
+        	      }]);
+        	      resolve();
+        	    };
+        	    fontReader.readAsDataURL(fontBlob);
+        	  });
+
+        	  const view = calendar1.view;
         	  const startDate = new Date(view.currentStart);
         	  const year = startDate.getFullYear();
         	  const month = startDate.getMonth();
-        	  const ym = year + '-' + (month + 1 < 10 ? '0' + (month + 1) : (month + 1));
+        	  const ym = year + '-' + ((month + 1).toString().padStart(2, '0'));
 
         	  const response = await fetch('/scheduleList.do?yearMonth=' + ym);
         	  const events = await response.json();
@@ -492,57 +534,75 @@ body {
         	  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
         	  const calendarData = Array.from({ length: 6 }, () => Array(7).fill(""));
+        	  const cellMeta = Array.from({ length: 6 }, () => Array(7).fill(null));
+
         	  let day = 1, row = 0, col = startDay;
 
         	  while (day <= daysInMonth) {
-        		  // 날짜 문자열 생성 (예: 2025-06-17)
-        		  const dayStr = year + '-' +
-        		    ((month + 1).toString().length < 2 ? '0' + (month + 1) : (month + 1)) + '-' +
-        		    (day.toString().length < 2 ? '0' + day : day);
+        	    const mm = (month + 1).toString().padStart(2, '0');
+        	    const dd = day.toString().padStart(2, '0');
+        	    const dayStr = year + '-' + mm + '-' + dd;
 
-        		  // 해당 날짜에 해당하는 일정 필터링
-const dayEvents = events.filter(e => {
-  const eventDate = new Date(e.start);
-  if (isNaN(eventDate)) return false;
+        	    const dayEvents = events.filter(e => {
+        	      const start = new Date(e.start);
+        	      const end = e.end ? new Date(e.end) : new Date(e.start);
+        	      end.setSeconds(end.getSeconds() - 1);
+        	      const eventRange = [];
+        	      let current = new Date(start);
+        	      while (current <= end) {
+        	        eventRange.push(current.toISOString().slice(0, 10));
+        	        current.setDate(current.getDate() + 1);
+        	      }
+        	      return eventRange.includes(dayStr);
+        	    });
 
-  const y = eventDate.getFullYear();
-  const m = (eventDate.getMonth() + 1).toString().padStart(2, '0');
-  const d = eventDate.getDate().toString().padStart(2, '0');
-  const formatted = `${y}-${m}-${d}`;
-  return formatted === dayStr; // dayStr는 현재 루프의 날짜
-});
-        		  // 시간순으로 정렬
-        		  dayEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+        	    dayEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
 
-        		  // "• HH:mm 제목" 형식으로 출력 문자열 생성
- const titles = dayEvents.map(e => {
-  const time = new Date(e.start).toLocaleTimeString('ko-KR', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
+        	    let multiLine = [];
+        	    let singleLine = [];
 
-  return `• ${time} ${e.title || ''}`;
-}).join("\n");
-        		  // 셀에 날짜와 일정 텍스트 삽입
-        		  calendarData[row][col] = day + (titles ? "\n" + titles : "");
+        	    for (const e of dayEvents) {
+        	      if (e.multiDayFlag) {
+        	        multiLine.push((e.title || ''));
+        	      } else {
+        	        const time = new Date(e.start).toLocaleTimeString('ko-KR', {
+        	          hour: '2-digit',
+        	          minute: '2-digit',
+        	          hour12: false
+        	        });
+        	        singleLine.push('• ' + time + ' ' + (e.title || ''));
+        	      }
+        	    }
 
-        		  // 다음 셀로 이동
-        		  col++;
-        		  if (col > 6) {
-        		    col = 0;
-        		    row++;
-        		  }
-        		  day++;
-        		}
+        	    let cellText = day.toString();
+        	    if (dayStr === todayStr) {
+        	      cellText = '⭐ ' + cellText;
+        	    }
 
+        	    let fullText = cellText;
+        	    if (multiLine.length > 0) {
+        	      fullText += '\n' + multiLine.join('\n');
+        	    }
+        	    if (singleLine.length > 0) {
+        	      fullText += '\n' + singleLine.join('\n');
+        	    }
+
+        	    calendarData[row][col] = fullText;
+
+        	    cellMeta[row][col] = {
+        	      isMulti: multiLine.length > 0
+        	    };
+
+        	    col++;
+        	    if (col > 6) {
+        	      col = 0;
+        	      row++;
+        	    }
+        	    day++;
+        	  }
 
         	  const { jsPDF } = window.jspdf;
         	  const doc = new jsPDF('landscape');
-        	  
-        	  doc.setFont("NanumGothic");
-        	  doc.setFontSize(18);
-        	  doc.text(year + "년 " + (month + 1) + "월 일정 달력", 14, 20);
 
         	  doc.autoTable({
         	    startY: 30,
@@ -550,23 +610,35 @@ const dayEvents = events.filter(e => {
         	    body: calendarData,
         	    theme: 'grid',
         	    styles: {
-        	    	 font: "NanumGothic",
+        	      font: "NanumGothic",
         	      fontSize: 10,
         	      minCellHeight: 28,
-        	      cellPadding: 4
+        	      cellPadding: 4,
+        	      textColor: 20
         	    },
         	    headStyles: {
-        	      fillColor: [255, 140, 170],
-        	      textColor: 255,
+        	      fillColor: [0, 0, 0],
+        	      textColor: [255, 255, 255],
         	      fontStyle: 'bold'
         	    },
         	    alternateRowStyles: {
-        	      fillColor: [255, 245, 250]
+        	      fillColor: [255, 255, 255]
+        	    },
+        	    didParseCell: function (data) {
+        	      const { row, column } = data;
+        	      if (data.section === 'body') {
+        	        const r = row.index, c = column.index;
+        	        if (cellMeta[r] && cellMeta[r][c]?.isMulti) {
+        	          data.cell.styles.textColor = [30, 70, 200]; // 파란색
+        	          data.cell.styles.fontStyle = 'bolditalic';
+        	        }
+        	      }
         	    }
         	  });
 
         	  doc.save(year + '-' + (month + 1) + '_달력일정.pdf');
         	});
+
 
       });
   </script>
