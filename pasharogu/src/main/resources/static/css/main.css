@@ -1,35 +1,11 @@
-.container {
-    display: flex;
-}
 
-.map-area {
-    width: 50%;
-    position: relative;
-}
+/*map*/
 
-.japan-map-img {
-    width: 100%;
+.region {
+  transition: fill 0.2s, transform 0.3s;
 }
-
-.region-btn {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid #aaa;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.info-area {
-    width: 50%;
-    padding: 20px;
-    background-color: #f9f9f9;
-}
-
-.write-btn-box {
-    margin-top: 20px;
-    text-align: right;
+.region:hover {
+  fill: orange;
 }
 
 #japan-map path {
