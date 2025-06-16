@@ -1,13 +1,16 @@
 package com.pa.entity;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 @Entity
+@Data
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +20,11 @@ public class Review {
     private String placeId;
     private String content;
     private String imageUrl;
-    private Date createdAt;
+    private int score;	//별점
+    private LocalDate createdDate;
 
-    // getters/setters
+
+    public Review() {}
 }
+
+
