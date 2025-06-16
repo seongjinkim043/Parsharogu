@@ -1,32 +1,32 @@
-function loadRegion(regionName) {
-    // 지역 정보 불러오기
-    $.ajax({
-        url: '/region/info',
-        data: { region: regionName },
-        success: function(data) {
-            $('#region-summary').html(`
-                <h2>${data.name} <span>${data.rating} ★</span></h2>
-                <p>${data.description}</p>
-            `);
-            $('#write-btn').attr('href', '/diary/write.jsp?region=' + regionName);
-        }
-    });
+let viewBox = [0, 0, 1000, 1000];
+const svg = document.getElementById('region-map');
 
-    // 리뷰 리스트 불러오기
-    $.ajax({
-        url: '/review/list',
-        data: { region: regionName },
-        success: function(data) {
-            let html = '<ul>';
-            if (data.length === 0) {
-                html += '<li>등록된 리뷰가 없습니다.</li>';
-            } else {
-                for (let review of data) {
-                    html += `<li>${review.username}: ${review.content} (${review.rating}★)</li>`;
-                }
-            }
-            html += '</ul>';
-            $('#review-list').html(html);
-        }
-    });
-}
+svg.addEventListener('wheel', function(e) {
+  e.preventDefault();
+  const zoomFactor = 0.1;
+  let [x, y, w, h] = viewBox;
+
+  if (e.deltaY < 0) {
+    // zoom in
+    w *= 1 - zoomFactor;
+    h *= 1 - zoomFactor;
+  } else {
+    // zoom out
+    w *= 1 + zoomFactor;
+    h *= 1 + zoomFactor;
+  }
+
+  x = x + (viewBox[2] - w) / 2;
+  y = y + (viewBox[3] - h) / 2;
+
+  viewBox = [x, y, w, h];
+  svg.setAttribute('viewBox', viewBox.join(' '));
+});
+
+document.querySelectorAll('.region').forEach(region => {
+  region.addEventListener('click', () => {
+    const regionId = region.dataset.id;
+    console.log(`Region ${regionId} clicked`);
+    // loadReview(regionId); // 추후 추가
+  });
+});

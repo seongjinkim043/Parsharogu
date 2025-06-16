@@ -1,39 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="/css/common.css">
 
-<style>
-  .header {
-    width: 1920px;
-    padding: 35px 60px;
-    box-sizing: border-box;
-  }
-
-  .header-inner {
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    font-size: 36px;
-    font-weight: bold;
-    color: #2962FF;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .nav-menu {
-    display: flex;
-    gap: 30px;
-    font-size: 16px;
-  }
-
-  .nav-menu a {
-    text-decoration: none;
-    color: #333;
-    cursor: pointer;
-  }
-</style>
 
 <header class="header">
   <div class="header-inner">
