@@ -11,13 +11,14 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
-    @Query("SELECT COALESCE(SUM(s.amount), 0) FROM Schedule s WHERE FUNCTION('DATE_FORMAT', s.startDate, '%Y-%m') = :yearMonth")
+    @Query(value = "SELECT COALESCE(SUM(amount), 0) " +
+                   "FROM schedule " +
+                   "WHERE TO_CHAR(start_date, 'YYYY-MM') = :yearMonth", nativeQuery = true)
     Integer getMonthlyTotal(@Param("yearMonth") String yearMonth);
 
-    @Query("SELECT FUNCTION('DATE_FORMAT', s.startDate, '%Y-%m-%d'), COALESCE(SUM(s.amount), 0) " +
-           "FROM Schedule s " +
-           "WHERE FUNCTION('DATE_FORMAT', s.startDate, '%Y-%m') = :yearMonth " +
-           "GROUP BY FUNCTION('DATE_FORMAT', s.startDate, '%Y-%m-%d')")
+    @Query(value = "SELECT TO_CHAR(start_date, 'YYYY-MM-DD'), COALESCE(SUM(amount), 0) " +
+                   "FROM schedule " +
+                   "WHERE TO_CHAR(start_date, 'YYYY-MM') = :yearMonth " +
+                   "GROUP BY TO_CHAR(start_date, 'YYYY-MM-DD')", nativeQuery = true)
     List<Object[]> getDailyAmountMap(@Param("yearMonth") String yearMonth);
-
 }
