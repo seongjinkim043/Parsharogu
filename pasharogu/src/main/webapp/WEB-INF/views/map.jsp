@@ -9,6 +9,10 @@
             fill="#888"
             stroke="#fff"
             style="cursor:pointer;" />
+            
     </c:forEach>
   </svg>
+   <c:forEach var="region" items="${regions}">
+      <p>Region ID: ${region.regionId}</p>
+    </c:forEach>
 </div>
