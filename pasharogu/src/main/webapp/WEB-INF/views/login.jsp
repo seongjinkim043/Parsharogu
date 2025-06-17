@@ -1,6 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -21,7 +19,7 @@
 
       body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #F4F4F4;
+            background-color: #E3F2FD;
             min-height: 100vh;
             display: flex;
             flex-direction: column; 
@@ -45,7 +43,7 @@
        .logo {
             font-size: 36px;
             font-weight: 700;
-            color: #000000;
+            color: #1976D2;
             line-height: 1.2;
             display: inline-block;
             text-decoration: none; 
@@ -62,7 +60,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
             margin: 0 auto;
         }
 
@@ -74,7 +72,7 @@
         .form-title {
             font-size: 36px;
             font-weight: 400;
-            color: #8D8D8D;
+            color: #64B5F6;
             text-align: center;
             margin-bottom: 80px;
             line-height: 1.2;
@@ -92,7 +90,7 @@
         .form-label {
             font-size: 24px;
             font-weight: 500;
-            color: #8D8D8D;
+            color: #42A5F5;
             margin-bottom: 10px;
             display: block;
             line-height: 1.2;
@@ -101,7 +99,7 @@
         .form-input {
             width: 100%;
             height: 60px;
-            background-color: #D9D9D9;
+            background-color: #BBDEFB;
             border: none;
             border-radius: 10px;
             padding: 0 20px;
@@ -125,7 +123,7 @@
         .login-button {
             width: 100%;
             height: 60px;
-            background-color: #8D8D8D;
+            background-color: #42A5F5;
             border: none;
             border-radius: 10px;
             font-size: 24px;
@@ -138,11 +136,11 @@
         }
 
         .login-button:hover {
-            background-color: #6D6D6D;
+            background-color: #2196F3;
         }
-
+		
         .login-button:active {
-            background-color: #5D5D5D;
+            background-color: #1976D2;
         }
 
         .forgot-link {
@@ -153,7 +151,7 @@
 
         .forgot-password-link {
             font-size: 16px;
-            color: #5C4033; 
+            color: #1976D2; 
             text-decoration: none;
         }
 
@@ -234,14 +232,9 @@
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
-                
-                <%-- <c:if test="${not empty error}">
-		            <div style="color: red; margin-bottom: 20px; font-weight: bold;">
-		                ${error}
-		            </div>
-		        </c:if> --%>
-                <!-- 이부분으로 로그인 정보가 들어온다. -->
+               
                 <form id="loginForm" action="/login" method="post">
+                    
                     <div class="form-group">
                         <label class="form-label" for="loginId">ログインID</label>
                         <input type="text" id="username" name="loginid" class="form-input" placeholder="ログインIDを入力" required autofocus>
@@ -255,49 +248,29 @@
                     <div class="forgot-link">
                         <a href="http://localhost:8080/signup" class="forgot-password-link">ログインができない方はこちら</a>
                     </div>
+                    
                     <div class="alert-password">
                         <a type="text">※パスワードは定期的に推測されにくいものへご変更をお願いします。</a>
                     </div>
 
                     <button type="submit" class="login-button">ログインする</button>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+                 
                 </form>
             </div>
-        </main>
-        
-        
-        
-   
+        </main>	
 
-    <script>
-
-        // 입력 필드 포커스 효과
-        const inputs = document.querySelectorAll('.form-input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.style.backgroundColor = '#BFBFBF';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.style.backgroundColor = '#D9D9D9';
-            });
-        });
-
-        // 회원가입 링크 클릭 처리
-        document.querySelector('.signup-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('アカウント制作ページに移動します。');
-            // 실제로는 회원가입 페이지로 이동
-            // window.location.href = '/signup';
-        });
-
-        // 도움말 링크 클릭 처리
-        document.querySelector('.help-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('パスワードリセットページに移動します。');
-            // 실제로는 비밀번호 재설정 페이지로 이동
-            // window.location.href = '/forgot-password';
-        });
-    </script>
-</body>
+	   <script>
+	        // 입력 필드 포커스 효과
+		    const inputs = document.querySelectorAll('.form-input');
+		    inputs.forEach(input => {
+		        input.addEventListener('focus', function() {
+		            this.style.backgroundColor = '#BFBFBF';
+		        });
+		        
+		        input.addEventListener('blur', function() {
+		            this.style.backgroundColor = '#D9D9D9';
+		        });
+		    });
+	   </script>
+	</body>
 </html>
