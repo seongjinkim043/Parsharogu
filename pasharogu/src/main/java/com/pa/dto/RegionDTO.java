@@ -10,7 +10,7 @@ public class RegionDTO {
 	private String name;
 	private String description;
 	private String svgId;
-	
+	private double rating;
 	private Double averageRating;
 	
 }
