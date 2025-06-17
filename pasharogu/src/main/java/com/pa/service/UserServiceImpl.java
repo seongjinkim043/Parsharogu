@@ -1,9 +1,13 @@
 package com.pa.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pa.dto.SignupFormDTO;
 import com.pa.dto.UserDTO;
@@ -16,17 +20,45 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override //담당 JM
+    @Override
     public void signup(SignupFormDTO signupFormDTO) {
+        System.out.println("🔥 Service reached!");
+        
         User user = new User();
         user.setLoginid(signupFormDTO.getLoginid());
-        user.setPassword(signupFormDTO.getPassword()); // 해시처리 필요
+        user.setPassword(signupFormDTO.getPassword());
         user.setNickname(signupFormDTO.getNickname());
         user.setEmail(signupFormDTO.getEmail());
-        user.setProfileImg(signupFormDTO.getProfileImg());
+
+        MultipartFile imageFile = signupFormDTO.getProfileImg();
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+            	String uploadDir = "C:/spring_uploads/"; // 16번의 시도 끝의 결정 = 절대 경로로 지정
+
+            	File uploadPath = new File(uploadDir);
+            	if (!uploadPath.exists()) {
+            	    uploadPath.mkdirs();
+            	}
+
+            	String originalFilename = imageFile.getOriginalFilename();
+            	String fileName = UUID.randomUUID() + "_" + originalFilename;
+            	File dest = new File(uploadDir + fileName);
+
+            	// 서버에 파일 저장
+            	imageFile.transferTo(dest);
+
+            	// DB에는 경로로 저장
+            	user.setProfileImg("/uploads/" + fileName);
+            } catch (IOException e) {
+                e.printStackTrace(); // 에러 로그
+                throw new RuntimeException("이미지 업로드 실패: " + e.getMessage());
+            }
+        }
+
+        System.out.println("Saving user to DB...");
         userRepository.save(user);
     }
-
     @Override
     public UserDTO getProfile(Long userId) {
         User user = userRepository.findById(userId)

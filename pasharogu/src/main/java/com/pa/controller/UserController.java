@@ -47,7 +47,9 @@ public class UserController {
 	
 	@PostMapping("/signup")
 	public String signup(SignupFormDTO form, Model model) {
+	    System.out.println("🔥 Controller reached!"); // 또는 로그
 	    try {
+	        System.out.println("🔥 Calling service...");
 	        userService.signup(form);
 	        return "redirect:/login";
 	    } catch (RuntimeException e) {

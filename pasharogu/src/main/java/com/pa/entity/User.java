@@ -1,6 +1,5 @@
 package com.pa.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,11 +26,9 @@ public class User {
     private String nickname;    // 닉네임 (예: 黒川７７)
     
     private String email;	// 이메일
-    private String profileImg; // 이미지 경로
-    // private String bio;     
+    private String profileImg; // 이미지 경로     
 
     // 기본 생성자
     public User() {}
-    
-    // 생성자, getter/setter 생략 (Lombok 가능)
+   
 }

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
+ <style>
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +20,7 @@
 
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #F4F4F4;
+            background-color: #E3F2FD;
             min-height: 100vh;
             position: relative;
         }
@@ -42,7 +42,7 @@
         .logo {
             font-size: 36px;
             font-weight: 700;
-            color: #000000;
+            color: #1976D2;
             line-height: 1.2;
             text-decoration: none; /* 링크 스타일 제거 */
         }
@@ -66,32 +66,32 @@
         .form-title {
             font-size: 36px;
             font-weight: 400;
-            color: #8D8D8D;
+            color: #64B5F6;
             text-align: center;
             margin-bottom: 120px;
             line-height: 1.2;
         }
 
         .profile-image {
-            width: 160px;
-            height: 160px;
-            background-color: #D9D9D9;
-            border-radius: 10px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            cursor: pointer;
-        }
+		    width: 160px;
+		    height: 160px;
+		    background-color: #64B5F6;
+		    border-radius: 10px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    position: relative;
+		    cursor: pointer;
+		    transition: background-color 0.2s ease;
+		}
 
         .profile-image::after {
-            content: 'イメージ　選択';
-            font-size: 12px;
-            color: #000000;
-            font-weight: 400;
-            line-height: 1.2;
-        }
+		    content: 'イメージ　選択';
+		    font-size: 12px;
+		    color: #000000;
+		    font-weight: 400;
+		    line-height: 1.2;
+		}
 
         .form-group {
             margin-bottom: 40px;
@@ -105,7 +105,7 @@
         .form-label {
             font-size: 24px;
             font-weight: 500;
-            color: #8D8D8D;
+            color: #42A5F5;
             margin-bottom: 10px;
             display: block;
             line-height: 1.2;
@@ -114,7 +114,7 @@
         .form-input {
             width: 100%;
             height: 60px;
-            background-color: #D9D9D9;
+            background-color: #BBDEFB;
             border: none;
             border-radius: 10px;
             padding: 0 20px;
@@ -138,7 +138,7 @@
         .submit-button {
             width: 100%;
             height: 60px;
-            background-color: #8D8D8D;
+            background-color: #42A5F5;
             border: none;
             border-radius: 10px;
             font-size: 24px;
@@ -158,26 +158,29 @@
             background-color: #5D5D5D;
         }
         .profile-image-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
-        }
+			    position: relative;
+			    display: inline-block;
+			    margin-bottom: 40px;
+			}
 
-        .delete-image-button {
-            font-size: 14px;
-            color: #000000;
-            background-color: #E0E0E0;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+          .delete-image-button {
+		    position: absolute;
+		    bottom: 0;
+		    right: 0;
+		    transform: translate(90%, 90%); /* 정확히 "바깥 우하단" */
+		    font-size: 14px;
+		    background-color: #64B5F6;
+		    color: #000000;
+		    border: none;
+		    border-radius: 8px;
+		    padding: 6px 10px;
+		    cursor: pointer;
+		    transition: background-color 0.2s ease;
+		}
 
         .delete-image-button:hover {
-            background-color: #C0C0C0;
-        }
+		    background-color: #C0C0C0;
+		}
 
         .password-message {
             font-size: 16px;
@@ -194,6 +197,12 @@
         .password-message.no-match {
             color: #8B4513;
         }
+        
+        .input-message {
+		    font-weight: 400;
+		    line-height: 1.2;
+		    min-height: 20px;
+		}
 
         /* Responsive design */
         @media (max-width: 1400px) {
@@ -267,125 +276,183 @@
             <div class="form-container">
                 <h1 class="form-title">アカウント制作</h1>
                 
-                <form id="signupForm" action="/signup" method="post">
-                    
-                      <!--   <div class="profile-image" onclick="document.getElementById('imageInput').click()">
-                            <input type="file" id="imageInput" name="profileImg" accept="image/*" style="display: none;">
-                        </div>
-                        <button type="button" class="delete-image-button" onclick="deleteProfileImage()">削除</button>
-                     -->
-                    
-                    <div class="form-group">
-                        <label for="loginId" class="form-label">ID</label>
-                        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
-                    </div>
-                    
-                    <div class="form-group">
-						<label for="nickname" class="form-label">ニックネーム</label>
-						<input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
-					</div>
-					
-					<div class="form-group">
-					   <label for="email" class="form-label">メール</label>
-					   <input type="email" id="email" name="email" class="form-input" placeholder="メールアドレスを入力" required>
-					</div>
-					                    
-                    <div class="form-group">
-                        <label for="password" class="form-label">パスワード</label>
-                        <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="passwordConfirm" class="form-label">パスワード(再確認)</label>
-                        <input type="password" id="passwordConfirm" class="form-input" placeholder="パスワードを入力" required oninput="checkPasswordMatch()">
-                        <div id="passwordMessage" class="password-message"></div>
-                    </div>
-                    
-                    <button type="submit" class="submit-button">アカウント制作完了</button>
-                </form>
+                <form id="signupForm" action="/signup" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+				    <div class="profile-image-wrapper">
+				        <div class="profile-image" onclick="document.getElementById('imageInput').click()">
+						    <img id="profilePreview" src="" alt="選択された画像" style="width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 10px;">
+						    <input type="file" id="imageInput" name="profileImg" accept="image/*" style="display: none;">
+						</div>
+				        <button type="button" class="delete-image-button" onclick="deleteProfileImage()">削除</button>
+				    </div>
+
+				    <div class="form-group">
+				        <label for="loginId" class="form-label">ID</label>
+				        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
+									    
+				    </div>
+
+				    <div class="form-group">
+				        <label for="nickname" class="form-label">ニックネーム</label>
+				        <input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
+				    	
+				    </div>
+				    	
+
+				    <div class="form-group">
+				        <label for="email" class="form-label">メール</label>
+				        <input type="email" id="email" name="email" class="form-input" placeholder="メールアドレスを入力" required>
+				    	
+				    </div>
+
+				    <div class="form-group">
+				        <label for="password" class="form-label">パスワード</label>
+				        <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
+				    	
+				    </div>
+
+				    <div class="form-group">
+				        <label for="passwordConfirm" class="form-label">パスワード(再確認)</label>
+				        <input type="password" id="passwordConfirm" class="form-input" placeholder="パスワードを入力" required oninput="checkPasswordMatch()">
+				        <div id="passwordMessage" class="password-message"></div>
+				    </div>
+
+				    <button type="submit" class="submit-button">アカウント制作完了</button>
+				</form>
             </div>
         </main>
     </div>
+<script>
+    function validateForm() {
+        const loginId = document.getElementById("loginId");
+        const nickname = document.getElementById("nickname");
+        const password = document.getElementById("password");
+        const passwordConfirm = document.getElementById("passwordConfirm");
 
-    <script>
-        function deleteProfileImage() {
-            const profileImage = document.querySelector('.profile-image');
-            const imageInput = document.getElementById('imageInput');
-            
-            // 이미지 제거 및 초기 상태 복구
-            profileImage.style.backgroundImage = '';
-            profileImage.innerHTML = '';
-            imageInput.value = ''; // 파일 입력 초기화
+        const idRegex = /^[a-z0-9]{6,12}$/;
+        const passwordRegex = /^[A-Za-z0-9]{6,12}$/;
+
+        if (!idRegex.test(loginId.value)) {
+            alert("IDが条件に一致しません。");
+            return false;
         }
 
-        // 비밀번호 일치 확인 함수
-        function checkPasswordMatch() {
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('passwordConfirm').value;
-            const messageElement = document.getElementById('passwordMessage');
-            
-            if (passwordConfirm === '') {
-                messageElement.textContent = '';
-                messageElement.className = 'password-message';
-                return;
-            }
-            
-            if (password === passwordConfirm) {
-                messageElement.textContent = '一致します！';
-                messageElement.className = 'password-message match';
+        if (!idRegex.test(nickname.value)) {
+            alert("ニックネームが条件に一致しません。");
+            return false;
+        }
+
+        if (!passwordRegex.test(password.value)) {
+            alert("パスワードが条件に一致しません。");
+            return false;
+        }
+
+        if (password.value !== passwordConfirm.value) {
+            alert("パスワードが一致していません。");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ✅ 여기는 validateForm 함수 밖에 있어야 함!
+    document.addEventListener("DOMContentLoaded", function () {
+        const imageInput = document.getElementById("imageInput");
+        const previewImg = document.getElementById("profilePreview");
+        const profileImage = document.querySelector(".profile-image");
+
+        const loginId = document.getElementById("loginId");
+        const nickname = document.getElementById("nickname");
+        const password = document.getElementById("password");
+        const passwordConfirm = document.getElementById("passwordConfirm");
+        const passwordMessage = document.getElementById("passwordMessage");
+
+        const addMessageSpan = (inputElem) => {
+            let span = document.createElement("div");
+            span.className = "input-message";
+            span.style.fontSize = "14px";
+            span.style.marginTop = "6px";
+            span.style.height = "20px";
+            span.style.color = "#8B4513";
+            inputElem.parentElement.appendChild(span);
+            return span;
+        };
+
+        const idMessage = addMessageSpan(loginId);
+        const nickMessage = addMessageSpan(nickname);
+        const pwMessage = addMessageSpan(password);
+
+        const idRegex = /^[a-z0-9]{6,12}$/;
+        const passwordRegex = /^[A-Za-z0-9]{6,12}$/;
+
+        loginId.addEventListener("input", function () {
+            if (!idRegex.test(this.value)) {
+                idMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+                idMessage.style.color = "#8B4513";
             } else {
-                messageElement.textContent = '一致しません。';
-                messageElement.className = 'password-message no-match';
+                idMessage.textContent = "使用可能なIDです。";
+                idMessage.style.color = "green";
+            }
+        });
+
+        nickname.addEventListener("input", function () {
+            if (!idRegex.test(this.value)) {
+                nickMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+                nickMessage.style.color = "#8B4513";
+            } else {
+                nickMessage.textContent = "使用可能なニックネームです。";
+                nickMessage.style.color = "green";
+            }
+        });
+
+        password.addEventListener("input", function () {
+            if (!passwordRegex.test(this.value)) {
+                pwMessage.textContent = "6〜12文字の英数字で入力してください。";
+                pwMessage.style.color = "#8B4513";
+            } else {
+                pwMessage.textContent = "安全なパスワードです。";
+                pwMessage.style.color = "green";
+            }
+
+            checkPasswordMatch();
+        });
+
+        passwordConfirm.addEventListener("input", checkPasswordMatch);
+
+        function checkPasswordMatch() {
+            if (password.value !== passwordConfirm.value) {
+                passwordMessage.textContent = "パスワードが一致しません。";
+                passwordMessage.style.color = "red";
+            } else if (password.value && passwordConfirm.value) {
+                passwordMessage.textContent = "一致しました。";
+                passwordMessage.style.color = "green";
+            } else {
+                passwordMessage.textContent = "";
             }
         }
 
-        // 이미지 업로드 기능
-        document.getElementById('imageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
+        imageInput.addEventListener("change", function () {
+            if (this.files && this.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const profileImage = document.querySelector('.profile-image');
-                    profileImage.style.backgroundImage = `url(${e.target.result})`;
-                    profileImage.style.backgroundSize = 'cover';
-                    profileImage.style.backgroundPosition = 'center';
-                    profileImage.innerHTML = ''; // 텍스트 제거
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = "block";
+                    profileImage.style.backgroundImage = "none";
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(this.files[0]);
             }
         });
 
-        // 비밀번호 입력 필드에 이벤트 리스너 추가
-        document.getElementById('password').addEventListener('input', checkPasswordMatch);
-        document.getElementById('passwordConfirm').addEventListener('input', checkPasswordMatch);
+        window.deleteProfileImage = function () {
+            imageInput.value = "";
+            previewImg.src = "";
+            previewImg.style.display = "none";
+        };
+    });
+</script>
 
-        // 폼 제출 처리
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('passwordConfirm').value;
-            
-            if (password !== passwordConfirm) {
-                alert('パスワードが一致しません。');
-                return;
-            }
-            
-            // 여기에 실제 회원가입 로직을 구현할 수 있습니다
-            /* alert('アカウント制作が完了しました！'); */
-        });
 
-        // 입력 필드 포커스 효과
-        const inputs = document.querySelectorAll('.form-input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.style.backgroundColor = '#BFBFBF';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.style.backgroundColor = '#D9D9D9';
-            });
-        });
-    </script>
+
+
+  
 </body>
 </html>
