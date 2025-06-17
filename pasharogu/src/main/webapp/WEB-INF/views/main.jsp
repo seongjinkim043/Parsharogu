@@ -4,10 +4,9 @@
 <html>
 <head>
     <title>パシャログ</title>
-	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<%@ include file="map.jsp" %>
-
+	<%@ include file="review.jsp" %>
 </body>
 </html>

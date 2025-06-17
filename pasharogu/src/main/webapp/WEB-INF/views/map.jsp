@@ -1,18 +1,35 @@
-
-<div class="map-area" style="width:100%; height:100vh; overflow:hidden; position:relative;">
-  <svg id="region-map" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-    <c:forEach var="region" items="${regions}">
-      <path class="region"
-            d="${region.svgId}" 
-            data-id="${region.regionId}"
-            data-label="${region.name}"
-            fill="#888"
-            stroke="#fff"
-            style="cursor:pointer;" />
-            
-    </c:forEach>
-  </svg>
-   <c:forEach var="region" items="${regions}">
-      <p>Region ID: ${region.regionId}</p>
-    </c:forEach>
+<div class="map-area" style="overflow: visible;">
+	<svg id="region-map" width="820px" height="758px" viewBox="0 0 820 758" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+	    <g id="map-group">
+	      <c:forEach var="region" items="${regions}">
+	        <path class="region"
+	              d="${region.svgId}" 
+	              data-id="${region.regionId}"
+	              data-label="${region.name}" />
+	      </c:forEach>
+	    </g>
+	</svg>
+	<div id="region-tooltip" class="region-tooltip"></div>
 </div>
+
+<script>
+document.querySelectorAll('.region').forEach(function(path) {
+  path.addEventListener('mouseenter', function(e) {
+    const tooltip = document.getElementById('region-tooltip');
+    tooltip.textContent = this.getAttribute('data-label');
+    tooltip.style.display = 'block';
+    this.parentNode.appendChild(this);  // mapGroup 내에서 z-order 최상단으로
+  });
+
+  path.addEventListener('mousemove', function(e) {
+    const tooltip = document.getElementById('region-tooltip');
+    tooltip.style.left = (e.pageX + 10) + 'px';
+    tooltip.style.top = (e.pageY + 10) + 'px';
+  });
+
+  path.addEventListener('mouseleave', function() {
+    const tooltip = document.getElementById('region-tooltip');
+    tooltip.style.display = 'none';
+  });
+});
+</script>

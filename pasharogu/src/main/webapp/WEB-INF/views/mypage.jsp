@@ -64,6 +64,8 @@
     </style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
+
 <div class="container">
     <h1>마이페이지</h1>
 
