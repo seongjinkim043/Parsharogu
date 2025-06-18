@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+
 <html>
 <head>
     <title>마이페이지</title>
@@ -31,25 +33,29 @@
             align-items: center;
         }
 
-        .reviews {
-            flex: 1;
-            border: 1px solid #ccc;
-            padding: 15px;
-            box-sizing: border-box;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
+		.reviews {
+		    border: 1px solid #ccc;
+		    padding: 15px;
+		    box-sizing: border-box;
+		}
 
-        .review-item {
-            display: inline-block;
-            width: 200px;
-            margin-right: 15px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            vertical-align: top;
-            background: #f9f9f9;
-        }
+		.review-list {
+		    display: flex;
+		    justify-content: center; /* 리뷰 아이템들을 가운데 정렬 */
+		    overflow-x: auto;
+		    gap: 15px; /* 리뷰 사이 간격 */
+		    padding-top: 10px;
+		}
+
+		.review-item {
+		    flex-shrink: 0;
+		    width: 800px;
+		    padding: 10px;
+		    border: 1px solid #ddd;
+		    border-radius: 15px;
+		    background: #f9f9f9;
+		}
+
 
         .review-images {
             display: flex;
@@ -98,6 +104,60 @@
             padding: 5px 0;
             border-bottom: 1px solid #eee;
         }
+		.ikitai-wrapper {
+		    margin-top: 40px;
+		    position: relative;
+		}
+
+		.ikitai-list {
+		    display: flex;
+		    overflow-x: auto;
+		    gap: 15px;
+		    padding: 10px 0;
+		    scroll-behavior: smooth;
+		}
+
+		.ikitai-card {
+		    flex-shrink: 0;
+		    width: 150px;
+		    background: white;
+		    border-radius: 10px;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		    text-align: center;
+		    padding-bottom: 10px;
+		    position: relative;
+		}
+
+		.ikitai-card img {
+		    width: 100%;
+		    height: 100px;
+		    object-fit: cover;
+		    border-top-left-radius: 10px;
+		    border-top-right-radius: 10px;
+		}
+
+		.ikitai-card .info {
+		    padding: 8px;
+		}
+
+		.place-name {
+		    font-weight: bold;
+		    margin-bottom: 4px;
+		}
+
+		.rating {
+		    font-size: 0.9em;
+		    color: #f39c12;
+		}
+
+		.heart {
+		    cursor: pointer;
+		    font-size: 20px;
+		    transition: transform 0.2s;
+		}
+		.heart.on { color: red; }
+		.heart.off { color: gray; }
+
     </style>
 </head>
 <body>
@@ -144,12 +204,32 @@
     </div>
 
     <section class="wishlist">
-        <h2>行きたい</h2>
-        <ul>
-            <c:forEach var="wish" items="${wishlist}">
-                <li class="wishlist-item">${wish.item}</li>
-            </c:forEach>
-        </ul>
+		<section class="ikitai-wrapper">
+		    <h2>行きたい</h2>
+		    <p>旅行先候補をリストアップ！</p>
+
+		    <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
+		    <div class="ikitai-list" id="ikitaiList">
+		        <c:forEach var="ikitai" items="${ikitaiList}">
+		            <div class="ikitai-card">
+		                <a href="/ikitai/go?region=${ikitai.regionName}">
+		                    <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
+		                </a>
+		                <div class="info">
+		                    <div class="region-name">${ikitai.regionName}</div>
+		                    <div class="rating">5.0 ★★★★★</div> <!-- 임시로 고정 -->
+							<div class="heart" onclick="toggleIkitai(this, '${ikitai.placeId}')">
+							    ${ikitai.liked ? '❤️' : '🤍'}
+							</div>
+
+
+		                </div>
+		            </div>
+		        </c:forEach>
+		    </div>
+		    <button class="arrow right" onclick="scrollIkitaiRight()">&#9654;</button>
+		</section>
+
     </section>
 </div>
 
@@ -163,6 +243,34 @@
         const container = document.getElementById('reviews');
         container.scrollBy({ left: 220, behavior: 'smooth' });
     }
+	function scrollIkitaiLeft() {
+	    const container = document.getElementById('ikitaiList');
+	    container.scrollBy({ left: -220, behavior: 'smooth' });
+	}
+
+	function scrollIkitaiRight() {
+	    const container = document.getElementById('ikitaiList');
+	    container.scrollBy({ left: 220, behavior: 'smooth' });
+	}
+
+	function toggleIkitai(el, regionId) {
+	    fetch('/ikitai/toggle', {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/x-www-form-urlencoded'
+	        },
+	        body: 'regionId=' + regionId
+	    })
+	    .then(response => response.text())
+	    .then(result => {
+	        if (result === 'added') {
+	            el.textContent = '❤️';
+	        } else {
+	            el.textContent = '🤍';
+	        }
+	    });
+	}
+
 </script>
 </body>
 </html>

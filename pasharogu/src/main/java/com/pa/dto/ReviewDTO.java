@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ReviewDTO {
-	private Long placeId;
+	private Long regionId;
     private String username;      // 작성자 이름
     private String content;       // 리뷰 내용
     private int rating;           // 별점
