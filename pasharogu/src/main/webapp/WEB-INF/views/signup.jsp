@@ -134,7 +134,22 @@
             outline: none;
             background-color: #BFBFBF;
         }
+		.btn-check-id {
+			  background-color: #4da6ff;       /* 파란색 배경 */
+			  color: white;                    /* 흰색 텍스트 */
+			  border: none;
+			  padding: 8px 16px;
+			  font-size: 14px;
+			  font-weight: bold;
+			  border-radius: 8px;              /* 둥근 모서리 */
+			  cursor: pointer;
+			  transition: background-color 0.3s ease;
+			  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 약간의 그림자 */
+		}
 
+		.btn-check-id:hover {
+		  background-color: #1976D2;       /* 호버 시 좀 더 진한 파랑 */
+		}
         .submit-button {
             width: 100%;
             height: 60px;
@@ -179,7 +194,7 @@
 		}
 
         .delete-image-button:hover {
-		    background-color: #C0C0C0;
+		    background-color: #1976D2;
 		}
 
         .password-message {
@@ -289,7 +304,7 @@
 				        <label for="loginId" class="form-label">ID</label>
 				        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
 						<label for="loginId" class="input_constraints">※半角英数字で6~12文字で入力してください</label>
-						<button type="button" onclick="checkLoginId()">ID 重複チェック</button>
+						<button type="button" class="btn-check-id" onclick="checkLoginId()">ID 重複チェック</button>
 						<p id="loginid-check-msg" style="color: red; margin-top: 5px;"></p>			    
 				    </div>
 
