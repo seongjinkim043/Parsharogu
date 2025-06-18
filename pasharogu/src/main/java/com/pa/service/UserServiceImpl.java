@@ -19,6 +19,30 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Override
+    public UserDTO login(String loginid, String password) {
+    	// 1. 사용자 조회
+    	Optional<User> optionalUser = userRepository.findByLoginid(loginid);
+    	// 디버그용
+    	System.out.println("입력된 비밀번호: " + password);
+    	System.out.println("DB 비밀번호: " + optionalUser.get().getPassword());
+    	
+    	// 2. 사용자 존재 여부 및 비밀번호 확인
+    	if (optionalUser.isEmpty() || !optionalUser.get().getPassword().equals(password)) {
+    		throw new RuntimeException("아이디 또는 비밀번호가 잘못되었습니다.");
+    	}    		
+    	// 3. 로그인 성공 시 UserDTO로 변환하여 반환
+    	User user = optionalUser.get();
+    	UserDTO userDTO = new UserDTO();
+    	userDTO.setUserId(user.getUserId());
+    	userDTO.setLoginid(user.getLoginid());
+    	userDTO.setNickname(user.getNickname());
+    	userDTO.setEmail(user.getEmail());
+    	userDTO.setProfileImg(user.getProfileImg());
+    	
+    	return userDTO;
+    }
 
     @Override
     public void signup(SignupFormDTO signupFormDTO) {
@@ -59,6 +83,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("Saving user to DB...");
         userRepository.save(user);
     }
+    
     @Override
     public UserDTO getProfile(Long userId) {
         User user = userRepository.findById(userId)
@@ -74,29 +99,10 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 
-    @Override //담당자 JM
-    public UserDTO login(String loginid, String password) {
-        // 1. 사용자 조회
-        Optional<User> optionalUser = userRepository.findByLoginid(loginid);
-        
-        System.out.println("입력된 비밀번호: " + password);
-        System.out.println("DB 비밀번호: " + optionalUser.get().getPassword());
-        // 2. 사용자 존재 여부 및 비밀번호 확인
-        if (optionalUser.isEmpty() || !optionalUser.get().getPassword().equals(password)) {
-            
-        	throw new RuntimeException("아이디 또는 비밀번호가 잘못되었습니다.");
-        }
-        // 3. 로그인 성공 시 UserDTO로 변환하여 반환
-        User user = optionalUser.get();
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(user.getUserId());
-        userDTO.setLoginid(user.getLoginid());
-        userDTO.setNickname(user.getNickname());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setProfileImg(user.getProfileImg());
-        
-        return userDTO;
-    }
+	/*
+	 * @Override public boolean isLoginidDuplicate(String loginid) { return
+	 * userRepository.existsByLoginid(loginid); }
+	 */
 
 }
 

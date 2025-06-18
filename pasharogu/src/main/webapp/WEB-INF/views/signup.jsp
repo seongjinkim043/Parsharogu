@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> 
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アカウント制作 - パシャログ</title>
+    <title>会員登録 - パシャログ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -51,8 +51,8 @@
             position: absolute;
             top: 190px;
             left: 460px;
-            width: 1000px;
-            height: 1237px;
+            width: 1080px;
+            height: 1520px;
             background-color: #FFFFFF;
             border-radius: 10px;
             padding: 107px 135px;
@@ -274,7 +274,7 @@
         
         <main class="main-form">
             <div class="form-container">
-                <h1 class="form-title">アカウント制作</h1>
+                <h1 class="form-title">新規会員登録</h1>
                 
                 <form id="signupForm" action="/signup" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
 				    <div class="profile-image-wrapper">
@@ -288,13 +288,15 @@
 				    <div class="form-group">
 				        <label for="loginId" class="form-label">ID</label>
 				        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
-									    
+						<label for="loginId" class="input_constraints">※半角英数字で6~12文字で入力してください</label>
+						<!-- <button type="button" onclick="checkLoginId()">ID 重複チェック</button> -->
+						<p id="loginid-check-msg" style="color: red; margin-top: 5px;"></p>			    
 				    </div>
 
 				    <div class="form-group">
 				        <label for="nickname" class="form-label">ニックネーム</label>
 				        <input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
-				    	
+				    	<label for="nickname" class="input_constraints">※半角英数字で6~12文字で入力してください</label>
 				    </div>
 				    	
 
@@ -307,7 +309,7 @@
 				    <div class="form-group">
 				        <label for="password" class="form-label">パスワード</label>
 				        <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
-				    	
+				    	<label for="password" class="input_constraints">※英数字で6~12文字で入力してください</label>
 				    </div>
 
 				    <div class="form-group">
@@ -316,7 +318,7 @@
 				        <div id="passwordMessage" class="password-message"></div>
 				    </div>
 
-				    <button type="submit" class="submit-button">アカウント制作完了</button>
+				    <button type="submit" class="submit-button">会員登録する</button>
 				</form>
             </div>
         </main>
@@ -353,7 +355,35 @@
 
         return true;
     }
+    // 아이디 중복 검사 버튼
+    /* function checkLoginId() {
+        const loginIdInput = document.getElementById("loginid");
+        const checkMsg = document.getElementById("loginid-check-msg");
+        const loginid = loginIdInput.value;
 
+        if (!loginid) {
+            checkMsg.textContent = "IDを入力してください。";
+            checkMsg.style.color = "red";
+            return;
+        }
+		
+        const url = "/check-username?username=" + encodeURIComponent(loginid);
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (data.exists) {
+                    checkMsg.textContent = "既に使用されているIDです。";
+                    checkMsg.style.color = "red";
+                } else {
+                    checkMsg.textContent = "使用可能なIDです。";
+                    checkMsg.style.color = "green";
+                }
+            })
+            .catch(() => {
+                checkMsg.textContent = "サーバーエラーが発生しました。";
+                checkMsg.style.color = "red";
+            });
+    } */
     // ✅ 여기는 validateForm 함수 밖에 있어야 함!
     document.addEventListener("DOMContentLoaded", function () {
         const imageInput = document.getElementById("imageInput");
