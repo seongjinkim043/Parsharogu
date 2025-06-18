@@ -15,6 +15,7 @@
             display: flex;
             gap: 20px;
             margin-bottom: 30px;
+            
         }
 
         .calendar {
@@ -22,6 +23,7 @@
             border: 1px solid #ccc;
             padding: 15px;
             box-sizing: border-box;
+      
         }
 
         .review-wrapper {
@@ -165,11 +167,18 @@
     <div class="top-row">
         <section class="calendar">
             <h2>カレンダー</h2>
+           <div class="calendar-embed-wrapper">
+    
+  </div>
             <ul>
-                <c:forEach var="item" items="${calendar}">
-                    <li>${item.date} - ${item.event}</li>
-                </c:forEach>
-            </ul>
+  <c:forEach var="item" items="${calendar}">
+    <li class="calendar-item">
+      <div class="calendar-box">
+        <jsp:include page="/index" />
+      </div>
+    </li>
+  </c:forEach>
+</ul>
         </section>
 
         <div class="review-wrapper">

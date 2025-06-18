@@ -8,26 +8,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
 public class ScheduleController {
 
-    // 서비스 주입
     private final ScheduleService scheduleService;
 
     public ScheduleController(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
 
-    // 페이지 호출
     @GetMapping("/schedule.do")
     public String schedulePage() {
-        return "schedule"; // schedule.jsp 호출
+        return "schedule";
     }
+    
 
-    // 일정 리스트 반환 (FullCalendar 형식에 맞춤)
+    @GetMapping("/index")
+       public String index() {
+       	return "index";
+       }
+
     @ResponseBody
     @GetMapping("/scheduleList.do")
     public ResponseEntity<List<Map<String, Object>>> scheduleList() {
@@ -35,18 +38,25 @@ public class ScheduleController {
 
         List<Map<String, Object>> response = schedules.stream().map(schedule -> {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", schedule.getId());
+            map.put("id", schedule.getScheduleId());
             map.put("title", schedule.getTitle());
-            map.put("start", schedule.getStartDate().toLocalDate().toString());
+            map.put("start", schedule.getStartDate().toString());
 
-            // end 처리 → FullCalendar는 end 날짜 '다음날'까지 표시해야 함 (+1 day)
             if (schedule.getEndDate() != null) {
-                map.put("end", schedule.getEndDate().toLocalDate().plusDays(1).toString());
+                map.put("end", schedule.getEndDate().toString());
             } else {
-                map.put("end", schedule.getStartDate().toLocalDate().plusDays(1).toString());
+                map.put("end", schedule.getStartDate().toString());
             }
 
-            map.put("allDay", schedule.getAllDay() == 1);
+            // DayView 정상 표시를 위해 allDay false 고정
+            map.put("allDay", false);
+
+            // multiDayFlag 계산
+            long daysBetween = ChronoUnit.DAYS.between(
+                schedule.getStartDate().toLocalDate(),
+                schedule.getEndDate() != null ? schedule.getEndDate().toLocalDate() : schedule.getStartDate().toLocalDate()
+            );
+            map.put("multiDayFlag", daysBetween >= 1);
 
             return map;
         }).toList();
@@ -54,37 +64,63 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
 
-    // 일정 추가
     @ResponseBody
     @PostMapping("/scheduleAdd.do")
-    public ResponseEntity<Schedule> scheduleAdd(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Map<String, Object>> scheduleAdd(@RequestBody Map<String, Object> payload) {
         Schedule schedule = new Schedule();
-        schedule.setId(UUID.randomUUID().toString());
+        schedule.setScheduleId(UUID.randomUUID().toString());
         schedule.setTitle((String) payload.get("title"));
 
-        // 날짜 포맷터
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        schedule.setStartDate(LocalDateTime.parse((String) payload.get("start")));
 
-        // 시작일 설정
-        schedule.setStartDate(LocalDateTime.parse(payload.get("start") + "T00:00:00", formatter));
-
-        // 종료일 설정
         if (payload.get("end") != null && !payload.get("end").toString().isEmpty()) {
-            schedule.setEndDate(LocalDateTime.parse(payload.get("end") + "T00:00:00", formatter));
+            schedule.setEndDate(LocalDateTime.parse((String) payload.get("end")));
         } else {
             schedule.setEndDate(null);
         }
 
-        // allDay 처리 (1 고정)
-        schedule.setAllDay(1);
+        schedule.setAllDay(0);
 
-        // 저장 처리
         Schedule saved = scheduleService.save(schedule);
 
-        return ResponseEntity.ok(saved);
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", saved.getScheduleId());
+        response.put("title", saved.getTitle());
+        response.put("start", saved.getStartDate().toString());
+        response.put("end", saved.getEndDate() != null ? saved.getEndDate().toString() : saved.getStartDate().toString());
+        response.put("allDay", false);
+
+        long daysBetween = ChronoUnit.DAYS.between(
+            saved.getStartDate().toLocalDate(),
+            saved.getEndDate() != null ? saved.getEndDate().toLocalDate() : saved.getStartDate().toLocalDate()
+        );
+        response.put("multiDayFlag", daysBetween >= 1);
+
+        return ResponseEntity.ok(response);
     }
 
-    // 일정 삭제
+    @ResponseBody
+    @PostMapping("/scheduleUpdate.do")
+    public ResponseEntity<Void> scheduleUpdate(@RequestBody Map<String, Object> payload) {
+        String id = (String) payload.get("id");
+        Schedule schedule = scheduleService.findById(id);
+
+        schedule.setTitle((String) payload.get("title"));
+        schedule.setStartDate(LocalDateTime.parse((String) payload.get("start")));
+
+        if (payload.get("end") != null && !payload.get("end").toString().isEmpty()) {
+            schedule.setEndDate(LocalDateTime.parse((String) payload.get("end")));
+        } else {
+            schedule.setEndDate(null);
+        }
+
+        schedule.setAllDay(0);
+
+        scheduleService.save(schedule);
+
+        return ResponseEntity.ok().build();
+    }
+
     @ResponseBody
     @PostMapping("/scheduleDelete.do")
     public ResponseEntity<Void> scheduleDelete(@RequestBody Map<String, Object> payload) {

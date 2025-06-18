@@ -13,12 +13,5 @@ public class RegionDTO {
 	private double rating;
 	private Double averageRating;
 	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName() {
-		this.name = name;
-	}
 }
 

@@ -1,20 +1,25 @@
-package com.pa.entity;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
+@Table(name = "REGION")
 @Data
 public class Region {
-    @Id
-    private String regionId;
-    private String name;
-    private String description;
-    private String svgId;
-    private double rating;
-    private Double averageRating;
-    private String imageUrl;
+	@Id
+	@Column(name = "REGION_ID")
+	private String regionId;
+	
+	@Column(name = "NAME")
+	private String name;
+	
+	@Column(name = "DESCRIPTION")
+	private String description;
+	
+	@Column(name = "SVG_ID")
+	private String svgId;  
+	
 
-    // getter, setter (Lombok @Data 쓰셔도 됩니다)
 }

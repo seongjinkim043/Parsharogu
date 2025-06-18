@@ -6,11 +6,10 @@ import lombok.Data;
 public class UserDTO {
 
     private Long userId;
-    private String username;
+    private String loginid;
     private String password;
+    private String nickname;
     private String email;
-    private String bio;
     private String profileImg;
 
-    // 생성자, getter/setter 생략
 }

@@ -1,7 +1,5 @@
 package com.pa.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,50 +7,55 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.pa.dto.LoginFormDTO;
-import com.pa.repository.UserRepository;
-import com.pa.entity.User;
+import com.pa.dto.SignupFormDTO;
+import com.pa.dto.UserDTO;
+import com.pa.service.UserService;
 
 
 @Controller
 public class UserController {
 	
-	@Autowired
-	private UserRepository userRepository;
-
+	 @Autowired
+	    private UserService userService; 
+	 
 	@GetMapping("/login")
 	public String loginForm() {
 	    // 로그인 폼 요청
 		return "login";
 	}
 	
-	@PostMapping("/login")
-	public String login(LoginFormDTO form, Model model) {
-		
-		//입력받은 ID, 비밀번호 받기
-	    String username = form.getLoginId();
-	    String password = form.getPassword();
-
-	    // Optional<User>로 ID 검색후 받기
-	    Optional<User> optionalUser = userRepository.findByUsername(username);
-
-	    // 사용자 존재 여부 체크
-	    if (optionalUser.isEmpty() || !optionalUser.get().getPassword().equals(password)) {
-	        model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-	        return "login";
-	    }
-
-//	    User user = optionalUser.get();
-
-//	    // 로그인 성공 → 세션에 저장
-//	    session.setAttribute("loginUser", user);
-
-	    return "redirect:/main";
+	 @PostMapping("/login")
+	 public String login(LoginFormDTO form, Model model) {
+		    try {
+		        System.out.println("로그인 시도: " + form.getLoginid()); // 디버깅용
+		        UserDTO loginUser = userService.login(form.getLoginid(), form.getPassword());
+		        System.out.println("로그인 성공: " + loginUser.getLoginid()); // 디버깅용
+		        return "redirect:/";
+		    } catch (RuntimeException e) {
+		        System.out.println("로그인 실패: " + e.getMessage()); // 디버깅용
+		        model.addAttribute("error", e.getMessage());
+		        return "login";
+		    }
+		}
+	
+	@GetMapping("/signup")
+	public String signinform() {
+	    // 회원가입 폼 요청
+		return "signup";
 	}
 	
-	@GetMapping("/signin")
-	public String signinform() {
-	    
-		return "signin";
+	
+	@PostMapping("/signup")
+	public String signup(SignupFormDTO form, Model model) {
+	    System.out.println("🔥 Controller reached!"); // 또는 로그
+	    try {
+	        System.out.println("🔥 Calling service...");
+	        userService.signup(form);
+	        return "redirect:/login";
+	    } catch (RuntimeException e) {
+	        model.addAttribute("error", e.getMessage());
+	        return "signup";
+	    }
 	}
 	
 	@GetMapping("/logout")
@@ -63,12 +66,6 @@ public class UserController {
 	
 
 	
-//	@PostMapping("/signup")
-//	public String signup(userDTO userDTO) {
-//		//회원가입 처리 구현
-//		
-//		return "redirect:/user/login";
-//	}
 //	
 //	@GetMapping("/mypage")
 //	public String mypage(Model model) {

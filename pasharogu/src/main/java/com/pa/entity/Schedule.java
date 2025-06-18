@@ -15,13 +15,11 @@ import java.time.LocalDateTime;
 public class Schedule {
 
 
-    private int scheduleId;
-    private String description;
-
+ 
 
     @Id
-    @Column(name = "ID", length = 50)
-    private String id;
+    @Column(name = "SCHEDULE_ID", length = 50)
+    private String scheduleId;
 
     @Column(name = "TITLE", nullable = false, length = 100)
     private String title;
@@ -38,12 +36,16 @@ public class Schedule {
     @Column(name = "CREATED_AT", updatable = false, insertable = false)
     private LocalDateTime createdAt;
 
+    
+    @Column(name = "AMOUNT")
+    private Integer amount;// 쓴 돈 저장
+    
     // 기본 생성자 필수
     public Schedule() {}
 
     // 필요하면 생성자 추가 가능
-    public Schedule(String id, String title, LocalDateTime startDate, LocalDateTime endDate, Integer allDay) {
-        this.id = id;
+    public Schedule(String scheduleId, String title, LocalDateTime startDate, LocalDateTime endDate, Integer allDay) {
+        this.scheduleId = scheduleId;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;

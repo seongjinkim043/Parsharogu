@@ -22,6 +22,35 @@ public class ReviewController {
 	 private ReviewRepository reviewRepository;
 
     private final ReviewService reviewService;
+    
+    @GetMapping("/write")
+    public String showWritePage(@RequestParam("regionId") String regionId, Model model) {
+    	model.addAttribute("regionId", regionId);
+    	return "write";
+    }
+    
+    @PostMapping("/write")
+    public String writeReview(@RequestParam String regionId,
+    						  @RequestParam int rating,
+    						  @RequestParam String content,
+    						  HttpSession session) {
+    	Long userId = (Long) session.getAttribute("userId");
+    	
+    	if (userId == null) {
+    		
+    		return "redirect:/login";
+    	}
+    	
+    	Review review = new Review();
+    	review.setRegionId(regionId);
+    	review.setUserId(userId);
+    	review.setContent(content);
+//    	review.setRating(rating);
+    	
+    	reviewRepository.save(review);
+    	return "redirect:/main";
+    }
+    			
 
     @Autowired
     public ReviewController(ReviewService reviewService) {
@@ -35,7 +64,7 @@ public class ReviewController {
 	
 	@GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
-        String userId = (String) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");
 
         if (userId == null) {
             return "redirect:/login";
