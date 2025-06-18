@@ -22,7 +22,7 @@ public class Review {
     private String placeId;
     private String content;
     private String imageUrl;
-    private int score;	//별점
+    private int rating;	//별점
     private LocalDate createdDate;
     private String regionId;
 
