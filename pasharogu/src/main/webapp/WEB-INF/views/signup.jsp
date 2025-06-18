@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会員登録 - パシャログ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
  <style>
         * {
@@ -134,7 +134,22 @@
             outline: none;
             background-color: #BFBFBF;
         }
+		.btn-check-id {
+			  background-color: #4da6ff;       /* 파란색 배경 */
+			  color: white;                    /* 흰색 텍스트 */
+			  border: none;
+			  padding: 8px 16px;
+			  font-size: 14px;
+			  font-weight: bold;
+			  border-radius: 8px;              /* 둥근 모서리 */
+			  cursor: pointer;
+			  transition: background-color 0.3s ease;
+			  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 약간의 그림자 */
+		}
 
+		.btn-check-id:hover {
+		  background-color: #1976D2;       /* 호버 시 좀 더 진한 파랑 */
+		}
         .submit-button {
             width: 100%;
             height: 60px;
@@ -179,7 +194,7 @@
 		}
 
         .delete-image-button:hover {
-		    background-color: #C0C0C0;
+		    background-color: #1976D2;
 		}
 
         .password-message {
@@ -289,7 +304,7 @@
 				        <label for="loginId" class="form-label">ID</label>
 				        <input type="text" id="loginId" name="loginid" class="form-input" placeholder="ログインIDを入力" required>
 						<label for="loginId" class="input_constraints">※半角英数字で6~12文字で入力してください</label>
-						<!-- <button type="button" onclick="checkLoginId()">ID 重複チェック</button> -->
+						<button type="button" class="btn-check-id" onclick="checkLoginId()">ID 重複チェック</button>
 						<p id="loginid-check-msg" style="color: red; margin-top: 5px;"></p>			    
 				    </div>
 
@@ -356,8 +371,8 @@
         return true;
     }
     // 아이디 중복 검사 버튼
-    /* function checkLoginId() {
-        const loginIdInput = document.getElementById("loginid");
+     function checkLoginId() {
+        const loginIdInput = document.getElementById("loginId");
         const checkMsg = document.getElementById("loginid-check-msg");
         const loginid = loginIdInput.value;
 
@@ -367,15 +382,15 @@
             return;
         }
 		
-        const url = "/check-username?username=" + encodeURIComponent(loginid);
+        const url = "/check-username?loginid=" + encodeURIComponent(loginid);
         fetch(url)
             .then(res => res.json())
             .then(data => {
                 if (data.exists) {
-                    checkMsg.textContent = "既に使用されているIDです。";
+                    checkMsg.textContent = "重複されているIDです。";
                     checkMsg.style.color = "red";
                 } else {
-                    checkMsg.textContent = "使用可能なIDです。";
+                    checkMsg.textContent = "重複しないIDです。";
                     checkMsg.style.color = "green";
                 }
             })
@@ -383,7 +398,7 @@
                 checkMsg.textContent = "サーバーエラーが発生しました。";
                 checkMsg.style.color = "red";
             });
-    } */
+    } 
     // ✅ 여기는 validateForm 함수 밖에 있어야 함!
     document.addEventListener("DOMContentLoaded", function () {
         const imageInput = document.getElementById("imageInput");
@@ -419,7 +434,7 @@
                 idMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
                 idMessage.style.color = "#8B4513";
             } else {
-                idMessage.textContent = "使用可能なIDです。";
+                idMessage.textContent = "生成条件に当たるIDです。";
                 idMessage.style.color = "green";
             }
         });
@@ -429,7 +444,7 @@
                 nickMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
                 nickMessage.style.color = "#8B4513";
             } else {
-                nickMessage.textContent = "使用可能なニックネームです。";
+                nickMessage.textContent = "生成条件に当たるニックネームです。";
                 nickMessage.style.color = "green";
             }
         });

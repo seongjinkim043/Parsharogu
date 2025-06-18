@@ -95,14 +95,11 @@ public class UserServiceImpl implements UserService {
         dto.setNickname(user.getNickname());
         dto.setEmail(user.getEmail());
         dto.setProfileImg(user.getProfileImg());
-//		dto.setBio(user.getBio());
         return dto;
     }
 
-	/*
-	 * @Override public boolean isLoginidDuplicate(String loginid) { return
-	 * userRepository.existsByLoginid(loginid); }
-	 */
-
+    	@Override
+    	public boolean isLoginidDuplicate(String loginid) {
+		  return userRepository.existsByLoginid(loginid); 
+		  }
 }
-
