@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -17,7 +18,7 @@
             box-sizing: border-box;
         }
 
-      body {
+        body {
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #E3F2FD;
             min-height: 100vh;
@@ -34,23 +35,21 @@
             padding: 60px 20px;
         }
 
-      .header {
-            text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
+        .header {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin-bottom: 40px;
         }
 
-       .logo {
+        .logo {
+            
             font-size: 36px;
             font-weight: 700;
             color: #1976D2;
-            line-height: 1.2;
-            display: inline-block;
             text-decoration: none; 
         }
 
-
-       
         .main-form {
             width: 100%;
             max-width: 1000px;
@@ -58,7 +57,6 @@
             border-radius: 10px;
             padding: 80px 60px;
             display: flex;
-            align-items: center;
             justify-content: center;
             box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
             margin: 0 auto;
@@ -75,16 +73,10 @@
             color: #64B5F6;
             text-align: center;
             margin-bottom: 80px;
-            line-height: 1.2;
         }
 
         .form-group {
             margin-bottom: 40px;
-            position: relative;
-        }
-
-        .form-group:last-of-type {
-            margin-bottom: 80px;
         }
 
         .form-label {
@@ -93,7 +85,6 @@
             color: #42A5F5;
             margin-bottom: 10px;
             display: block;
-            line-height: 1.2;
         }
 
         .form-input {
@@ -106,18 +97,17 @@
             font-size: 24px;
             font-weight: 400;
             color: #FFFFFF;
-            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.2;
         }
 
         .form-input::placeholder {
             color: #FFFFFF;
-            opacity: 1;
+            opacity: 1
         }
 
         .form-input:focus {
             outline: none;
-            background-color: #BFBFBF;
+            background-color: #BFBFBF; /* 갈색 */
         }
 
         .login-button {
@@ -127,31 +117,28 @@
             border: none;
             border-radius: 10px;
             font-size: 24px;
-            font-weight: 500;
             color: #FFFFFF;
             cursor: pointer;
-            font-family: 'Noto Sans JP', sans-serif;
-            line-height: 1.2;
             transition: background-color 0.3s ease;
         }
 
         .login-button:hover {
             background-color: #2196F3;
         }
-		
+
         .login-button:active {
             background-color: #1976D2;
         }
 
         .forgot-link {
             text-align: center;
-            margin-top: -20px;   
-            margin-bottom: 40px; 
+            margin-top: -20px;
+            margin-bottom: 40px;
         }
 
         .forgot-password-link {
             font-size: 16px;
-            color: #1976D2; 
+            color: #1976D2;
             text-decoration: none;
         }
 
@@ -159,76 +146,50 @@
             text-decoration: underline;
         }
 
-
-
-
-        /* Responsive design */
-       @media (max-width: 1400px) {
-    .main-form {
-    
-        left: unset;
-        transform: none;
-            }
-    }
-        @media (max-width: 1080px) {
-            .main-form {
-                width: 90%;
-                max-width: 800px;
-                padding: 60px 40px;
-                height: auto;
-                min-height: 600px;
-            }
-            
-            .form-container {
-                width: 100%;
-            }
-            
-             .header {
-                right: unset;
-                transform: none;
-            }
+        .alert-password {
+            font-size: 14px;
+            color: #444;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         @media (max-width: 768px) {
             .main-form {
-                top: 20px;
                 padding: 40px 20px;
-                min-height: calc(100vh - 140px);
             }
-            
+
             .form-title {
                 font-size: 28px;
                 margin-bottom: 60px;
             }
-            
+
             .form-label {
                 font-size: 20px;
             }
-            
+
             .form-input {
                 font-size: 18px;
                 height: 50px;
             }
-            
+
             .login-button {
                 font-size: 20px;
                 height: 50px;
             }
-            
-            
         }
-
-       
     </style>
 </head>
 <body>
-    <div class="container">
-    <header class="header">
-       
-        <a href="/" class="logo">パシャログ</a>
-    </header>
-</div>
-        
+		<c:if test="${not empty errorMessage}">
+		    <script>
+		        alert("${errorMessage}");
+		    </script>
+		</c:if>
+    <div class="container">       
+	    <header class="header">
+	        <a href="/" class="logo">パシャログ</a>
+	    </header>
+	</div>
         <main class="main-form">
             <div class="form-container">
                 <h1 class="form-title">ログイン</h1>
@@ -260,17 +221,6 @@
         </main>	
 
 	   <script>
-	        // 입력 필드 포커스 효과
-		    const inputs = document.querySelectorAll('.form-input');
-		    inputs.forEach(input => {
-		        input.addEventListener('focus', function() {
-		            this.style.backgroundColor = '#BFBFBF';
-		        });
-		        
-		        input.addEventListener('blur', function() {
-		            this.style.backgroundColor = '#D9D9D9';
-		        });
-		    });
 	   </script>
 	</body>
 </html>
