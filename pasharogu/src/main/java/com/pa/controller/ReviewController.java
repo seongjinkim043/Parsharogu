@@ -36,10 +36,10 @@ public class ReviewController {
     }
     
     @PostMapping("/write")
-    public String writeReview(@RequestParam String regionId,
-    						  @RequestParam int rating,
-    						  @RequestParam String content,
-    						  @RequestParam("images") List<MultipartFile> images,
+    public String writeReview(@RequestParam("regionId") String regionId,
+    						  @RequestParam("rating") int rating,
+    						  @RequestParam("content") String content,
+//    						  @RequestParam("images") List<MultipartFile> images,
     						  HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
     	
@@ -59,20 +59,20 @@ public class ReviewController {
     	
     	
     	// 2. 이미지 저장
-    	for (MultipartFile file : images) {
-    		if(!file.isEmpty()) {
-    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-    			String uploadDir = "/resources/static/img";
-    			File dest = new File(uploadDir, filename);
-    			file.transferTo(dest);
-    			
-    			ReviewImage img = new ReviewImage();
-    			img.setImagePath("/upload/" + filename);
-    			img.setReview(review); // 연관관계 설정
-    			reviewImages.add(img);
-    		}
-    	}
-    	
+//    	for (MultipartFile file : images) {
+//    		if(!file.isEmpty()) {
+//    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+//    			String uploadDir = "/resources/static/img";
+//    			File dest = new File(uploadDir, filename);
+//    			file.transferTo(dest);
+//    			
+//    			ReviewImage img = new ReviewImage();
+//    			img.setImagePath("/upload/" + filename);
+//    			img.setReview(review); // 연관관계 설정
+//    			reviewImages.add(img);
+//    		}
+//    	}
+//    	
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
     	return "redirect:/main";
@@ -85,7 +85,7 @@ public class ReviewController {
     }
     
 	@GetMapping("/list")
-	public List<ReviewDTO> getReviewList(@RequestParam String region) {
+	public List<ReviewDTO> getReviewList(@RequestParam("region") String region) {
 	return reviewService.getReviewsByRegion(region);
     }
 	

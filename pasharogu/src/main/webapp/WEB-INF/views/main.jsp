@@ -7,6 +7,6 @@
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<%@ include file="review.jsp" %>
+	<%@ include file="map.jsp" %>
 </body>
 </html>
