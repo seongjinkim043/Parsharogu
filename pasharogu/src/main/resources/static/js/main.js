@@ -27,3 +27,4 @@ document.querySelectorAll('.region').forEach(region => {
     // loadReview(regionId); // 추후 추가
   });
 });
+

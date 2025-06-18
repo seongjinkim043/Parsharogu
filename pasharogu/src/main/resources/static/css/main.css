@@ -1,21 +1,240 @@
+.map-area {
+  width: 100%;
+  min-width: 70%;
+  height: calc(100vh - 124px); /* 헤더 높이 뺀 값 */
+  background-color: aliceblue;
+  position: relative;
+  display: flex;               /* flexbox로 내부 중앙 정렬 */
+  justify-content: center;     /* 가로 중앙 */
+  align-items: center;         /* 세로 중앙 */
+  overflow: visible;
+}
 
-/*map*/
+#region-map {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: visible;
+}
 
+/* path 스타일 */
 .region {
   transition: fill 0.2s, transform 0.3s;
+  transform-box: fill-box;
+  transform-origin: center;
+  cursor: pointer;
+  fill: #888;
+  stroke: #fff;
 }
+
 .region:hover {
   fill: orange;
+  transform: scale(1.1);
 }
 
 #japan-map path {
-    transition: 0.3s;
-    fill: #ccc;
-    stroke: #333;
+  transition: 0.3s;
+  fill: #ccc;
+  stroke: #333;
 }
 
 #japan-map path:hover {
-    fill: orange;
-    cursor: pointer;
+  fill: orange;
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
+.region-tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  display: none;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.review-panel {
+  width: 400px;
+  max-height: 100vh;
+  overflow-y: auto;
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.region-info {
+  position: relative;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.region-thumbnail img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.region-details {
+  flex: 1;
+}
+
+.region-name-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.region-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.region-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.region-rating .score {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.region-rating .stars {
+  color: orange;
+  font-size: 14px;
+}
+
+.region-desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 5px;
+  display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.review-item {	
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap; /* 혹시 좁은 화면에서 줄바꿈 */
+  flex: 1; /* 사용자 정보가 최대한 공간 차지 */
+}
+
+.user-photo {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #333;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.review-date {
+  color: #999;
+  font-size: 10px;
+}
+
+.review-rating {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	min-width: 60px; /* 별점 영역 너비 확보 (필요시 조절) */
+}
+
+.review-rating .score {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.review-rating .stars {
+  color: orange;
+  font-size: 12px;
+}
+
+.review-content {
+  font-size: 13px;
+  color: #444;
+  margin: 5px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.review-images {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.review-images img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.review-write-btn {
+  position: sticky;
+  bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review-write-btn button {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  background-color: #89b5ff;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

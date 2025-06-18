@@ -1,29 +1,55 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<div id="review-box" style="display: none; border: 1px solid #ccc; padding: 20px; width: 600px; margin-top: 20px; background: #fff; border-radius: 8px;">
-  
-  <!-- 상단 (지역명, 별점, 아이콘) -->
-  <div style="display: flex; align-items: center; justify-content: space-between;">
-    <div style="display: flex; align-items: center;">
-      <div style="width: 60px; height: 60px; background: #ccc; border-radius: 8px; margin-right: 10px;"></div> <!-- 지역 이미지 자리 -->
-      <div>
-        <div style="font-size: 24px; font-weight: bold;" id="region-name">地域</div>
-        <div style="font-size: 16px;"><span id="region-rating">0.0</span> ★★★★★</div>
+<div class="review-panel">
+  <!-- 지역 정보 -->
+  <div class="region-info">
+    <div class="region-thumbnail">
+      <img src="지역이미지URL" alt="지역 썸네일">
+    </div>
+    <div class="region-details">
+      <div class="region-name-rating">
+        <div class="region-name">地域名</div>
+        <div class="region-rating">
+          <span class="score">5.0</span>
+          <span class="stars">★★★★★</span>
+        </div>
+      </div>
+      <div class="region-desc">Lorem Ipsum is simply dummy textLorem Ipsum is simply dummy textLorem Ipsum is simply dummy text</div>
+    </div>
+    <button class="favorite-btn">❤</button>
+  </div>
+
+  <!-- 리뷰 리스트 -->
+  <div class="review-list">
+    <div class="review-item">
+      <div class="review-header">
+        <div class="user-section">
+          <img src="유저이미지URL" alt="유저사진" class="user-photo">
+          <div class="user-info">
+            <span class="user-name">USER NAME</span>
+            <span class="review-date">2025.06.17</span>
+            <div class="review-rating">
+              <span class="score">5.0</span>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-content">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+      </div>
+      <div class="review-images">
+        <img src="리뷰이미지1URL" alt="리뷰이미지">
+        <img src="리뷰이미지2URL" alt="리뷰이미지">
+        <img src="리뷰이미지3URL" alt="리뷰이미지">
       </div>
     </div>
-    <div>
-      <img src="heart_icon.png" alt="좋아요" style="width: 24px; height: 24px;">
-    </div>
+    <!-- 추가 리뷰 반복 -->
   </div>
 
-  <!-- 설명 -->
-  <p id="region-desc" style="margin-top: 10px;">
-    説明がここに入ります。
-  </p>
-
-  <!-- 사용자 리뷰 -->
-  <div id="user-reviews" style="margin-top: 20px;">
-    <%-- JS로 생성되는 영역 --%>
+  <!-- 작성 버튼 -->
+  <div class="review-write-btn">
+    <button>＋</button>
   </div>
-
 </div>
