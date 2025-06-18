@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pa.dto.LoginFormDTO;
@@ -64,13 +65,14 @@ public class UserController {
 	    }
 	}
 
-	/*
-	 * @ResponseBody
-	 * 
-	 * @GetMapping("/check-username") public Map<String, Boolean>
-	 * checkUsername(String loginid) { boolean exists =
-	 * userService.isLoginidDuplicate(loginid); return Map.of("exists", exists); }
-	 */
+	
+	@ResponseBody
+	@GetMapping("/check-username")
+	public Map<String, Boolean> checkLoginid(@RequestParam("loginid") String loginid) {
+	    boolean exists = userService.isLoginidDuplicate(loginid);
+	    return Map.of("exists", exists);
+	}
+	 
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
