@@ -1,7 +1,13 @@
 package com.pa.service;
 
 import com.pa.dto.ReviewDTO;
+import com.pa.entity.Review;
+import com.pa.entity.User;
+import com.pa.repository.ReviewRepository;
+import com.pa.repository.UserRepository;
 import com.pa.service.ReviewService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,39 +15,34 @@ import java.util.List;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
-    @Override
-    public List<ReviewDTO> getReviewsByRegion(String regionName) {
-        List<ReviewDTO> list = new ArrayList<>();
+	@Autowired
+	private UserRepository userRepository;
 
-        if ("도쿄".equals(regionName)) {
-            ReviewDTO r1 = new ReviewDTO();
-            r1.setUsername("하나");
-            r1.setContent("도쿄타워가 너무 예뻤어요!");
-            r1.setRating(5);
-            r1.setCreatedDate("2025-06-13");
+	@Override
+	public ReviewDTO getReviewById(Long id) {
+	    Review review = reviewRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
 
-            ReviewDTO r2 = new ReviewDTO();
-            r2.setUsername("지민");
-            r2.setContent("벚꽃 시즌에 가면 최고입니다.");
-            r2.setRating(4);
-            r2.setCreatedDate("2025-06-10");
+	    User user = review.getUser();
 
-            list.add(r1);
-            list.add(r2);
+	    ReviewDTO dto = new ReviewDTO();
+	    dto.setUsername(user.getNickname());
+	    dto.setContent(review.getContent());
+	    dto.setRating(review.getRating());
+	    dto.setCreatedDate(review.getCreateAt().toString());
 
-        } else if ("오사카".equals(regionName)) {
-            ReviewDTO r1 = new ReviewDTO();
-            r1.setUsername("유나");
-            r1.setContent("도톤보리 너무 활기차요!");
-            r1.setRating(4);
-            r1.setCreatedDate("2025-06-09");
+	    List<String> imagePaths = review.getImages().stream()
+	        .map(img -> img.getImagePath())
+	        .toList();
+	    dto.setImageUrls(imagePaths);
 
-            list.add(r1);
-        }
-
-        return list;
-    }
+	    return dto;
+	}
+  
     
     @Override
     public List<ReviewDTO> getReviewsByUserId(String userId) {
@@ -49,4 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
     	
     	return list;
     }
+
+
+
+	@Override
+	public List<ReviewDTO> getReviewsByRegion(String regionName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

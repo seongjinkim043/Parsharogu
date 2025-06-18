@@ -14,5 +14,7 @@ public interface ReviewService {
 	List<ReviewDTO> getReviewsByRegion(String regionName);
 	
 	List<ReviewDTO> getReviewsByUserId(String userId);
+	
+	public ReviewDTO getReviewById(Long id);
    
 }
