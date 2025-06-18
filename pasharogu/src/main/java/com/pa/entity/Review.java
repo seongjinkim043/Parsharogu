@@ -2,12 +2,15 @@ package com.pa.entity;
 
 
 import java.time.LocalDate;
+import java.util.*;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -16,13 +19,15 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    // Review 삭제 시 이미지 자동 삭제
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> images = new ArrayList<>();
 
     @Column(name = "user_id")
     private Long userId;
-    private String placeId;
     private String content;
-    private String imageUrl;
-    private int score;	//별점
+    private int rating;	//별점
     private LocalDate createdDate;
     private String regionId;
 

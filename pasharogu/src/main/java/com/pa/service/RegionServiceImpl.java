@@ -11,15 +11,28 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * RegionService의 구현 클래스
+ * 지역 정보 조회 관련 비즈니스 로직
+ */
 @Service
 public class RegionServiceImpl implements RegionService {
 	
 	private final RegionRepository regionRepository;
 
+	/**
+	 * 생성자 주입을 통해 RegionRepository를 전달받아 초기화
+	 * 
+	 * @param regionRepository 지역 정보에 접근하는 JPA 리포지토리
+	 */
     public RegionServiceImpl(RegionRepository regionRepository) {
         this.regionRepository = regionRepository;
     }
     
+    /**
+     * 모든 지역 정보를 조회하여 DTO 리스트로 변환
+     * Entity 객체를 외부로 직접 노출하지 않고 DTO로 변환하여 제공
+     */
     @Override
     public List<RegionDTO> getAllRegions() {
     	return regionRepository.findAll().stream()
@@ -33,6 +46,10 @@ public class RegionServiceImpl implements RegionService {
     	
     }
     
+    /**
+     * 주어진 지역 ID에 해당하는 지역 정보를 조회하여 DTO로 변환
+     * 해당 지역이 존재하지 않을 경우 null을 반환
+     */
     @Override
     public RegionDTO getRegionInfo(String regionId) {
         Region region = regionRepository.findById(regionId).orElse(null);
@@ -45,25 +62,6 @@ public class RegionServiceImpl implements RegionService {
         return dto;
     }
 
-
-//    @Override
-//    public RegionDTO getRegionInfo(String regionName) {
-//        RegionDTO dto = new RegionDTO();
-//        dto.setName(regionName);
-//
-//        if ("도쿄".equals(regionName)) {
-//            dto.setDescription("일본의 수도 도쿄는 문화와 기술의 중심지입니다.");
-//            dto.setAverageRating(4.8);
-//        } else if ("오사카".equals(regionName)) {
-//            dto.setDescription("오사카는 먹거리와 유쾌한 분위기로 유명합니다.");
-//            dto.setAverageRating(4.5);
-//        } else {
-//            dto.setDescription("해당 지역 정보가 없습니다.");
-//            dto.setAverageRating(0.0);
-//        }
-//
-//        return dto;
-//    }
 
 
 
