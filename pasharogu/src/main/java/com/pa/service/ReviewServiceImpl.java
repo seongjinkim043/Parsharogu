@@ -1,52 +1,70 @@
 package com.pa.service;
 
 import com.pa.dto.ReviewDTO;
+import com.pa.entity.Review;
+import com.pa.repository.ReviewRepository;
 import com.pa.service.ReviewService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    /** 개별 리뷰 조회 */
     @Override
-    public List<ReviewDTO> getReviewsByRegion(String regionName) {
-        List<ReviewDTO> list = new ArrayList<>();
+    @Transactional
+    public ReviewDTO getReviewById(Long id) {
+        Review review = reviewRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
 
-        if ("도쿄".equals(regionName)) {
-            ReviewDTO r1 = new ReviewDTO();
-            r1.setUserId("하나");
-            r1.setContent("도쿄타워가 너무 예뻤어요!");
-            r1.setRating(5);
-            r1.setCreatedAt("2025-06-13");
-
-            ReviewDTO r2 = new ReviewDTO();
-            r2.setUserId("지민");
-            r2.setContent("벚꽃 시즌에 가면 최고입니다.");
-            r2.setRating(4);
-            r2.setCreatedAt("2025-06-10");
-
-            list.add(r1);
-            list.add(r2);
-
-        } else if ("오사카".equals(regionName)) {
-            ReviewDTO r1 = new ReviewDTO();
-            r1.setUserId("유나");
-            r1.setContent("도톤보리 너무 활기차요!");
-            r1.setRating(4);
-            r1.setCreatedAt("2025-06-09");
-
-            list.add(r1);
-        }
-
-        return list;
+        return toDTO(review);
     }
-    
+
+    /** 특정 유저가 작성한 리뷰 목록 */
     @Override
-    public List<ReviewDTO> getReviewsByUserId(String userId) {
-    	List<ReviewDTO> list = new ArrayList<>();
-    	
-    	return list;
+    @Transactional
+    public List<ReviewDTO> getReviewsByUserId(Long userId) {
+        List<Review> reviews = reviewRepository.findByUserUserId(userId);
+
+        return reviews.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    /** 지역명으로 리뷰 목록 */
+    @Override
+    @Transactional
+    public List<ReviewDTO> getReviewsByRegion(String regionName) {
+        List<Review> reviews = reviewRepository.findByRegionRegionId(regionName);
+
+        return reviews.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    /** 엔티티 → DTO 변환 */
+    private ReviewDTO toDTO(Review review) {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setUserId(review.getUser().getNickname());      // 닉네임
+        dto.setContent(review.getContent());
+        dto.setRating(review.getRating());
+        dto.setCreatedAt(review.getCreateAt().toString());  // 포맷 변경 원하면 DateTimeFormatter 사용
+
+        dto.setImageUrls(
+            review.getImages().stream()
+                  .map(img -> img.getImagePath())
+                  .collect(Collectors.toList())
+        );
+        return dto;
     }
 }

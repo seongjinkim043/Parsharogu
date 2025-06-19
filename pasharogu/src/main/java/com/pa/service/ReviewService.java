@@ -8,11 +8,9 @@ import com.pa.repository.ReviewRepository;
 
 import java.util.List;
 
-@Service
 public interface ReviewService {
-
-	List<ReviewDTO> getReviewsByRegion(String regionName);
-	
-	List<ReviewDTO> getReviewsByUserId(String userId);
-   
+    ReviewDTO getReviewById(Long id);
+    List<ReviewDTO> getReviewsByUserId(Long userId);   
+    List<ReviewDTO> getReviewsByRegion(String regionId);
 }
+

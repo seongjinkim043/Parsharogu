@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+
 
 <html>
 <head>
@@ -174,26 +174,34 @@
     </style>
 </head>
 <body>
-
+<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 
 <div class="container">
-    <h1>マイページ</h1>
-
+	<h1>マイページ</h1>
+			<section class="profile" style="margin-bottom: 30px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+		        <h2>マイプロフィール</h2>
+		        <p><strong>ユーザーID:</strong> ${loginUser.loginid}</p>
+		        <p><strong>ニックネーム:</strong> ${loginUser.nickname}</p>
+		        <p><strong>メールアドレス:</strong> ${loginUser.email}</p>
+		        <c:if test="${not empty loginUser.profileImg}">
+		            <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc;">
+		        </c:if>
+		    </section>
+		    
     <div class="top-row">
         <section class="calendar">
             <h2>カレンダー</h2>
-           <div class="calendar-embed-wrapper">
-    
-  </div>
+           <div class="calendar-embed-wrapper"></div>
+           
             <ul>
-  <c:forEach var="item" items="${calendar}">
-    <li class="calendar-item">
-      <div class="calendar-box">
-        <jsp:include page="/index" />
-      </div>
-    </li>
-  </c:forEach>
-</ul>
+			  <c:forEach var="item" items="${calendar}">
+			    <li class="calendar-item">
+			      <div class="calendar-box">
+			        <jsp:include page="/index" />
+			      </div>
+			    </li>
+			  </c:forEach>
+			</ul>
         </section>
 
         <div class="review-wrapper">

@@ -27,5 +27,5 @@ public class Region {
 	private String imageUrl;  
 
 	@Column(name = "AVERAGE_RATING")
-	private String averageRating;  
+	private double averageRating;  
 }

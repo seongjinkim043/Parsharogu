@@ -13,4 +13,6 @@ public interface IkitaiRepository extends JpaRepository<Ikitai, Long> {
     List<Ikitai> findByUser(User user);
 
 	Optional<Ikitai> findByUserAndRegion(User user, Region region);
+	
+	boolean existsByUserAndRegion(User user, Region region);
 }

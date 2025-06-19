@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pa.dto.ReviewDTO;
+import com.pa.entity.Region;
 import com.pa.entity.Review;
 import com.pa.entity.ReviewImage;
 import com.pa.repository.ReviewRepository;
@@ -98,7 +99,7 @@ public class ReviewController {
             return "redirect:/login";
         }
 
-        List<Review> myReviews = reviewRepository.findByUserId(userId);
+        List<Review> myReviews = reviewRepository.findByUserUserId(userId);
         model.addAttribute("reviews", myReviews);
 
         return "mypage"; // → mypage.jsp
