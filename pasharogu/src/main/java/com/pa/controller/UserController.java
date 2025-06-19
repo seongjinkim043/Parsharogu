@@ -33,9 +33,9 @@ public class UserController {
 		    try {
 		        System.out.println("로그인 시도: " + form.getLoginid()); // 디버깅용
 		        UserDTO loginUser = userService.login(form.getLoginid(), form.getPassword());
-		        session.setAttribute("user", loginUser);
+		        session.setAttribute("loginUser", loginUser);
 		        System.out.println("로그인 성공: " + loginUser.getLoginid()); // 디버깅용
-		        return "redirect:/";
+		        return "redirect:/main";
 		    } 
 		    catch (RuntimeException e) {
 		    	System.out.println("로그인 실패: " + e.getMessage()); // 디버깅용
@@ -64,7 +64,7 @@ public class UserController {
 	        return "signup";
 	    }
 	}
-
+	
 	
 	@ResponseBody
 	@GetMapping("/check-username")
