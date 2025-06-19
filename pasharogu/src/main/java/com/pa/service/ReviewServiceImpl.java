@@ -16,26 +16,26 @@ public class ReviewServiceImpl implements ReviewService {
 
         if ("도쿄".equals(regionName)) {
             ReviewDTO r1 = new ReviewDTO();
-            r1.setUsername("하나");
+            r1.setUserId("하나");
             r1.setContent("도쿄타워가 너무 예뻤어요!");
             r1.setRating(5);
-            r1.setCreatedDate("2025-06-13");
+            r1.setCreatedAt("2025-06-13");
 
             ReviewDTO r2 = new ReviewDTO();
-            r2.setUsername("지민");
+            r2.setUserId("지민");
             r2.setContent("벚꽃 시즌에 가면 최고입니다.");
             r2.setRating(4);
-            r2.setCreatedDate("2025-06-10");
+            r2.setCreatedAt("2025-06-10");
 
             list.add(r1);
             list.add(r2);
 
         } else if ("오사카".equals(regionName)) {
             ReviewDTO r1 = new ReviewDTO();
-            r1.setUsername("유나");
+            r1.setUserId("유나");
             r1.setContent("도톤보리 너무 활기차요!");
             r1.setRating(4);
-            r1.setCreatedDate("2025-06-09");
+            r1.setCreatedAt("2025-06-09");
 
             list.add(r1);
         }

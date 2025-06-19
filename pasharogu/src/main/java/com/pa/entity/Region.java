@@ -23,5 +23,9 @@ public class Region {
 	@Column(name = "SVG_ID")
 	private String svgId;  
 	
+	@Column(name = "IMAGE_URL")
+	private String imageUrl;  
 
+	@Column(name = "AVERAGE_RATING")
+	private String averageRating;  
 }
