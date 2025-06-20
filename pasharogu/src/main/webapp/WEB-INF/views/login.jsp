@@ -10,7 +10,7 @@
 				    <link rel="stylesheet" href="/css/login.css">
 		</head>
 <body>
-		<c:if test="${not empty errorMessage}">
+	<c:if test="${errorMessage != null && errorMessage != ''}">
 		    <script>
 		        alert("${errorMessage}");
 		    </script>

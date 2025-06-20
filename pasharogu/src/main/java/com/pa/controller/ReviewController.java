@@ -10,6 +10,7 @@ import com.pa.dto.ReviewDTO;
 import com.pa.entity.Review;
 import com.pa.entity.ReviewImage;
 import com.pa.repository.ReviewRepository;
+import com.pa.service.RegionService;
 import com.pa.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
@@ -103,11 +104,11 @@ public class ReviewController {
 
         return "mypage"; // → mypage.jsp
     }
+	
+
+	}
+
 //    @GetMapping("/user/{userId}")
 //    public List<Review> getUserReviews(@PathVariable String userId) {
 //        return reviewService.getReviewsByUserId(userId);
 //    }
-    
-    
-    
-}
