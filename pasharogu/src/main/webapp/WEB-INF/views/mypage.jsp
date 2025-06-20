@@ -2,23 +2,33 @@
 <html>
 	<head>
 		<title>マイページ</title>
-<style>
+		<style>
         .container {
             width: 90%;
             margin: 10px auto;
             font-family: Arial, sans-serif;
         }
-
+        
+		html, body {
+		 
+		  overflow-y: auto;  /* 스크롤 허용 */
+		  margin: 0;
+		  padding: 0;
+		}
         .top-row {
+        	width: 100%;
             display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 38px;
+            margin-bottom: 40px;
             
         }
-        
+        .wrapper {
+		  min-height: 100vh;
+		  
+		}
         .nickname-btn {
-		  width: 16px;
-		  height: 16px;
+		  width: 24px;
+		  height: 24px;
 		  background-color: #e0e0e0;  /* 옅은 회색 */
 		  border: none;
 		  border-radius: 3px;
@@ -36,22 +46,26 @@
             border: 1px solid #ccc;
             padding: 15px;
             box-sizing: border-box;
-            margin-left: 20px;
+            border-radius: 10px;
+            background-color: F4F4F4;
       
         }
 
         .review-wrapper {
             flex: 1;
             position: relative;
-            display: block;
+            display: flex;
             align-items: center;
-            margin-right: 20px;
+            margin-right: 10px;
+            
         }
 
 		.reviews {
 		    border: 1px solid #ccc;
-		    padding: 15px;
+		    padding: 30px;
 		    box-sizing: border-box;
+		    border-radius: 10px;
+		    background-color: F4F4F4;
 		}
 
 		.review-list {
@@ -79,14 +93,15 @@
         }
 
         .review-images img {
-            width: 60px;
-            height: 60px;
+            width: 140px;
+            height: 140px;
             object-fit: cover;
             border-radius: 4px;
             border: 1px solid #ccc;
         }
 
         .arrow {
+    
 		    position: absolute;
 		    top: 50%;
 		    transform: translateY(-50%);
@@ -106,11 +121,11 @@
 		}
 
         .arrow.left {
-            left: -15px;
+            left: 0px;
         }
 
         .arrow.right {
-            right: -15px;
+            right: 0px;
         }
 
         .wishlist {
@@ -126,15 +141,17 @@
             border-bottom: 1px solid #eee;
         }
 		.ikitai-wrapper {
-		  clear: both;
-		  margin-top: 40px;
-		  margin-left: 30px;
-		  display: block;
-		  width: auto;
-		  max-width: 100%;
+		  width: 100%;
+		  
+		  border: 1px solid #ccc;
+		  padding: 30px;
+		  border-radius: 10px;
+		  background-color: F4F4F4;
+		  box-sizing: border-box;
 		  overflow-x: auto;
 		  white-space: nowrap;
-		  position: relative; /* 스크롤 버튼 위치용 */
+		  position: relative;
+		  box-sizing: border-box;
 		}
 
 		.ikitai-list {
@@ -143,6 +160,7 @@
 		    gap: 15px;
 		    padding: 10px 0;
 		    scroll-behavior: smooth;
+		    
 		}
 
 		.ikitai-card {
@@ -195,45 +213,50 @@
 	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 
 	<div class="container">
-	  <section class="profile" style="display: flex; align-items: center; margin-bottom: 30px; padding: 5px; border-radius: 10px;">
-	    <c:if test="${not empty loginUser.profileImg}">
-	      <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc; margin-right: 15px;">
-	    </c:if>
-	    <h2>${loginUser.nickname}</h2>
-	    <button class="nickname-btn" onclick="handleClick()"></button>
-	  </section>
+		 <section class="profile" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 5px; border-radius: 10px ;">
+			  <div style="display: flex; align-items: center;">
+				    <c:if test="${not empty loginUser.profileImg}">
+				      <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc; margin-right: 15px;">
+				    </c:if>
+			    <h2>${loginUser.nickname}</h2>
+			    <button class="nickname-btn" onclick="handleClick()"></button>
+			  </div>
+			
+			  <div style="text-align: right; font-size: 14px; margin-right: 20px;">
+			    <div>レビュー地域　:　　 <strong>${reviewCount}</strong>
+			    行きたい　: <strong>${wishlistCount}</strong></div>
+			  </div>
+		</section>
+	<hr style="border: none; border-top: 2px solid #ccc; margin: 0 0 30px 0;" /> 
+		
+		<div class="wrapper">
+		    <div class="top-row">
+		        <section class="calendar">
+		            <h2>カレンダー</h2>
+		           <div class="calendar-embed-wrapper"></div>
+		            <ul>
+					  <c:forEach var="item" items="${calendar}">
+					    <li class="calendar-item">
+					      <div class="calendar-box">
+					        <jsp:include page="/index" />
+					      </div>
+					    </li>
+					  </c:forEach>
+					</ul>
+		        </section>
+		
+		      <div class="review-wrapper">   
+				    <jsp:include page="myreview.jsp" />
+				</div>
+			  </div>
+		
+		   
+		    
+		      <div class="ikitai-review">		  
+				    <jsp:include page="myikitai.jsp" />
+			  </div>
+		</div>	  
 	</div>
-	
-    <div class="top-row">
-        <section class="calendar">
-            <h2>カレンダー</h2>
-           <div class="calendar-embed-wrapper"></div>
-            <ul>
-			  <c:forEach var="item" items="${calendar}">
-			    <li class="calendar-item">
-			      <div class="calendar-box">
-			        <jsp:include page="/index" />
-			      </div>
-			    </li>
-			  </c:forEach>
-			</ul>
-        </section>
-
-      <div class="review-wrapper">
-		    <button class="arrow left" onclick="scrollLeft()">&#9664;</button>
-		    <jsp:include page="myreview.jsp" />
-		    <button class="arrow right" onclick="scrollRight()">&#9654;</button>
-	</div>
-
-
-   
-    
-    <div class="ikitai-review">
-		    <button class="arrow left" onclick="scrollLeft()">&#9664;</button>
-		    <jsp:include page="myikitai.jsp" />
-		    <button class="arrow right" onclick="scrollRight()">&#9654;</button>
-	</div>
-
 
 <script>
     function scrollLeft() {
