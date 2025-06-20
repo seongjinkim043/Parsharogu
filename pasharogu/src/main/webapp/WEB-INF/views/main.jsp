@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<%@ include file="map.jsp" %>
+	<!-- <%@ include file="map.jsp" %> -->
+	<jsp:include page="map.jsp" />
 </body>
 </html>

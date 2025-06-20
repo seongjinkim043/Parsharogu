@@ -1,23 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>마이페이지</title>
-    <style>
-    html, body {
-    height: auto !important;
-    min-height: 100vh;
-    overflow-y: auto !important;
-    margin: 0;
-    padding: 0;
-}
+	<head>
+		<title>マイページ</title>
+<style>
         .container {
             width: 90%;
             margin: 20px auto;
             font-family: Arial, sans-serif;
-            overflow-x: auto;
-         
         }
 
         .top-row {
@@ -32,7 +21,6 @@
             border: 1px solid #ccc;
             padding: 15px;
             box-sizing: border-box;
-            overflow-x: auto;
       
         }
 
@@ -47,7 +35,6 @@
 		    border: 1px solid #ccc;
 		    padding: 15px;
 		    box-sizing: border-box;
-		    overflow-x: auto;
 		}
 
 		.review-list {
@@ -109,7 +96,6 @@
             border: 1px solid #ccc;
             padding: 15px;
             box-sizing: border-box;
-            
         }
 
         .wishlist-item {
@@ -119,7 +105,6 @@
 		.ikitai-wrapper {
 		    margin-top: 40px;
 		    position: relative;
-		    
 		}
 
 		.ikitai-list {
@@ -172,12 +157,15 @@
 		.heart.off { color: gray; }
 
     </style>
-</head>
-<body>
-<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 
-<div class="container">
-	<h1>マイページ</h1>
+	</head>
+
+<body>
+	
+	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
+
+	<div class="container">
+    	<h1>マイページ</h1>
 			<section class="profile" style="margin-bottom: 30px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
 		        <h2>マイプロフィール</h2>
 		        <p><strong>ユーザーID:</strong> ${loginUser.loginid}</p>
@@ -187,12 +175,10 @@
 		            <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc;">
 		        </c:if>
 		    </section>
-		    
     <div class="top-row">
         <section class="calendar">
             <h2>カレンダー</h2>
            <div class="calendar-embed-wrapper"></div>
-           
             <ul>
 			  <c:forEach var="item" items="${calendar}">
 			    <li class="calendar-item">
@@ -210,8 +196,8 @@
                 <h2>マイリビュー</h2>
                 <c:forEach var="review" items="${reviews}">
                     <div class="review-item">
-                        日付: ${review.createdAt} <br/>
-                        地域: ${review.regionId} <br/>
+                        日付: ${review.createdDate} <br/>
+                        地域: ${review.placeId} <br/>
                         評点: ${review.rating} <br/>
                         コメント: ${review.content} <br/>
                         <div class="review-images">
@@ -241,7 +227,7 @@
 		                <div class="info">
 		                    <div class="region-name">${ikitai.regionName}</div>
 		                    <div class="rating">5.0 ★★★★★</div> <!-- 임시로 고정 -->
-							<div class="heart" onclick="toggleIkitai(this, '${ikitai.regionId}')">
+							<div class="heart" onclick="toggleIkitai(this, '${ikitai.placeId}')">
 							    ${ikitai.liked ? '❤️' : '🤍'}
 							</div>
 

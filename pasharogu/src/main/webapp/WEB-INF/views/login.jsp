@@ -180,10 +180,13 @@
     </style>
 </head>
 <body>
-		<c:if test="${not empty errorMessage}">
+	<c:if test="${errorMessage != null && errorMessage != ''}">
 		    <script>
 		        alert("${errorMessage}");
 		    </script>
+		</c:if>
+		<c:if test="${param.message eq 'login_required'}">
+		    <script>alert('ログインしてください。');</script>
 		</c:if>
     <div class="container">       
 	    <header class="header">
@@ -218,8 +221,13 @@
                  
                 </form>
             </div>
+          
         </main>	
-
+        <div class="footer_container">
+        <footer style="E3F2FD: #f1f1f1; padding: 10px 0; text-align: center; font-size: 14px; color: #666;">
+    		All rights reserved by Pasharogu Team
+		</footer>  
+		</div>
 	   <script>
 	   </script>
 	</body>
