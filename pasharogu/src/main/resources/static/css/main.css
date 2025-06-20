@@ -64,6 +64,9 @@
   border-left: 1px solid #ddd;
   padding: 20px;
   box-sizing: border-box;
+  display: block !important; /* JS에서 display: block 설정 강제 적용 */
+  visibility: visible;       /* 혹시 hidden 되어있을 가능성 대비 */
+  opacity: 1;                /* 혹시 opacity 0 되었을 가능성 대비 */
 }
 
 .region-info {

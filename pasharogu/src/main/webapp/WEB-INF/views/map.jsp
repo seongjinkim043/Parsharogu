@@ -13,36 +13,3 @@
 	<div id="region-tooltip" class="region-tooltip"></div>
 </div>
 <!-- hover할때 지역 이름 뜨기-->
-<script>
-	document.querySelectorAll('.region').forEach(function(path) {
-	  // click 리스너는 처음부터 등록
-	  path.addEventListener('click', function() {
-	    const regionId = this.getAttribute('data-id');
-	    if (!regionId) {
-	      alert("지역 ID가 없습니다.");
-	      return;
-	    }
-	    window.location.href = '/review?region=' + encodeURIComponent(regionId);
-	  });
-
-	  // hover 관련 리스너는 별개
-	  path.addEventListener('mouseenter', function(e) {
-	    const tooltip = document.getElementById('region-tooltip');
-	    tooltip.textContent = this.getAttribute('data-label');
-	    tooltip.style.display = 'block';
-	    this.parentNode.appendChild(this);
-	  });
-
-	  path.addEventListener('mousemove', function(e) {
-	    const tooltip = document.getElementById('region-tooltip');
-	    tooltip.style.left = (e.pageX + 10) + 'px';
-	    tooltip.style.top = (e.pageY + 10) + 'px';
-	  });
-
-	  path.addEventListener('mouseleave', function() {
-	    const tooltip = document.getElementById('region-tooltip');
-	    tooltip.style.display = 'none';
-	  });
-	});
-
-</script>
