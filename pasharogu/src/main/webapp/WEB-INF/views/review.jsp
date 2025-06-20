@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <div class="review-panel">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <!-- 지역 정보 -->
   <div class="region-info">
@@ -74,17 +76,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 <div class="user-section">
                   <img src="${review.userImageUrl || '기본유저.jpg'}" alt="유저사진" class="user-photo">
                   <div class="user-info">
-                    <span class="user-name">${review.userName || '익명'}</span>
-                    <span class="review-date">${review.date || ''}</span>
+                    <span class="user-name">\${review.userName || '익명'}</span>
+                    <span class="review-date">\${review.date || ''}</span>
                     <div class="review-rating">
-                      <span class="score">${(review.score || 0).toFixed(1)}</span>
-                      <span class="stars">${'★'.repeat(Math.round(review.score || 0))}</span>
+                      <span class="score">\${(review.score || 0).toFixed(1)}</span>
+                      <span class="stars">\${'★'.repeat(Math.round(review.score || 0))}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="review-content">${review.content || ''}</div>
-              <div class="review-images">${imageHtml}</div>
+              <div class="review-content">\${review.content || ''}</div>
+              <div class="review-images">\${imageHtml}</div>
             `;
 
             reviewList.appendChild(reviewItem);
