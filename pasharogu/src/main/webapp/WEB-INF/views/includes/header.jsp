@@ -13,7 +13,7 @@
     <nav class="nav-menu">
       <a href="/mypage">マイページ</a>
       <c:choose>
-        <c:when test="${not empty sessionScope.user}">
+        <c:when test="${not empty sessionScope.loginUser}">
           <a href="/logout">ログアウト</a>
         </c:when>
         <c:otherwise>

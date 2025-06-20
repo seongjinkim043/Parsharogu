@@ -1,0 +1,185 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #E3F2FD;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1920px;
+            padding: 60px 20px;
+        }
+
+        .header {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin-bottom: 40px;
+        }
+
+        .logo {
+            
+            font-size: 36px;
+            font-weight: 700;
+            color: #1976D2;
+            text-decoration: none; 
+        }
+
+        .main-form {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 80px 60px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
+            margin: 0 auto;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 730px;
+        }
+
+        .form-title {
+            font-size: 36px;
+            font-weight: 400;
+            color: #64B5F6;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .form-group {
+            margin-bottom: 40px;
+        }
+
+        .form-label {
+            font-size: 24px;
+            font-weight: 500;
+            color: #42A5F5;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 60px;
+            background-color: #BBDEFB;
+            border: none;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-size: 24px;
+            font-weight: 400;
+            color: #FFFFFF;
+            line-height: 1.2;
+        }
+
+        .form-input::placeholder {
+            color: #FFFFFF;
+            opacity: 1
+        }
+
+        .form-input:focus {
+            outline: none;
+            background-color: #BFBFBF; /* 갈색 */
+        }
+
+        .login-button {
+            width: 100%;
+            height: 60px;
+            background-color: #42A5F5;
+            border: none;
+            border-radius: 10px;
+            font-size: 24px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #2196F3;
+        }
+
+        .login-button:active {
+            background-color: #1976D2;
+        }
+
+        .forgot-link {
+            text-align: center;
+            margin-top: -20px;
+            margin-bottom: 40px;
+        }
+
+        .forgot-password-link {
+            font-size: 16px;
+            color: #1976D2;
+            text-decoration: none;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline;
+        }
+
+        .alert-password {
+            font-size: 14px;
+            color: #444;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .password-wrapper {
+		 	   position: relative;
+		    width: 100%;
+		}
+
+		.password-wrapper input {
+		    width: 100%;
+		    padding-right: 40px; /* 👁 아이콘 들어갈 공간 확보 */
+		}
+		
+		.toggle-password {
+		    position: absolute;
+		    top: 50%;
+		    right: 10px;
+		    transform: translateY(-50%);
+		    cursor: pointer;
+		    font-size: 18px;
+		    color: #666;
+		}
+
+        @media (max-width: 768px) {
+            .main-form {
+                padding: 40px 20px;
+            }
+
+            .form-title {
+                font-size: 28px;
+                margin-bottom: 60px;
+            }
+
+            .form-label {
+                font-size: 20px;
+            }
+
+            .form-input {
+                font-size: 18px;
+                height: 50px;
+            }
+
+            .login-button {
+                font-size: 20px;
+                height: 50px;
+            }
+        }
