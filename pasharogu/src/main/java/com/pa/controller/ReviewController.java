@@ -92,18 +92,42 @@ public class ReviewController {
     }
 	
 	@GetMapping("/mypage")
-    public String myPage(HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("userId");
+	public String myPage(HttpSession session, Model model) {
+	    Long userId = (Long) session.getAttribute("userId");
 
-        if (userId == null) {
-            return "redirect:/login";
-        }
+	    if (userId == null) {
+	        return "redirect:/login";
+	    }
 
-        List<Review> myReviews = reviewRepository.findByUserUserId(userId);
-        model.addAttribute("reviews", myReviews);
+	    List<Review> myReviews = reviewRepository.findByUserUserId(userId);
+	    List<ReviewDTO> reviewDTOs = new ArrayList<>();
 
-        return "mypage"; // → mypage.jsp
-    }
+	    for (Review review : myReviews) {
+	        ReviewDTO dto = new ReviewDTO();
+	        dto.setRegionId(review.getRegionId());
+	        dto.setUserId(String.valueOf(review.getUserId())); // 필요한 형식으로 변환
+	        dto.setContent(review.getContent());
+	        dto.setRating(review.getRating());
+	        dto.setCreatedAt(review.getCreateAt().toString()); // 포맷이 필요하면 따로 포맷터 쓰기
+	        dto.setProfileImg(review.getUser().getProfileImg()); // User 객체에서 이미지 가져올 수 있다면
+
+	        // 이미지 경로 추출
+	        List<String> imageUrls = new ArrayList<>();
+	        if (review.getImages() != null) {
+	            for (ReviewImage img : review.getImages()) {
+	                imageUrls.add(img.getImagePath());
+	            }
+	        }
+	        dto.setImageUrls(imageUrls);
+
+	        reviewDTOs.add(dto);
+	    }
+
+	    model.addAttribute("reviews", reviewDTOs);
+
+	    return "mypage"; // → mypage.jsp
+	}
+
 	
 
 	}
