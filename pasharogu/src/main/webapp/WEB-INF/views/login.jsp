@@ -180,7 +180,7 @@
     </style>
 </head>
 <body>
-		<c:if test="${not empty errorMessage}">
+	<c:if test="${errorMessage != null && errorMessage != ''}">
 		    <script>
 		        alert("${errorMessage}");
 		    </script>
