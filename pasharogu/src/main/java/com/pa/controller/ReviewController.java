@@ -99,7 +99,7 @@ public class ReviewController {
             return "redirect:/login";
         }
 
-        List<Review> myReviews = reviewRepository.findByUserId(userId);
+        List<Review> myReviews = reviewRepository.findByUserUserId(userId);
         model.addAttribute("reviews", myReviews);
 
         return "mypage"; // → mypage.jsp

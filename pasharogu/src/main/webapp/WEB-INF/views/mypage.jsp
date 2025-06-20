@@ -5,7 +5,7 @@
 <style>
         .container {
             width: 90%;
-            margin: 20px auto;
+            margin: 10px auto;
             font-family: Arial, sans-serif;
         }
 
@@ -15,20 +15,37 @@
             margin-bottom: 30px;
             
         }
+        
+        .nickname-btn {
+		  width: 16px;
+		  height: 16px;
+		  background-color: #e0e0e0;  /* 옅은 회색 */
+		  border: none;
+		  border-radius: 3px;
+		  cursor: pointer;
+		  padding: 0;
+		  margin-left: 10px;
+		}
+		
+		.nickname-btn:hover {
+		  background-color: #0056b3;
+		}
 
         .calendar {
             flex: 1;
             border: 1px solid #ccc;
             padding: 15px;
             box-sizing: border-box;
+            margin-left: 20px;
       
         }
 
         .review-wrapper {
             flex: 1;
             position: relative;
-            display: flex;
+            display: block;
             align-items: center;
+            margin-right: 20px;
         }
 
 		.reviews {
@@ -70,19 +87,23 @@
         }
 
         .arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+		    position: absolute;
+		    top: 50%;
+		    transform: translateY(-50%);
+		    z-index: 10;
+		    background-color: white;
+		    border: 1px solid #ccc;
+		    border-radius: 50%;
+		    width: 30px;
+		    height: 30px;
+		    cursor: pointer;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    padding: 0;
+		    border-radius: 50%;
+		}
 
         .arrow.left {
             left: -15px;
@@ -93,18 +114,27 @@
         }
 
         .wishlist {
-            border: 1px solid #ccc;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+		  display: flex;
+		  flex-wrap: wrap; /* 여러 줄 허용 */
+		  border: 1px solid #ccc;
+		  padding: 15px;
+		  box-sizing: border-box;
+		}
 
         .wishlist-item {
             padding: 5px 0;
             border-bottom: 1px solid #eee;
         }
 		.ikitai-wrapper {
-		    margin-top: 40px;
-		    position: relative;
+		  clear: both;
+		  margin-top: 40px;
+		  margin-left: 30px;
+		  display: block;
+		  width: auto;
+		  max-width: 100%;
+		  overflow-x: auto;
+		  white-space: nowrap;
+		  position: relative; /* 스크롤 버튼 위치용 */
 		}
 
 		.ikitai-list {
@@ -165,16 +195,15 @@
 	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 
 	<div class="container">
-    	<h1>マイページ</h1>
-			<section class="profile" style="margin-bottom: 30px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
-		        <h2>マイプロフィール</h2>
-		        <p><strong>ユーザーID:</strong> ${loginUser.loginid}</p>
-		        <p><strong>ニックネーム:</strong> ${loginUser.nickname}</p>
-		        <p><strong>メールアドレス:</strong> ${loginUser.email}</p>
-		        <c:if test="${not empty loginUser.profileImg}">
-		            <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc;">
-		        </c:if>
-		    </section>
+	  <section class="profile" style="display: flex; align-items: center; margin-bottom: 30px; padding: 5px; border-radius: 10px;">
+	    <c:if test="${not empty loginUser.profileImg}">
+	      <img src="${loginUser.profileImg}" alt="プロフィール画像" style="width:100px; height:100px; border-radius: 50%; border: 1px solid #ccc; margin-right: 15px;">
+	    </c:if>
+	    <h2>${loginUser.nickname}</h2>
+	    <button class="nickname-btn" onclick="handleClick()"></button>
+	  </section>
+	</div>
+	
     <div class="top-row">
         <section class="calendar">
             <h2>カレンダー</h2>
@@ -190,57 +219,21 @@
 			</ul>
         </section>
 
-        <div class="review-wrapper">
-            <button class="arrow left" onclick="scrollLeft()">&#9664;</button>
-            <section class="reviews" id="reviews">
-                <h2>マイリビュー</h2>
-                <c:forEach var="review" items="${reviews}">
-                    <div class="review-item">
-                        日付: ${review.createdDate} <br/>
-                        地域: ${review.placeId} <br/>
-                        評点: ${review.rating} <br/>
-                        コメント: ${review.content} <br/>
-                        <div class="review-images">
-                            <c:forEach var="img" items="${review.imageUrls}">
-                                <img src="${img}" alt="レビュー画像" />
-                            </c:forEach>
-                        </div>
-                    </div>
-                </c:forEach>
-            </section>
-            <button class="arrow right" onclick="scrollRight()">&#9654;</button>
-        </div>
-    </div>
-
-    <section class="wishlist">
-		<section class="ikitai-wrapper">
-		    <h2>行きたい</h2>
-		    <p>旅行先候補をリストアップ！</p>
-
-		    <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
-		    <div class="ikitai-list" id="ikitaiList">
-		        <c:forEach var="ikitai" items="${ikitaiList}">
-		            <div class="ikitai-card">
-		                <a href="/ikitai/go?region=${ikitai.regionName}">
-		                    <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
-		                </a>
-		                <div class="info">
-		                    <div class="region-name">${ikitai.regionName}</div>
-		                    <div class="rating">5.0 ★★★★★</div> <!-- 임시로 고정 -->
-							<div class="heart" onclick="toggleIkitai(this, '${ikitai.placeId}')">
-							    ${ikitai.liked ? '❤️' : '🤍'}
-							</div>
+      <div class="review-wrapper">
+		    <button class="arrow left" onclick="scrollLeft()">&#9664;</button>
+		    <jsp:include page="myreview.jsp" />
+		    <button class="arrow right" onclick="scrollRight()">&#9654;</button>
+	</div>
 
 
-		                </div>
-		            </div>
-		        </c:forEach>
-		    </div>
-		    <button class="arrow right" onclick="scrollIkitaiRight()">&#9654;</button>
-		</section>
+   
+    
+    <div class="ikitai-review">
+		    <button class="arrow left" onclick="scrollLeft()">&#9664;</button>
+		    <jsp:include page="myikitai.jsp" />
+		    <button class="arrow right" onclick="scrollRight()">&#9654;</button>
+	</div>
 
-    </section>
-</div>
 
 <script>
     function scrollLeft() {
@@ -279,6 +272,9 @@
 	        }
 	    });
 	}
+	function handleClick() {
+	    alert('マイプロフィールに移動しますか？');
+	  }
 
 </script>
 </body>
