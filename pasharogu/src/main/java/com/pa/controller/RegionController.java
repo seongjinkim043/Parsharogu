@@ -1,8 +1,11 @@
 package com.pa.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +31,22 @@ public class RegionController {
 	
 	@GetMapping("/info")
 	@ResponseBody
-	public RegionDTO getRegionInfo(@RequestParam("region") String regionId) {
-		return regionService.getRegionInfo(regionId);
+	public ResponseEntity<?> getRegionInfo(@RequestParam("region") String regionId) {
+	    if (regionId == null || regionId.trim().isEmpty()) {
+	        return ResponseEntity.badRequest()
+	                .body(Map.of("error", "Region ID is required"));
+	    }
+
+	    RegionDTO dto = regionService.getRegionInfo(regionId);
+	    if (dto == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body(Map.of("error", "Region not found"));
+	    }
+
+	    return ResponseEntity.ok(dto);
 	}
+
+
 	
 	 @GetMapping("/map")
 	    public String showMap(Model model) {
