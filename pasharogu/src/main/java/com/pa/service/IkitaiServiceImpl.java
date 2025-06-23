@@ -26,35 +26,33 @@ public class IkitaiServiceImpl implements IkitaiService {
     private final UserRepository userRepository;
     private final IkitaiRepository ikitaiRepository;
 
-    @Override
     @Transactional
-    public boolean toggleIkitai(String username, String regionId) {
-//        User user = userRepository.findByLoginid(username)
-//            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//        Region region = regionRepository.findById(regionId)
-//            .orElseThrow(() -> new IllegalArgumentException("Region not found"));
-//
-//        Optional<Ikitai> existing = ikitaiRepository.findByUserAndRegion(user, region);
-//
-//        if (existing.isPresent()) {
-//            ikitaiRepository.delete(existing.get());
-//            return false; // removed
-//        } else {
-//            Ikitai ikitai = new Ikitai();
-//            ikitai.setUser(user);
-//            ikitai.setRegion(region);
-//            ikitaiRepository.save(ikitai);
-//            return true; // added
-//        }
-    	
-    	//임시 반환값
-    	return true;
+    @Override
+    public boolean toggleIkitai(Long userId, String regionId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Region region = regionRepository.findById(regionId)
+            .orElseThrow(() -> new IllegalArgumentException("Region not found"));
+
+        Optional<Ikitai> existing = ikitaiRepository.findByUserAndRegion(user, region);
+
+        if (existing.isPresent()) {
+            ikitaiRepository.delete(existing.get());
+            return false; // removed
+        } else {
+            Ikitai ikitai = new Ikitai();
+            ikitai.setUser(user);
+            ikitai.setRegion(region);
+            ikitaiRepository.save(ikitai);
+            return true; // added
+        }
     }
+
 
     @Override
     @Transactional
-    public boolean isAdded(String username, String regionId) {
+    public boolean isAdded(Long userId, String regionId) {
 //        User user = userRepository.findByLoginid(username)
 //            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 //

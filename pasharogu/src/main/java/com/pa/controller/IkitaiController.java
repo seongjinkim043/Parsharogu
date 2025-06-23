@@ -1,18 +1,16 @@
 package com.pa.controller;
 
 import java.security.Principal;
+import java.util.Map;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.pa.service.IkitaiService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
 
 @RestController
 @RequestMapping("/ikitai")
@@ -22,18 +20,34 @@ public class IkitaiController {
     private final IkitaiService ikitaiService;
 
     @PostMapping("/toggle")
-    @ResponseBody
-    public String toggleIkitai(@RequestParam("regionId") String regionId, Principal principal) {
-        String username = principal.getName();
-        boolean added = ikitaiService.toggleIkitai(username, regionId);
+    public String toggleIkitai(@RequestBody Map<String, String> payload, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if (userIdObj == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+
+        Long userId = (Long) userIdObj;
+        String regionId = payload.get("regionId");
+        boolean added = ikitaiService.toggleIkitai(userId, regionId);
         return added ? "added" : "removed";
     }
-    
+
+
+
     @GetMapping("/check")
-    @ResponseBody
-    public boolean checkIkitai(@RequestParam("regionId") String regionId, Principal principal) {
-        String username = principal.getName();
-        return ikitaiService.isAdded(username, regionId);
+    public Map<String, Object> checkIkitai(@RequestParam("regionId") String regionId, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if (userIdObj == null) {
+            return Map.of(
+                "isAdded", false,
+                "regionId", regionId
+            );
+        }
+        Long userId = (Long) userIdObj;
+        boolean isAdded = ikitaiService.isAdded(userId, regionId);
+        return Map.of(
+            "isAdded", isAdded,
+            "regionId", regionId
+        );
     }
 }
-    
