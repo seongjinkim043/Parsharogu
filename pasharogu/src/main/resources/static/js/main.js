@@ -116,3 +116,61 @@ function loadRegionInfo(regionId) {
       alert("지역 정보를 불러오는 데 실패했습니다.");
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const regions = document.querySelectorAll('.region');
+    const favBtn = document.querySelector('.favorite-btn');
+
+    // region 클릭하면 regionId 세팅 + 상태 확인
+    regions.forEach(region => {
+        region.addEventListener('click', function() {
+            const regionId = region.getAttribute('data-id');
+            favBtn.setAttribute('data-region-id', regionId);
+
+            // 상태 확인
+            fetch(`/ikitai/check?regionId=${regionId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.isAdded) {
+                        favBtn.textContent = '❤️';
+                    } else {
+                        favBtn.textContent = '🤍';
+                    }
+                });
+        });
+    });
+
+    favBtn.addEventListener('click', function() {
+        const regionId = favBtn.getAttribute('data-region-id');
+
+        if (!regionId) {
+            alert("地域を選択してください！");
+            return;
+        }
+
+        fetch('/ikitai/toggle', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ regionId: regionId }),
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error("登録に失敗しました。");
+            }
+        })
+        .then(result => {
+            if (result === 'added') {
+                favBtn.textContent = '❤️';
+            } else {
+                favBtn.textContent = '🤍';
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("エラーが発生しました。");
+        });
+    });
+});

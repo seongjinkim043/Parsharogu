@@ -5,9 +5,10 @@ import java.util.List;
 import com.pa.dto.IkitaiDTO;
 
 public interface IkitaiService {
-    boolean toggleIkitai(String username, String regionId);
+    boolean toggleIkitai(Long userId, String regionId);
 
-    boolean isAdded(String username, String regionId);
+    boolean isAdded(Long userId, String regionId);
 
-    List<IkitaiDTO> getIkitaiListByLoginid(String userId);
+    List<IkitaiDTO> getIkitaiListByLoginid(Long userId);
+    int countByUserId(Long userId);
 }
