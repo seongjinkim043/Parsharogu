@@ -101,5 +101,10 @@ public class IkitaiServiceImpl implements IkitaiService {
         List<IkitaiDTO> list = getIkitaiListByLoginid(userId);
         return list.size();
     }
+    
+    @Override
+    public List<String> getRegionIdsByUser(Long userId) {
+    	return ikitaiRepository.findRegionIdsByUserId(userId);
+    }
 
 }
