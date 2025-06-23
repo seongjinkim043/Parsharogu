@@ -9,5 +9,6 @@ public interface IkitaiService {
 
     boolean isAdded(String username, String regionId);
 
-    List<IkitaiDTO> getIkitaiListByLoginid(String userId);
+    List<IkitaiDTO> getIkitaiListByLoginid(Long userId);
+    int countByUserId(Long userId);
 }

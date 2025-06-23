@@ -56,7 +56,6 @@
             position: relative;
             display: flex;
             align-items: center;
-            margin-right: 10px;
             
         }
 
@@ -106,11 +105,11 @@
 		    top: 50%;
 		    transform: translateY(-50%);
 		    z-index: 10;
-		    background-color: white;
+		    background-color: #D9D9D9;
 		    border: 1px solid #ccc;
 		    border-radius: 50%;
-		    width: 30px;
-		    height: 30px;
+		    width: 36px;
+		    height: 36px;
 		    cursor: pointer;
 		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 		    display: flex;
@@ -118,6 +117,8 @@
 		    align-items: center;
 		    padding: 0;
 		    border-radius: 50%;
+		    color: 8D8D8D;
+		    
 		}
 
         .arrow.left {
@@ -224,7 +225,7 @@
 			
 			  <div style="text-align: right; font-size: 14px; margin-right: 20px;">
 			    <div>レビュー地域　:　　 <strong>${reviewCount}</strong>
-			    行きたい　: <strong>${wishlistCount}</strong></div>
+			    行きたい　: <strong>${ikitaiCount}</strong></div>
 			  </div>
 		</section>
 	<hr style="border: none; border-top: 2px solid #ccc; margin: 0 0 30px 0;" /> 

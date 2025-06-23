@@ -70,7 +70,7 @@ public class IkitaiServiceImpl implements IkitaiService {
     @Override
     @Transactional
 
-    public List<IkitaiDTO> getIkitaiListByLoginid(String loginId) {
+    public List<IkitaiDTO> getIkitaiListByLoginid(Long loginId) {
 //        User user = userRepository.findByLoginid(loginId)
 //            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 //
@@ -96,6 +96,12 @@ public class IkitaiServiceImpl implements IkitaiService {
 
         return List.of(dummy);
 
+    }
+    
+    @Override 
+    public int countByUserId(Long userId) {  //이키타이 리스트 갯수 반환
+        List<IkitaiDTO> list = getIkitaiListByLoginid(userId);
+        return list.size();
     }
 
 }
