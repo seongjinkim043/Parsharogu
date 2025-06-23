@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,19 +55,16 @@ public class ReviewServiceImpl implements ReviewService {
     /** 엔티티 → DTO 변환 */
     private ReviewDTO toDTO(Review review) {
         ReviewDTO dto = new ReviewDTO();
-        dto.setUserId(
-        	review.getUser() != null ? review.getUser().getNickname() : null);      // 닉네임 null방어
+        dto.setUserId(review.getUser().getNickname());      // 닉네임
         dto.setContent(review.getContent());
         dto.setRating(review.getRating());
         dto.setCreatedAt(review.getCreateAt().toString());  // 포맷 변경 원하면 DateTimeFormatter 사용
 
         dto.setImageUrls(
-        	    Optional.ofNullable(review.getImages())
-        	            .orElse(Collections.emptyList())
-        	            .stream()
-        	            .map(img -> img.getImagePath())
-        	            .collect(Collectors.toList())
-        ); //이미지 null방어
+            review.getImages().stream()
+                  .map(img -> img.getImagePath())
+                  .collect(Collectors.toList())
+        );
         return dto;
     }
 }

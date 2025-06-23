@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ja">
-
+<html lang="ko">
 <head>
 <meta charset="UTF-8" />
 <title>Phasya LOG</title>
@@ -24,42 +23,27 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <!-- NanumGothic Font 등록 -->
 
-<script >window.addEventListener('load', function() {
-    document.documentElement.style.minHeight = '1500px';
-    document.body.style.minHeight = '1500px';
-});
-</script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
-html {
-    overflow-y: scroll !important;  /* ✅ 이거 1줄이면 끝 */
-}
-
-
-
 body {
- min-height: 1500px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif,'Noto Sans JP', 'Poppins';
-     background: #f9fafb;
-    color: #202124;
-    margin: 0;
-    padding: 0;
-     min-height: 2000px; 
-    overflow-x: hidden;   /* 좌우 스크롤 숨김 */
-   overflow-y: scroll;    /* ✅ 세로 스크롤 허용 */
-     height: auto;
-     
+	
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: #5a3e36;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	s height: 100vh;
+	width: 100vw;
+	overflow: hidden;
 }
 
 .fc {
-   background-color: #ffffff;
-    border: none;    /* ✅ 테두리 추가 */
-    border-radius: 16px;
-    box-shadow: none;          /* ✅ 기존 그림자 제거 가능 (원하면) */
-    overflow: hidden;
-    color: #222222;
-     min-width: 100px !important; 
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  color: #222222;
+  
 }
 
 /* 날짜 셀 영역 */
@@ -69,233 +53,90 @@ body {
 }
 /* 주말 구분 */
 .fc-day-sat, .fc-day-sun {
-  background-color: #f5f9ff;
+  background-color: #fafafa;
 }
 
 
 .fc-day-today {
-background: #e8f0fe !important;
-    border-radius: 50%;
+  background-color: #f0f0f0 !important;
+  font-weight: bold;
+  border: none;
 }
+
 .calendar-wrapper {
- display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    width: 100%;
-    max-width: 1100px;
-  
-    padding: 0 !important;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  overflow: hidden; /* ✅ 내부 넘침 방지 */
 }
+
 #calendar1, #calendar2 {
- width: 350px; 
+  flex: 1;
+  max-width: 48%; /* ✅ 한쪽이 너무 커지지 않게 제한 */
   height: 100%;
   box-sizing: border-box;
 }
+
 #calendarDayView {
     width: 100%;
-    height: 45vh;  /* 브라우저 창 높이 기준 90% → 줄여도 됨 */
+    height: 100%;
     background: #fff;
     border-radius: 20px;
-    
+    box-shadow: 0 8px 20px rgba(255, 157, 157, 0.3);
     padding: 20px;	
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
-#calendarDayViewWrapper {
-    width: 100%;
-    height: 1000px; /* 고정 height 예시 */
-      background: #fafafa;
- box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-    padding: 20px;
-     border: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-#calendarDayViewWrapper.active {
-     flex-basis: 100%;
-    order: -1;   /* 맨 앞으로 */
-    margin-top: 0;
-    padding-top: 0;
-}
-
-@media (max-width: 1200px) {
-  .calendar-wrapper {
-     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    width: 100%;
-    max-width: 1100px;
-    margin: 40px auto 40px auto;   /* ✅ 상단 여백 추가 */
-    padding: 0 !important;
-  
-   
-   
-  }
-
-  .calendar-box {
-    flex: 0 1 1000px;           /* ✅ 한 캘린더 박스 가로 넓히기 */
-    height: auto;
-    box-sizing: border-box;
-    position: relative;
-    transform: scale(1, 0.93);
-    transform-origin: top center;
-    
-  }
-}
 .calendar {
   width: 100%;
-  height: 400px;
+  height: 500px;
   overflow: hidden; /* ✅ 안에서 캘린더가 튀어나가지 않도록 */
   box-sizing: border-box;
   padding: 10px;
 }
 
-.calendar-box {
-  flex: 0 1 350px;              /* ✅ 350px 고정 폭 + 반응형 */
-  height: 600px;
-  box-sizing: border-box;
-  position: relative;
-  transform: scale(1, 0.93);
-    transform-origin: top center;  /* 기준점: 위쪽 가운데 */
-}
-
-
 .fc-header-toolbar {
-	 padding: 5px  ;  
-    margin: 0 !important;    /* ✅ margin 없애기 */
-    min-height: 40px!important;
+	margin-bottom: 15px;
 }
 
-.fc-toolbar-chunk:first-child,
-.fc-toolbar-chunk:last-child {
-  display: none !important;
-  padding: 0 !important;
-    margin: 0 !important;
+.fc-toolbar-chunk:first-child, .fc-toolbar-chunk:last-child {
+	display: none !important;
 }
-/* 날짜 숫자 기본색 */
-.fc-daygrid-day-number {
-  color: #444444 !important;
-  font-weight: 500;
-}
-
-/* 요일 (Sun Mon Tue ...) */
-.fc-col-header-cell-cushion {
-   color: #5f6368;
-    font-weight: 500;
-}
-
-/* 주말 숫자 */
-.fc-day-sat .fc-daygrid-day-number,
-.fc-day-sun .fc-daygrid-day-number {
-  color: #555555 !important;
-}
-
-
 
 .fc-toolbar-title {
-    font-family: 'Fredoka', sans-serif !important;
-     font-size: 1.5rem;
-     font-weight: 600;
-     color: #202124;
-    padding: 0 !important;
-    margin: 0 !important;
-     transform: translateY(-10px); 
-    line-height: 1.2 !important;
-}
-
-.fc-toolbar {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-}
-
-
-
-
-.arrow-btn {
- position: absolute;
-  top: 10px;
-  font-size: 22px;        /* ✅ 너무 커지면 동그라미가 작아 보여서 살짝 줄임 */
-  line-height: 1;
-  font-weight: bold;
-  background-color: #fff;      /* ✅ 동그라미 배경 (흰색) */
-  border: 2px solid #ccc;      /* ✅ 테두리 */
-  border-radius: 50%;          /* ✅ 동그라미 */
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 99;
-  color: #222;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 약간 그림자 */
-}
-
-.calendar-arrow-left {
-  left: 5px;  /* ✅ 수정: 너무 바깥으로 나가지 않게 */
-}
-
-.calendar-arrow-right {
-  right: 5px; /* ✅ 수정 */
-}
-.arrow-btn:hover {
-   background-color: #3a5a8b;
+	font-size: 1.5rem;
+	font-weight: bold;
 }
 
 .fc-event {
-    background-color: #9abaff !important; 
-    color: #202124 !important; 
-    border-radius: 8px;
-    font-weight: 500;
-    box-shadow: none;
+  background-color: #222222 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 2px 6px !important;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 .fc-daygrid-day:hover {
- background-color: rgba(232, 240, 254, 0.3);
-  
+  background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 /* multiDay event 색상 */
 .multi-day-event {
-   background-color: #7a9cff !important;
-    color: #202124 !important;
-    border-radius: 8px;
-    font-weight: 500;
-    box-shadow: none;
+  background-color: #444444 !important; /* 딥 그레이 */
+  color: #ffffff !important;            /* 흰 글씨 */
+  border-radius: 8px !important;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 0;
-  padding: 0 20px;
+.calendar-controls {
+	position: fixed;
+	top: 60px;
+	left: 100px;
 }
 
-
-
-.calendar-controls-inline button {
-  background-color: #222222;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  margin-left: 10px;
-  font-weight: bold;
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s ease;
-}
-
-.calendar-controls-inline button:hover {
-  background-color: #444444;
-}
 .calendar-controls button {
   background-color: #222222;
   color: white;
@@ -311,13 +152,6 @@ background: #e8f0fe !important;
 .calendar-controls button:hover {
   background-color: #444444;
 }
-
-
-.calendar-container {
-    width: 100%;
-    min-height: 800px;  /* ✅ 핵심 */
-    overflow: visible;
-}
 #eventModal {
 	display: none;
 	position: fixed;
@@ -332,13 +166,12 @@ background: #e8f0fe !important;
 }
 
 #eventModal .modal-content {
-  margin-top: -185px;  /* 예시: -40px 만큼 위로 당김 */
 	background: white;
-	 padding: 0px 20px 10px 20px;            /* 패딩 살짝 줄임 */
-	border-radius: 16px;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-	max-width: 320px;          s    /* 박스 자체 최대 너비 축소 */
-	width: 85%;                    /* 작은 화면 대응 */
+	padding: 30px;
+	border-radius: 20px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+	max-width: 400px;
+	width: 90%;
 }
 
 #eventModal input[type="text"], #eventModal input[type="datetime-local"]
@@ -367,7 +200,7 @@ background: #e8f0fe !important;
 }
 
 #deleteEventBtn {
-  background-color:#a3d8ff !important; /* 회색 */
+  background-color: #888 !important; /* 회색 */
   color: white;
 }
 
@@ -375,111 +208,62 @@ background: #e8f0fe !important;
   background-color: #666 !important;
 }
 
-
 #goDayViewBtn {
-  background-color: #a3d8ff !important;  /* 파스텔 블루 */
-  color: #222222 !important;
+  background-color: #ccc !important; /* 연한 회색 */
+  color: #111;
 }
+
 #goDayViewBtn:hover {
   background-color: #aaa !important;
 }
 
 .btn-group {
   display: flex;
-    flex-wrap: nowrap;   /* ✅ 줄바꿈 방지 */
-    justify-content: center;
-    margin-top: 10px;
-    gap: 3px;   
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
 }
-
-.btn-group button {
-     background-color: #4c6fa5;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-.btn-group button:hover {
-    background-color: #3a5a8b;
-}
-
-
-.fc-scroller-harness,
-.fc-scrollgrid,
-.fc-daygrid-body,
-.fc-daygrid-day-frame {
-  margin: 0 !important;
-  padding: 0 !important;
-  border-collapse: collapse !important;
-    width: 100% !important;
-    
-    
-}
-
-/* 캘린더 아래쪽 border-radius로 인한 빈공간 방지 */
-.fc-scrollgrid-sync-table {
-  border-collapse: collapse !important;
- 
-   table-layout: fixed !important;
-     
-}
-.fc-toolbar-chunk:first-child {
-    padding-left: 5px !important;   /* 왼쪽 화살표 여백 */
-}
-
-.fc-toolbar-chunk:last-child {
-    padding-right: 5px !important;  /* 오른쪽 화살표 여백 */
-}
-
-.fc-scrollgrid-sync-table td {
-    min-width: 100px !important;   /* ✅ 요일칸 넓게 */
-}
-
 
 </style>
 </head>
 <body>
 
-<div id="calendarDayViewWrapper" style="display: none;">
+	<!-- 사용자 정의 이전/다음 버튼 -->
+	<div class="calendar-controls">
+		<button id="prevBtn">← 이전 달</button>
+		<button id="nextBtn">다음 달 →</button>
+		<button id="backToMonthBtn" style="display: none;">월로 돌아가기</button>
 
-  <div id="calendarDayView"></div>
-</div>
+		<button id="downloadPdfCalendarBtn">📄 PDF 다운로드</button>
 
-<div class="calendar-wrapper">
-  <!-- 첫 번째 달력 + 왼쪽 화살표 -->
-  <div class="calendar-box">
-    <button id="prevBtn" class="arrow-btn calendar-arrow-left">&#8592;</button>
-    <div id="calendar1"></div>
-  </div>
 
-  <!-- 두 번째 달력 + 오른쪽 화살표 -->
-  <div class="calendar-box">
-    <button id="nextBtn" class="arrow-btn calendar-arrow-right">&#8594;</button>
-    <div id="calendar2"></div>
-  </div>
+	</div>
 
-  <!-- 데이뷰는 별도로 처리 -->
- </div>
+	<div class="calendar-wrapper">
+		<div id='calendar1'></div>
+		<div id='calendar2'></div>
+		<div id='calendarDayView' style="display: none;"></div>
+	</div>
 
+
+	
 
 	<!-- 모달: 일정 추가/수정 -->
 	<div id="eventModal">
 		<div class="modal-content">
-		
-			<h2 style="margin-top: 0; text-align: center;">予定の追加・編集</h2>
-			<label for="eventTitle">タイトル</label> <input type="text" id="eventTitle"
-				placeholder="タイトルを入力してください" /> <label for="eventStart">開始日時</label> <input
-				type="datetime-local" id="eventStart" /> <label for="eventEnd">開始日時</label>
+			<h2 style="margin-top: 0; text-align: center;">일정 추가/수정</h2>
+			<label for="eventTitle">제목</label> <input type="text" id="eventTitle"
+				placeholder="일정 제목 입력" /> <label for="eventStart">시작일시</label> <input
+				type="datetime-local" id="eventStart" /> <label for="eventEnd">종료일시</label>
 			<input type="datetime-local" id="eventEnd" />
 
 			<div class="btn-group">
-				<button id="saveEventBtn" style="background-color:  #3b4c68;">保存</button>
-    <button id="deleteEventBtn" style="background-color:  #3b4c68;">削除</button>
-    <button id="goDayViewBtn" style="background-color: #a3d8ff;">Day View</button>
-    <button id="closeModalBtn" style="background-color: #7aa0c4;font-size: 0.85rem; white-space: nowrap;">キャンセル</button>
+				<button id="saveEventBtn">저장</button>
+				<button id="deleteEventBtn" style="background-color: #bbb;">삭제</button>
+				<button id="goDayViewBtn" style="background-color: #a1cfff;">Day
+					View 보기</button>
+				<button id="closeModalBtn">취소</button>
 			</div>
 		</div>
 	</div>
@@ -497,10 +281,7 @@ background: #e8f0fe !important;
 
       const calendar1 = new FullCalendar.Calendar(calendarEl1, {
         initialView: 'dayGridMonth',
-        height: '100%',
         initialDate: today,
-        
-        
         headerToolbar: { left: '', center: 'title', right: '' },
         selectable: true,
         dateClick: openModalForDateClick,
@@ -518,21 +299,11 @@ background: #e8f0fe !important;
             return ['multi-day-event'];
           }
           return [];
-        },
-        eventDidMount: function(info) {
-        	  info.el.setAttribute('title', 
-        	    '제목: ' + info.event.title + 
-        	    '\n시작: ' + info.event.start.toLocaleString() + 
-        	    (info.event.end ? '\n종료: ' + info.event.end.toLocaleString() : '')
-        	  );
-        	}
-
-       
+        }
       });
 
       const calendar2 = new FullCalendar.Calendar(calendarEl2, {
         initialView: 'dayGridMonth',
-        height: '100%',
         initialDate: new Date(today.getFullYear(), today.getMonth() + 1, 1),
         headerToolbar: { left: '', center: 'title', right: '' },
         selectable: true,
@@ -548,103 +319,36 @@ background: #e8f0fe !important;
         }
       });
 
-      const calendarDayView = new FullCalendar.Calendar(document.getElementById('calendarDayView'), {
-    	    initialView: 'timeGridDay',
-    	    initialDate: today,
-    	    headerToolbar: { left: '', center: 'title', right: '' },
-    	    slotMinTime: "06:00:00",
-    	    slotMaxTime: "26:00:00",
-    	    slotDuration: "00:30:00",
-    	    selectable: true,
-    	    editable: true,  // ⭐ 리사이즈 가능 + 드래그 가능 추가!
-    	    eventResize: function(info) {  // ⭐ 리사이즈할 때 실행되는 코드
-    	        console.log('새 종료시간:', info.event.end.toISOString());
-    	        $.ajax({
-    	            url: '/scheduleUpdate.do',
-    	            type: 'POST',
-    	            contentType: 'application/json',
-    	            data: JSON.stringify({
-    	                id: info.event.id,
-    	                start: info.event.start.toISOString(),
-    	                end: info.event.end ? info.event.end.toISOString() : null,
-    	                title: info.event.title  // ⭐ 여기 추가!
-    	            }),
-    	            success: function() {
-    	            	 calendar1.refetchEvents();      // ⭐ 추가
-    	            	    calendar2.refetchEvents();      // ⭐ 추가
-    	                calendarDayView.refetchEvents();
-    	            }
+      const calendarDayView = new FullCalendar.Calendar(calendarDayEl, {
+    	  initialView: 'timeGridDay',
+    	  initialDate: today,
+    	  headerToolbar: { left: '', center: 'title', right: '' },
+    	  slotMinTime: "06:00:00",
+    	  slotMaxTime: "22:00:00",
+    	  slotDuration: "00:30:00",
+    	  selectable: true,
+    	  dateClick: openModalForDateClick,
+    	  select: openModalForRangeSelect,
+    	  events: function(fetchInfo, successCallback, failureCallback) {
+    	    $.ajax({
+    	      url: '/scheduleList.do',
+    	      type: 'GET',
+    	      success: function(events) {
+    	        const currentDay = fetchInfo.startStr.slice(0,10); // yyyy-mm-dd
+
+    	        const filteredEvents = events.filter(event => {
+    	          const eventStartDate = event.start.slice(0,10);
+    	          return !event.multiDayFlag && eventStartDate === currentDay;
     	        });
-    	    },
-    	    dateClick: openModalForDateClick,
-    	    allDaySlot: false,   // ★★★ all-day 칸 없애기
-    	    select: openModalForRangeSelect,
-    	    events: function(fetchInfo, successCallback, failureCallback) {
-    	        $.ajax({
-    	            url: '/scheduleList.do',
-    	            type: 'GET',
-    	            success: function(events) {
-    	                const currentDay = fetchInfo.startStr.slice(0,10);
-    	                const filteredEvents = events.filter(event => {
-    	                    const eventStartDate = event.start.slice(0,10);
-    	                    return !event.multiDayFlag && eventStartDate === currentDay;
-    	                });
-    	                successCallback(filteredEvents);
-    	            },
-    	            error: function() {
-    	                failureCallback();
-    	            }
-    	        });
-    	    },
-    	    eventClick: openModalForExistingEvent
-    	});
 
-    	calendarDayView.render();
-    	$('#calendarDayViewWrapper').hide();
-
-    	$('#goDayViewBtn').click(function() {
-    	    const dayDate = $('#eventStart').val().slice(0,10);
-    	    $('#calendar1').hide();
-    	    $('#calendar2').hide();
-    	    $('#calendarDayViewWrapper').show();
-    	    $('#backToMonthBtn').show();
-    	    calendarDayView.changeView('timeGridDay', dayDate);
-    	    $('#eventModal').hide();
-    	    
-    	    setTimeout(() => {
-    	        if ($('#calendarDayViewWrapper .fc-toolbar').length > 0) {
-    	            if ($('#calendarDayViewWrapper .fc-toolbar .back-to-month-btn').length === 0) {
-    	                $('#calendarDayViewWrapper .fc-toolbar').append(`
-    	                    <button class="back-to-month-btn" style="
-    	                        margin-left: 10px;
-    	                        background-color: #4c6fa5;
-    	                        color: white;
-    	                        border: none;
-    	                        padding: 6px 12px;
-    	                        border-radius: 8px;
-    	                        font-weight: bold;
-    	                        cursor: pointer;
-    	                        font-size: 0.9rem;
-    	                    ">←</button>
-    	                `);
-
-    	                $('.back-to-month-btn').click(function() {
-    	                    $('#calendar1').show();
-    	                    $('#calendar2').show();
-    	                    $('#calendarDayViewWrapper').hide();
-    	                });
-    	            }
-    	        }
-    	    }, 100); // 살짝 delay
-    	    
-    	    
-    	});
-
-    	$('#backToMonthBtn').click(function() {
-    	    $('#calendar1').show();
-    	    $('#calendar2').show();
-    	    $('#calendarDayViewWrapper').hide();
-    	    $('#backToMonthBtn').hide();
+    	        successCallback(filteredEvents);
+    	      },
+    	      error: function() {
+    	        failureCallback();
+    	      }
+    	    });
+    	  },
+    	  eventClick: openModalForExistingEvent
     	});
 
       calendar1.render();
@@ -681,11 +385,11 @@ background: #e8f0fe !important;
           const end = $('#eventEnd').val();
 
           if (!title || !start) {
-            alert('タイトルと開始日時を入力してください');
+            alert('제목과 시작일은 필수입니다!');
             return;
           }
           if (end && end < start) {
-            alert('終了日時は開始日時以降に設定してください');
+            alert('종료일은 시작일 이후여야 해요!');
             return;
           }
 
@@ -716,7 +420,7 @@ background: #e8f0fe !important;
 
         $('#deleteEventBtn').click(function() {
           if (!selectedEventId) return;
-          if (confirm('本当に削除しますか？')) {
+          if (confirm('정말 삭제하시겠습니까?')) {
             $.ajax({
               url: '/scheduleDelete.do',
               type: 'POST',
@@ -940,5 +644,4 @@ background: #e8f0fe !important;
   </script>
 </body>
 </html>
-
 
