@@ -23,7 +23,7 @@
             
         }
         .wrapper {
-		  min-height: 100vh;
+		  min-height: auto;
 		  
 		}
         .nickname-btn {
@@ -47,8 +47,8 @@
             padding: 15px;
             box-sizing: border-box;
             border-radius: 10px;
-            background-color: F4F4F4;
-      
+            background-color: FFFFFF;
+      	  list-style-type: none; 
         }
 
         .review-wrapper {
@@ -232,17 +232,16 @@
 		<div class="wrapper">
 		    <div class="top-row">
 		        <section class="calendar">
-		            <h2>カレンダー</h2>
 		           <div class="calendar-embed-wrapper"></div>
-		            <ul>
-					  <c:forEach var="item" items="${calendar}">
+		            <div>
+					  <c:forEach var="item" items="index.jsp">
 					    <li class="calendar-item">
 					      <div class="calendar-box">
 					        <jsp:include page="/index" />
 					      </div>
 					    </li>
 					  </c:forEach>
-					</ul>
+					</div>
 		        </section>
 		
 		      <div class="review-wrapper">   
