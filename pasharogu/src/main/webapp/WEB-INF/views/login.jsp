@@ -54,13 +54,7 @@
                  
                 </form>
             </div>
-          
         </main>	
-        <div class="footer_container">
-        <footer style="E3F2FD: #f1f1f1; padding: 10px 0; text-align: center; font-size: 14px; color: #666;">
-    		All rights reserved by Pasharogu Team
-		</footer>  
-		</div>
 	</body>
 		<script src="/js/login.js"></script>
 </html>

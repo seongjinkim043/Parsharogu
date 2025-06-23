@@ -49,22 +49,19 @@ public class UserController {
 		return "signup";
 	}
     
-
-	
 	@PostMapping("/signup")
 	public String signup(SignupFormDTO form, Model model) {
-	    System.out.println("🔥 Controller reached!"); // 회원가입 요청 받음
+	    System.out.println("Controller reached!!!!!!!!!!!!!!!!!");
 	    try {
-	        System.out.println("🔥 Calling service..."); // 서비스로 넘김
+	        System.out.println("Calling service..............");
 	        userService.signup(form);
 	        return "redirect:/login";
-	    } 
+	    }
 	    catch (RuntimeException e) {
 	        model.addAttribute("error", e.getMessage());
 	        return "signup";
 	    }
 	}
-	
 	
 	@ResponseBody
 	@GetMapping("/check-username")
@@ -73,10 +70,9 @@ public class UserController {
 	    return Map.of("exists", exists);
 	}
 	 
-	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-	    session.invalidate(); // 로그아웃 처리
+	    session.invalidate();
 	    return "redirect:/";
 	}
 	
