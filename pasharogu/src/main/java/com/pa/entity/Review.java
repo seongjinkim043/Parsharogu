@@ -46,9 +46,12 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createAt;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", insertable = false, updatable = false)
+    private Region region;
+
     @Column(name = "region_id")
     private String regionId;
-
 
     public Review() {}
 

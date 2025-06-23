@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.pa.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findByUserId(Long userId);
+
+    List<Review> findByUserUserId(Long userId);
+	List<Review> findByRegionRegionId(String regionId);
 }
