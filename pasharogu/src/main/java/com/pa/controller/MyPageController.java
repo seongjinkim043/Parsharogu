@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.pa.dto.ReviewDTO;
 import com.pa.dto.UserDTO;
+import com.pa.service.IkitaiService;
 import com.pa.service.ReviewService;
 import com.pa.service.UserService;
 
@@ -20,7 +21,8 @@ public class MyPageController {
 	private UserService userService; // ✅ 여기 선언해야 userService를 사용할 수 있음
 	@Autowired
 	private ReviewService reviewService;
-	
+	@Autowired
+	private IkitaiService ikitaiService;
     @GetMapping("/mypage")
     public String mypage(HttpSession session, Model model) {
     	
@@ -39,6 +41,10 @@ public class MyPageController {
             
             List<ReviewDTO> reviews = reviewService.getReviewsByUserId(loginUser.getUserId());
             model.addAttribute("reviews", reviews);
+            model.addAttribute("reviewCount", reviews.size()); //리뷰 개수 추가
+            
+            int ikitaiCount = ikitaiService.countByUserId(loginUser.getUserId());
+            model.addAttribute("ikitaiCount", ikitaiCount); //위시리스트 개수 추가
             
         } catch (Exception e) {
             e.printStackTrace();
