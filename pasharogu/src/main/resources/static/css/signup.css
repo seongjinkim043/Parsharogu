@@ -38,7 +38,7 @@ body {
     top: 190px;
     left: 460px;
     width: 1080px;
-    height: 1520px;
+    height: 1720px;
     background-color: #FFFFFF;
     border-radius: 10px;
     padding: 107px 135px;
@@ -204,7 +204,12 @@ body {
     min-height: 20px;
     line-height: 1.2;
 }
-
+#profilePreview {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
 /* Responsive Design */
 @media (max-width: 1400px) {
     .main-form {
@@ -260,4 +265,9 @@ body {
     .password-message {
         font-size: 14px;
     }
+}
+	@keyframes blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
 }

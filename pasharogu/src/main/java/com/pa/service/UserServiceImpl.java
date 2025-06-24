@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pa.dto.SignupFormDTO;
 import com.pa.dto.UserDTO;
@@ -19,21 +20,28 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     
     @Override
     public UserDTO login(String loginid, String password) {
-    	// 1. 사용자 조회
+    	
     	Optional<User> optionalUser = userRepository.findByLoginid(loginid);
     	// 디버그용
     	System.out.println("입력된 비밀번호: " + password);
     	System.out.println("DB 비밀번호: " + optionalUser.get().getPassword());
     	
-    	// 2. 사용자 존재 여부 및 비밀번호 확인
-    	if (optionalUser.isEmpty() || !optionalUser.get().getPassword().equals(password)) {
+    	if (optionalUser.isEmpty()) {
     		throw new RuntimeException("아이디 또는 비밀번호가 잘못되었습니다.");
     	}    		
-    	// 3. 로그인 성공 시 UserDTO로 변환하여 반환
     	User user = optionalUser.get();
+    	
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println("입력된 비밀번호: " + password);
+        System.out.println("DB 비밀번호(암호화): " + user.getPassword());
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("아이디 또는 비밀번호가 잘못되었습니다.");
+        }
+    	
     	UserDTO userDTO = new UserDTO();
     	userDTO.setUserId(user.getUserId());
     	userDTO.setLoginid(user.getLoginid());
@@ -46,11 +54,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signup(SignupFormDTO signupFormDTO) {
-        System.out.println("🔥 Service reached!");
+        System.out.println("Service reached!!!!");
         
         User user = new User();
         user.setLoginid(signupFormDTO.getLoginid());
-        user.setPassword(signupFormDTO.getPassword());
+        
+        String encodedPassword = passwordEncoder.encode(signupFormDTO.getPassword());
+        user.setPassword(encodedPassword);
         user.setNickname(signupFormDTO.getNickname());
         user.setEmail(signupFormDTO.getEmail());
 
@@ -58,41 +68,30 @@ public class UserServiceImpl implements UserService {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
-            	String uploadDir = "C:/spring_uploads/"; // 16번의 시도 끝의 결정 = 절대 경로로 지정
-
+            	String uploadDir = "C:/spring_uploads/";
             	File uploadPath = new File(uploadDir);
             	if (!uploadPath.exists()) {
             	    uploadPath.mkdirs();
             	}
-
             	String originalFilename = imageFile.getOriginalFilename();
             	String fileName = UUID.randomUUID() + "_" + originalFilename;
             	File dest = new File(uploadDir + fileName);
-
-            	// 서버에 파일 저장
             	imageFile.transferTo(dest);
-
-            	// DB에는 경로로 저장
             	user.setProfileImg("/uploads/" + fileName);
             } catch (IOException e) {
-                e.printStackTrace(); // 에러 로그
+                e.printStackTrace(); 
                 throw new RuntimeException("이미지 업로드 실패: " + e.getMessage());
             }
         }	else {
-            // 사용자가 업로드 안 했을 경우 기본 이미지 경로 설정
             user.setProfileImg("/img/default-profile.png");
         }
-
-
-        System.out.println("Saving user to DB...");
+        System.out.println("Saving user to DB................");
         userRepository.save(user);
     }
     
     @Override
     public UserDTO getProfile(Long userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다"));
-
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다"));
         UserDTO dto = new UserDTO();
         dto.setUserId(user.getUserId());
         dto.setLoginid(user.getLoginid());
