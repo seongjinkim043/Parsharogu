@@ -51,19 +51,20 @@
 			</div>
 		
 			<!-- 리뷰 작성 버튼 -->
-			<c:if test="${not empty sessionScope.loginUser}">
-			  <div class="review-write-btn">
-			    <button id="review-write-btn" data-region-id="${region.regionId}">＋</button>
-			  </div>
-			</c:if>
+			<div class="review-write-btn">
+			  <button id="review-write-btn" 
+			          data-region-id="${region.regionId}"
+			          data-login="${not empty sessionScope.loginUser}">＋</button>
+			</div>
 		</div>
 	</div>
+	<div class="modal-overlay"></div>
 	
 	<!-- 리뷰 작성 모달 -->
 	<div id="review-modal" class="review-modal" style="display: none;">
 	  <div class="review-modal-content">
 	    <div class="review-modal-header">
-	      <span class="review-modal-title">「<span id="modal-region-name">地域</span>」は…</span>
+	      <span class="review-modal-title"><span id="modal-region-name"></span>は…</span>
 	      <div class="review-stars">
 	        <span data-value="1">★</span>
 	        <span data-value="2">★</span>
