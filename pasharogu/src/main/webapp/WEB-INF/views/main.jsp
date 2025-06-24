@@ -56,6 +56,30 @@
 			</div>
 		</div>
 	</div>
-	  <script src="/js/main.js" defer></script>
+	
+	<!-- 리뷰 작성 모달 -->
+	<div id="review-modal" class="review-modal" style="display: none;">
+	  <div class="review-modal-content">
+	    <div class="review-modal-header">
+	      <span class="review-modal-title">「<span id="modal-region-name">地域</span>」は…</span>
+	      <div class="review-stars">
+	        <span data-value="1">★</span>
+	        <span data-value="2">★</span>
+	        <span data-value="3">★</span>
+	        <span data-value="4">★</span>
+	        <span data-value="5">★</span>
+	      </div>
+	    </div>
+	    <textarea id="review-text" placeholder="리뷰 내용을 작성해주세요"></textarea>
+	    <label class="review-image-upload">
+	      사진 등록
+	      <input type="file" id="review-image" multiple hidden>
+	    </label>
+	    <button id="review-submit">등록</button>
+	    <button class="review-modal-close">×</button>
+	  </div>
+	</div>
+	
+	<script src="/js/main.js" defer></script>
 </body>
 </html>
