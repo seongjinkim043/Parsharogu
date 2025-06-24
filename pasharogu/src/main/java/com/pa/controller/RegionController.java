@@ -22,7 +22,7 @@ import com.pa.service.RegionService;
 @RequestMapping("/region")
 public class RegionController {
 
-	@Autowired
+	
 	private RegionService regionService;
 	
 	public RegionController(RegionService regionService) {
