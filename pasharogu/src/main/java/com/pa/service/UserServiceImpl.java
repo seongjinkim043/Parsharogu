@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public UserDTO getProfile(Long userId) {
+    	
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다"));
         UserDTO dto = new UserDTO();
         dto.setUserId(user.getUserId());
@@ -101,8 +102,14 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 
-    	@Override
-    	public boolean isLoginidDuplicate(String loginid) {
-		  return userRepository.existsByLoginid(loginid); 
-		  }
+    @Override
+    public boolean isLoginidDuplicate(String loginid) {
+    	return userRepository.existsByLoginid(loginid); 
+	}
+
+	@Override
+	public boolean isNicknameDuplicate(String nickname) {
+		return userRepository.existsByNickname(nickname); 
+	}
+
 }

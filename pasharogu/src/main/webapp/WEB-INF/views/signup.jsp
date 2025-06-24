@@ -47,6 +47,8 @@
 			        <input type="text" id="nickname" name="nickname" class="form-input" placeholder="ニックネーム入力" required>
 			        	<div class="input-guide">※半角英数字で6~12文字で入力してください</div>
 			        	<div class="input-message" id="nickname-message"></div>
+			        		<button type="button" class="btn-check-nickname" onclick="checkNickname()">ニックネーム 重複チェック</button>
+			        <p id="nickname-check-msg" style="margin-top: 5px;"></p>
 			    </div>
 
 			    <div class="form-group">

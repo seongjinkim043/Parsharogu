@@ -102,6 +102,34 @@ function checkLoginId() {
             checkMsg.style.color = "red";
         });
 }
+function checkNickname() {
+    const nicknameInput = document.getElementById("nickname");
+    const checkMsg = document.getElementById("nickname-check-msg");
+    const nickname = nicknameInput.value;
+
+    if (!nickname) {
+        checkMsg.textContent = "ニックネームを入力してください。";
+        checkMsg.style.color = "red";
+        return;
+    }
+
+    const url = "/check-nickname?nickname=" + encodeURIComponent(nickname);
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            if (data.exists) {
+                checkMsg.textContent = "重複されているニックネームです。";
+                checkMsg.style.color = "red";
+            } else {
+                checkMsg.textContent = "重複しないニックネームです。";
+                checkMsg.style.color = "green";
+            }
+        })
+        .catch(() => {
+            checkMsg.textContent = "サーバーエラーが発生しました。";
+            checkMsg.style.color = "red";
+        });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const imageInput = document.getElementById("imageInput");
@@ -142,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
             nickMessage.textContent = "生成条件に当たるニックネームです。";
             nickMessage.style.color = "green";
         }
-    });
+    }); 
 
     email.addEventListener("input", function () {
         if (!emailRegex.test(this.value)) {
