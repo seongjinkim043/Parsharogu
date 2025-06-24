@@ -4,6 +4,7 @@
   background-color: aliceblue;
 }
 
+
 .map-panel {
   flex-basis: 100%;
   display: flex;
@@ -31,7 +32,7 @@
 .container.active .review-panel {
   transform: translateX(0);
   opacity: 1;
- padding: 40px;
+  padding: 40px;
 }
 
 /* ===== 지도 ===== */
@@ -99,21 +100,21 @@
 }
 
 
-/* ===== 리뷰 ===== */
+/* ===== 지역 정보 ===== */
 
 .region-info {
   position: relative;
   display: flex;
-  gap: 15px;
+  gap: 20px;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .region-thumbnail img {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .region-details {
@@ -123,12 +124,12 @@
 .region-name-rating {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 5px;
+  gap: 20px;
+  margin-bottom: 10px;
 }
 
 .region-name {
-  font-size: 20px;
+  font-size: 32px;
   font-weight: bold;
   margin: 0;
 }
@@ -140,19 +141,18 @@
 }
 
 .region-rating .score {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 24px;
 }
 
 .region-rating .stars {
-  color: orange;
+  color: rgb(255, 213, 0);
   font-size: 14px;
 }
 
 .region-desc {
-  font-size: 13px;
+  font-size: 16px;
   color: #666;
-  margin-top: 5px;
+  margin-top: 10px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -164,10 +164,12 @@
   right: 0;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 28px;
   color: red;
   cursor: pointer;
 }
+
+/* ===== 리뷰 ===== */
 
 .review-item {
   border: 1px solid #eee;
