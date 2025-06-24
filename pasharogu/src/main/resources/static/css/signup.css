@@ -156,6 +156,22 @@ body {
     background-color: #BFBFBF;
 }
 
+.btn-check-nickname {
+    background-color: #4da6ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-check-nickname:hover {
+    background-color: #1976D2;
+}
 .btn-check-id {
     background-color: #4da6ff;
     color: white;

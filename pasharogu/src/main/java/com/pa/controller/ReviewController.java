@@ -40,12 +40,12 @@ public class ReviewController {
     public String writeReview(@RequestParam("regionId") String regionId,
     						  @RequestParam("rating") int rating,
     						  @RequestParam("content") String content,
-    						  @RequestParam(value = "images", required = false) MultipartFile[] images,
+    						  @RequestParam("images") MultipartFile[] images,
     						  HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
     	
   
-    	if (session.getAttribute("loginUser") == null) {
+    	if (userId == null) {
     		
     		return "redirect:/login";
     	}
@@ -61,21 +61,20 @@ public class ReviewController {
     	
     	
 //    	2. 이미지 저장
-    	if (images != null) {
-	    	for (MultipartFile file : images) {
-	    		if(!file.isEmpty()) {
-	    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-	    			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
-	    			File dest = new File(uploadDir, filename);
-	    			file.transferTo(dest);
-	    			
-	    			ReviewImage img = new ReviewImage();
-	    			img.setImagePath("/upload/" + filename);
-	    			img.setReview(review); // 연관관계 설정
-	    			reviewImages.add(img);
-	    		}
-	    	}
+    	for (MultipartFile file : images) {
+    		if(!file.isEmpty()) {
+    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+    			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
+    			File dest = new File(uploadDir, filename);
+    			file.transferTo(dest);
+    			
+    			ReviewImage img = new ReviewImage();
+    			img.setImagePath("/upload/" + filename);
+    			img.setReview(review); // 연관관계 설정
+    			reviewImages.add(img);
+    		}
     	}
+    	
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
     	return "redirect:/main";
@@ -109,7 +108,7 @@ public class ReviewController {
 	        dto.setUserId(String.valueOf(review.getUserId())); // 필요한 형식으로 변환
 	        dto.setContent(review.getContent());
 	        dto.setRating(review.getRating());
-	        dto.setCreatedAt(review.getCreateAt().toString()); // 포맷이 필요하면 따로 포맷터 쓰기
+	        dto.setDate(review.getCreateAt().toString()); // 포맷이 필요하면 따로 포맷터 쓰기
 	        dto.setProfileImg(review.getUser().getProfileImg()); // User 객체에서 이미지 가져올 수 있다면
 
 	        // 이미지 경로 추출

@@ -58,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
         dto.setUserId(review.getUser().getNickname());      // 닉네임
         dto.setContent(review.getContent());
         dto.setRating(review.getRating());
-        dto.setCreatedAt(review.getCreateAt().toString());  // 포맷 변경 원하면 DateTimeFormatter 사용
+        dto.setDate(review.getCreateAt().toString());  // 포맷 변경 원하면 DateTimeFormatter 사용
 
         dto.setImageUrls(
             review.getImages().stream()
