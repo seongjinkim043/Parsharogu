@@ -51,9 +51,11 @@
 			</div>
 		
 			<!-- 리뷰 작성 버튼 -->
-			<div class="review-write-btn">
-				<button data-region-id="${region.regionId}">＋</button>
-			</div>
+			<c:if test="${not empty sessionScope.loginUser}">
+			  <div class="review-write-btn">
+			    <button id="review-write-btn" data-region-id="${region.regionId}">＋</button>
+			  </div>
+			</c:if>
 		</div>
 	</div>
 	
@@ -72,8 +74,7 @@
 	    </div>
 	    <textarea id="review-text" placeholder="리뷰 내용을 작성해주세요"></textarea>
 	    <label class="review-image-upload">
-	      사진 등록
-	      <input type="file" id="review-image" multiple hidden>
+		  <input type="file" id="review-image" name="review-image" multiple>
 	    </label>
 	    <button id="review-submit">등록</button>
 	    <button class="review-modal-close">×</button>

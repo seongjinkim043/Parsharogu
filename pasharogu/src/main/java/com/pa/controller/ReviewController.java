@@ -40,12 +40,12 @@ public class ReviewController {
     public String writeReview(@RequestParam("regionId") String regionId,
     						  @RequestParam("rating") int rating,
     						  @RequestParam("content") String content,
-    						  @RequestParam("images") MultipartFile[] images,
+    						  @RequestParam(value = "images", required = false) MultipartFile[] images,
     						  HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
     	
   
-    	if (userId == null) {
+    	if (session.getAttribute("loginUser") == null) {
     		
     		return "redirect:/login";
     	}
@@ -61,20 +61,21 @@ public class ReviewController {
     	
     	
 //    	2. 이미지 저장
-    	for (MultipartFile file : images) {
-    		if(!file.isEmpty()) {
-    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-    			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
-    			File dest = new File(uploadDir, filename);
-    			file.transferTo(dest);
-    			
-    			ReviewImage img = new ReviewImage();
-    			img.setImagePath("/upload/" + filename);
-    			img.setReview(review); // 연관관계 설정
-    			reviewImages.add(img);
-    		}
+    	if (images != null) {
+	    	for (MultipartFile file : images) {
+	    		if(!file.isEmpty()) {
+	    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+	    			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
+	    			File dest = new File(uploadDir, filename);
+	    			file.transferTo(dest);
+	    			
+	    			ReviewImage img = new ReviewImage();
+	    			img.setImagePath("/upload/" + filename);
+	    			img.setReview(review); // 연관관계 설정
+	    			reviewImages.add(img);
+	    		}
+	    	}
     	}
-    	
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
     	return "redirect:/main";
