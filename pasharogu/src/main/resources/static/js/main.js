@@ -48,6 +48,7 @@ function loadReviewPanel(regionId) {
 
   requestAnimationFrame(() => {
     loadRegionInfo(regionId);
+	updateFavoriteStatus(regionId);
   });
 }
 
@@ -124,21 +125,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const regions = document.querySelectorAll('.region');
     const favBtn = document.querySelector('.favorite-btn');
 
-    // region 클릭하면 regionId 세팅 + 상태 확인
+    const initRegionId = favBtn.getAttribute('data-region-id');
+    if (initRegionId) {
+        fetch(`/ikitai/check?regionId=${initRegionId}`)
+            .then(res => res.json())
+            .then(data => {
+                favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+            });
+    }
+
     regions.forEach(region => {
         region.addEventListener('click', function() {
             const regionId = region.getAttribute('data-id');
             favBtn.setAttribute('data-region-id', regionId);
+			updateFavoriteStatus(regionId);
 
-            // 상태 확인
             fetch(`/ikitai/check?regionId=${regionId}`)
                 .then(res => res.json())
                 .then(data => {
-                    if (data.isAdded) {
-                        favBtn.textContent = '❤️';
-                    } else {
-                        favBtn.textContent = '🤍';
-                    }
+                    favBtn.textContent = data.isAdded ? '❤️' : '🤍';
                 });
         });
     });
@@ -165,11 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(result => {
-            if (result === 'added') {
-                favBtn.textContent = '❤️';
-            } else {
-                favBtn.textContent = '🤍';
-            }
+            favBtn.textContent = (result === 'added') ? '❤️' : '🤍';
         })
         .catch(error => {
             console.error(error);
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 document.addEventListener("DOMContentLoaded", function() {
   const modal = document.getElementById('review-modal');
@@ -243,4 +245,20 @@ document.addEventListener("DOMContentLoaded", function() {
     updateStars(0);
   }
 });
+
+
+function updateFavoriteStatus(regionId) {
+  const favBtn = document.querySelector('.favorite-btn');
+  favBtn.setAttribute('data-region-id', regionId);
+
+  fetch(`/ikitai/check?regionId=${regionId}`)
+    .then(res => res.json())
+    .then(data => {
+      favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+    })
+    .catch(err => {
+      console.error("하트 상태 로드 실패", err);
+      favBtn.textContent = '🤍';
+    });
+}
 

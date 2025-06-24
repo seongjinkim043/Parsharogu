@@ -62,7 +62,7 @@ public class IkitaiServiceImpl implements IkitaiService {
 //        return ikitaiRepository.existsByUserAndRegion(user, region);
     	
     	//임시 false 반환
-    	return false;
+    	return ikitaiRepository.existsByUser_UserIdAndRegion_RegionId(userId, regionId);
     }
 
     @Override
@@ -100,6 +100,11 @@ public class IkitaiServiceImpl implements IkitaiService {
     public int countByUserId(Long userId) {  //이키타이 리스트 갯수 반환
         List<IkitaiDTO> list = getIkitaiListByLoginid(userId);
         return list.size();
+    }
+    
+    @Override
+    public List<String> getRegionIdsByUser(Long userId) {
+    	return ikitaiRepository.findRegionIdsByUserId(userId);
     }
 
 }

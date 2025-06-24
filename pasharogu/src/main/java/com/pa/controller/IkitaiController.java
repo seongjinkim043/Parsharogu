@@ -29,6 +29,7 @@ public class IkitaiController {
         Long userId = (Long) userIdObj;
         String regionId = payload.get("regionId");
         boolean added = ikitaiService.toggleIkitai(userId, regionId);
+        System.out.println("TOGGLE: userId=" + userId + ", regionId=" + regionId + ", added=" + added);
         return added ? "added" : "removed";
     }
 
