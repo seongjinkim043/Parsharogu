@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	
-	<!-- 리뷰 작성 모달(임시) -->
+	<!-- 리뷰 작성 모달 -->
 	<div id="review-modal" class="review-modal" style="display: none;">
 	  <div class="review-modal-content">
 	    <div class="review-modal-header">
