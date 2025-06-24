@@ -112,7 +112,7 @@ function loadRegionInfo(regionId) {
           reviewList.appendChild(item);
         });
       } else {
-        reviewList.innerHTML = "<div class='no-reviews'>리뷰가 없습니다.</div>";
+        reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
       }
     })
     .catch(error => {

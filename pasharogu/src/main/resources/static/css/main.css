@@ -123,31 +123,39 @@
 
 .region-name-rating {
   display: flex;
-  align-items: center;
+  align-items: baseline;    /* baseline으로 region-name과 score 기준선 맞춤 */
   gap: 20px;
   margin-bottom: 10px;
+  min-height: 40px;         /* 높이는 고정보단 min-height로 유연하게 */
 }
 
 .region-name {
   font-size: 32px;
   font-weight: bold;
+  line-height: 1.2;         /* line-height 1 → 1.2: 한자 위 튐 방지 + 안정감 */
+  display: inline-flex;      /* inline-flex로 텍스트 줄바꿈 방지 + 정렬 */
+  align-items: baseline;     /* 글자 기준선 맞춤 (center보다 baseline이 효과적) */
   margin: 0;
+  overflow: visible;         /* overflow는 숨김 대신 visible (글자 잘림 방지) */
 }
 
 .region-rating {
   display: flex;
-  align-items: center;
+  align-items: baseline;     /* 별점 숫자와 별 모양 기준선 맞춤 */
   gap: 4px;
 }
 
 .region-rating .score {
   font-size: 24px;
+  line-height: 1.2;          /* 숫자 기준선 안정화 */
 }
 
 .region-rating .stars {
   color: rgb(255, 213, 0);
   font-size: 14px;
+  line-height: 1;
 }
+
 
 .region-desc {
   font-size: 16px;
@@ -256,6 +264,9 @@
   object-fit: cover;
   border-radius: 4px;
 }
+.no-reviews{
+	color: gray;
+} 
 
 .review-write-btn {
   position: sticky;
