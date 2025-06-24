@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.pa.dto.IkitaiDTO;
 import com.pa.dto.ReviewDTO;
 import com.pa.dto.UserDTO;
 import com.pa.service.IkitaiService;
@@ -45,6 +46,9 @@ public class MyPageController {
             
             int ikitaiCount = ikitaiService.countByUserId(loginUser.getUserId());
             model.addAttribute("ikitaiCount", ikitaiCount); //위시리스트 개수 추가
+            
+            List<IkitaiDTO> ikitaiList = ikitaiService.getIkitaiListByLoginid(loginUser.getUserId());
+            model.addAttribute("ikitaiList", ikitaiList); // ❌ 현재 빠짐
             
         } catch (Exception e) {
             e.printStackTrace();

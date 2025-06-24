@@ -94,25 +94,25 @@ function loadRegionInfo(regionId) {
           item.innerHTML = `
             <div class="review-header">
               <div class="user-section">
-                <img src="\${review.userImageUrl || 'default-profile.jpg'}" alt="유저사진" class="user-photo">
+                <img src="${review.userImageUrl || 'default-profile.jpg'}" alt="유저사진" class="user-photo">
                 <div class="user-info">
-                  <span class="user-name">\${review.userName || '익명'}</span>
-                  <span class="review-date">\${review.date || ''}</span>
+                  <span class="user-name">${review.userName || '익명'}</span>
+                  <span class="review-date">${review.date || ''}</span>
                   <div class="review-rating">
-                    <span class="score">\${(review.score || 0).toFixed(1)}</span>
-                    <span class="stars">\${'★'.repeat(Math.round(review.score || 0))}</span>
+                    <span class="score">${(review.score || 0).toFixed(1)}</span>
+                    <span class="stars">${'★'.repeat(Math.round(review.score || 0))}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="review-content">\${review.content || ''}</div>
-            <div class="review-images">\${imageHtml}</div>
+            <div class="review-content">${review.content || ''}</div>
+            <div class="review-images">${imageHtml}</div>
           `;
 
           reviewList.appendChild(item);
         });
       } else {
-        reviewList.innerHTML = "<div class='no-reviews'>리뷰가 없습니다.</div>";
+        reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
       }
     })
     .catch(error => {
@@ -192,14 +192,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const starElements = modal.querySelectorAll('.review-stars span');
   let selectedScore = 0;
 
+  if (!openBtn) {
+    console.warn('리뷰 작성 버튼이 없습니다 (로그인하지 않았거나 조건 미충족).');
+    return; // 버튼이 없으면 이후 코드 실행 안 함
+  }
+
   // 모달 열기
   openBtn.addEventListener('click', function() {
-	const regionId = this.getAttribute('data-region-id');
-	if (!regionId) {
-		alert('모달을 열 때 지역 정보가 필요합니다!');
-		return;
-	}
-	submitBtn.setAttribute('data-region-id', regionId);
+    const regionId = this.getAttribute('data-region-id');
+    if (!regionId) {
+      alert('모달을 열 때 지역 정보가 필요합니다!');
+      return;
+    }
+
+    submitBtn.setAttribute('data-region-id', regionId);
     modal.style.display = 'block';
   });
 
@@ -220,50 +226,55 @@ document.addEventListener("DOMContentLoaded", function() {
   // 등록 버튼
   submitBtn.addEventListener('click', function() {
     const text = document.getElementById('review-text').value;
-    const images = document.getElementById('review-image').files;
-	const regionId = submitBtn.getAttribute('data-region-id');
-	
-	if (!regionId) {
-		alert('지역 정보가 없습니다.');
-		return;
-	}
+    const imageInput = document.getElementById('review-image');
+    const images = imageInput ? imageInput.files : [];
+    const regionId = submitBtn.getAttribute('data-region-id');
+
+    if (!regionId) {
+      alert('지역 정보가 없습니다.');
+      return;
+    }
 
     if (selectedScore === 0) {
       alert('별점을 선택해주세요.');
       return;
     }
+
     if (!text.trim()) {
       alert('리뷰 내용을 작성해주세요.');
       return;
     }
-	
-	const formData = new FormData();
-	formData.append('regionId', regionId);
-	formData.append('rating', selectedScore);
-	formData.append('content', text);
-	for(let img of images) {
-		formData.append('images', img);
-	}
-	
-	fetch('/api/reviews/write', {
-		method: 'POST',
-		body: formData,
-		credentials: 'same-origin'
-	})
-	.then(res => {
-		if (res.ok) {
-			alert('리뷰가 등록되었습니다.');
-			modal.style.display = 'none';
-			resetModal();
-			location.reload();
-		} else {
-			alert('리뷰 등록 실패');
-		}
-	})
-	.catch(err => {
-		console.error('리뷰 등록 에러:', err);
-		alert('리뷰 등록 중 에러 발생')
-	});
+
+    const formData = new FormData();
+    formData.append('regionId', regionId);
+    formData.append('rating', selectedScore);
+    formData.append('content', text);
+
+    if (images && images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        formData.append('images', images[i]);
+      }
+    }
+
+    fetch('/api/reviews/write', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin'
+    })
+    .then(res => {
+      if (res.ok) {
+        alert('리뷰가 등록되었습니다.');
+        modal.style.display = 'none';
+        resetModal();
+        location.reload();
+      } else {
+        alert('리뷰 등록 실패');
+      }
+    })
+    .catch(err => {
+      console.error('리뷰 등록 에러:', err);
+      alert('리뷰 등록 중 에러 발생');
+    });
   });
 
   // 별점 UI 업데이트
@@ -277,7 +288,8 @@ document.addEventListener("DOMContentLoaded", function() {
   // 모달 초기화
   function resetModal() {
     document.getElementById('review-text').value = '';
-    document.getElementById('review-image').value = '';
+    const imageInput = document.getElementById('review-image');
+    if (imageInput) imageInput.value = '';
     selectedScore = 0;
     updateStars(0);
   }
