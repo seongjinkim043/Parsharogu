@@ -34,6 +34,7 @@ public class UserController {
 		        System.out.println("로그인 시도: " + form.getLoginid()); // 디버깅용
 		        UserDTO loginUser = userService.login(form.getLoginid(), form.getPassword());
 		        session.setAttribute("loginUser", loginUser);
+		        session.setAttribute("userId", loginUser.getUserId());
 		        System.out.println("로그인 성공: " + loginUser.getLoginid()); // 디버깅용
 		        return "redirect:/main";
 		    } 

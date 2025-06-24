@@ -48,6 +48,7 @@ function loadReviewPanel(regionId) {
 
   requestAnimationFrame(() => {
     loadRegionInfo(regionId);
+	updateFavoriteStatus(regionId);
   });
 }
 
@@ -114,5 +115,77 @@ function loadRegionInfo(regionId) {
     .catch(error => {
       console.error("지역 정보 로드 실패", error);
       alert("지역 정보를 불러오는 데 실패했습니다.");
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const regions = document.querySelectorAll('.region');
+    const favBtn = document.querySelector('.favorite-btn');
+
+    const initRegionId = favBtn.getAttribute('data-region-id');
+    if (initRegionId) {
+        fetch(`/ikitai/check?regionId=${initRegionId}`)
+            .then(res => res.json())
+            .then(data => {
+                favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+            });
+    }
+
+    regions.forEach(region => {
+        region.addEventListener('click', function() {
+            const regionId = region.getAttribute('data-id');
+            favBtn.setAttribute('data-region-id', regionId);
+
+            fetch(`/ikitai/check?regionId=${regionId}`)
+                .then(res => res.json())
+                .then(data => {
+                    favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+                });
+        });
+    });
+
+    favBtn.addEventListener('click', function() {
+        const regionId = favBtn.getAttribute('data-region-id');
+
+        if (!regionId) {
+            alert("地域を選択してください！");
+            return;
+        }
+
+        fetch('/ikitai/toggle', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ regionId: regionId }),
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error("登録に失敗しました。");
+            }
+        })
+        .then(result => {
+            favBtn.textContent = (result === 'added') ? '❤️' : '🤍';
+        })
+        .catch(error => {
+            console.error(error);
+            alert("エラーが発生しました。");
+        });
+    });
+});
+
+function updateFavoriteStatus(regionId) {
+  const favBtn = document.querySelector('.favorite-btn');
+  favBtn.setAttribute('data-region-id', regionId);
+
+  fetch(`/ikitai/check?regionId=${regionId}`)
+    .then(res => res.json())
+    .then(data => {
+      favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+    })
+    .catch(err => {
+      console.error("하트 상태 로드 실패", err);
+      favBtn.textContent = '🤍';
     });
 }

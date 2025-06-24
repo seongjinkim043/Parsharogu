@@ -42,7 +42,7 @@
 					</div>
 					<div class="region-desc"></div>
 				</div>
-				<button class="favorite-btn">❤</button>
+				<button class="favorite-btn" data-region-id="${region.regionId}" }>❤</button>
 			</div>
 		
 			<!-- 리뷰 리스트 -->
