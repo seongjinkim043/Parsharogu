@@ -40,7 +40,7 @@ public class ReviewController {
     public String writeReview(@RequestParam("regionId") String regionId,
     						  @RequestParam("rating") int rating,
     						  @RequestParam("content") String content,
-    						  @RequestParam("images") List<MultipartFile> images,
+    						  @RequestParam("images") MultipartFile[] images,
     						  HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
     	
