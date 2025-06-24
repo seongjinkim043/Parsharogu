@@ -137,6 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
     regions.forEach(region => {
         region.addEventListener('click', function() {
             const regionId = region.getAttribute('data-id');
+			
+			const reviewBtn = document.querySelector('.review-write-btn button');
+			reviewBtn.setAttribute('data-region-id', regionId);
+			
             favBtn.setAttribute('data-region-id', regionId);
 			updateFavoriteStatus(regionId);
 
@@ -190,6 +194,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // 모달 열기
   openBtn.addEventListener('click', function() {
+	const regionId = this.getAttribute('data-region-id');
+	if (!regionId) {
+		alert('모달을 열 때 지역 정보가 필요합니다!');
+		return;
+	}
+	submitBtn.setAttribute('data-region-id', regionId);
     modal.style.display = 'block';
   });
 
@@ -211,6 +221,12 @@ document.addEventListener("DOMContentLoaded", function() {
   submitBtn.addEventListener('click', function() {
     const text = document.getElementById('review-text').value;
     const images = document.getElementById('review-image').files;
+	const regionId = submitBtn.getAttribute('data-region-id');
+	
+	if (!regionId) {
+		alert('지역 정보가 없습니다.');
+		return;
+	}
 
     if (selectedScore === 0) {
       alert('별점을 선택해주세요.');
@@ -220,13 +236,34 @@ document.addEventListener("DOMContentLoaded", function() {
       alert('리뷰 내용을 작성해주세요.');
       return;
     }
-
-    // 여기에 Ajax 또는 fetch로 데이터 전송 처리 가능
-    console.log('등록 데이터:', { score: selectedScore, text, images });
-
-    alert('리뷰가 등록되었습니다.');
-    modal.style.display = 'none';
-    resetModal();
+	
+	const formData = new FormData();
+	formData.append('regionId', regionId);
+	formData.append('rating', selectedScore);
+	formData.append('content', text);
+	for(let img of images) {
+		formData.append('images', img);
+	}
+	
+	fetch('/api/reviews/write', {
+		method: 'POST',
+		body: formData,
+		credentials: 'same-origin'
+	})
+	.then(res => {
+		if (res.ok) {
+			alert('리뷰가 등록되었습니다.');
+			modal.style.display = 'none';
+			resetModal();
+			location.reload();
+		} else {
+			alert('리뷰 등록 실패');
+		}
+	})
+	.catch(err => {
+		console.error('리뷰 등록 에러:', err);
+		alert('리뷰 등록 중 에러 발생')
+	});
   });
 
   // 별점 UI 업데이트

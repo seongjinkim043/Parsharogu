@@ -52,7 +52,7 @@
 		
 			<!-- 리뷰 작성 버튼 -->
 			<div class="review-write-btn">
-				<button>＋</button>
+				<button data-region-id="${region.regionId}">＋</button>
 			</div>
 		</div>
 	</div>
