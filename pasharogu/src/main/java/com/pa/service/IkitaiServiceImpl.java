@@ -49,62 +49,49 @@ public class IkitaiServiceImpl implements IkitaiService {
         }
     }
 
-
     @Override
     @Transactional
     public boolean isAdded(Long userId, String regionId) {
-//        User user = userRepository.findByLoginid(username)
-//            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//        Region region = regionRepository.findById(regionId)
-//            .orElseThrow(() -> new IllegalArgumentException("Region not found"));
-//
-//        return ikitaiRepository.existsByUserAndRegion(user, region);
-    	
-    	//임시 false 반환
-    	return ikitaiRepository.existsByUser_UserIdAndRegion_RegionId(userId, regionId);
+        return ikitaiRepository.existsByUser_UserIdAndRegion_RegionId(userId, regionId);
     }
 
     @Override
     @Transactional
+    public List<IkitaiDTO> getIkitaiListByLoginid(Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-    public List<IkitaiDTO> getIkitaiListByLoginid(Long loginId) {
-//        User user = userRepository.findByLoginid(loginId)
-//            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//        List<Ikitai> ikitais = ikitaiRepository.findByUser(user);
-//
-//        return ikitais.stream().map(ikitai -> {
-//            IkitaiDTO dto = new IkitaiDTO();
-//            dto.setRegionId(ikitai.getRegion().getRegionId());
-//            dto.setImageUrl(ikitai.getRegion().getImageUrl());
-//
-//            dto.setAverageRating(ikitai.getRegion().getAverageRating()); // 이미 double 타입
-//
-//            dto.setLiked(true);
-//            return dto;
-//        }).collect(Collectors.toList());
-    	
-    	//더미 데이터 반환용
-    	IkitaiDTO dummy = new IkitaiDTO();
-        dummy.setRegionId("dummyRegion");
-        dummy.setImageUrl("dummyImageUrl");
-        dummy.setAverageRating(4.5);
-        dummy.setLiked(true);
+        List<Ikitai> ikitais = ikitaiRepository.findByUser(user);
+        
+        System.out.println("sadfsadf");
 
-        return List.of(dummy);
+        return ikitais.stream().map(ikitai -> {
+            IkitaiDTO dto = new IkitaiDTO();
+            dto.setRegionId(ikitai.getRegion().getRegionId());
 
+            // ⭐ JSP 에서 regionName 사용하므로 추가
+            dto.setRegionName(ikitai.getRegion().getName());
+
+            // ⭐ 이미지 경로 예시 (원하는 경로 규칙에 맞춰 수정 가능)
+            dto.setImageUrl("/images/region/" + ikitai.getRegion().getRegionId() + ".jpg");
+
+            // ⭐ 평균 평점 (현재 Region 에 없음 → 임시 고정 값 사용 중)
+            dto.setAverageRating(5.0);
+
+            dto.setLiked(true);
+
+            return dto;
+        }).collect(Collectors.toList());
     }
-    
+
     @Override 
-    public int countByUserId(Long userId) {  //이키타이 리스트 갯수 반환
+    public int countByUserId(Long userId) {
         List<IkitaiDTO> list = getIkitaiListByLoginid(userId);
         return list.size();
     }
-    
+
     @Override
     public List<String> getRegionIdsByUser(Long userId) {
-    	return ikitaiRepository.findRegionIdsByUserId(userId);
+        return ikitaiRepository.findRegionIdsByUserId(userId);
     }
-
 }

@@ -37,9 +37,15 @@ body {
 
 
 .fc-day-today {
-background: #e8f0fe !important;
-    border-radius: 50%;
+    background-color: transparent !important;
+    border-radius: 0 !important;
 }
+.fc-day-today .fc-daygrid-day-number {
+    color: #007bff !important;
+    font-weight: bold !important;
+     font-size: 1.1em !important
+}
+
 .calendar-wrapper {
  display: flex;
     flex-wrap: wrap;
@@ -53,7 +59,7 @@ background: #e8f0fe !important;
 }
 #calendar1, #calendar2 {
  width: 350px; 
-  height: 100%;
+  height: 300px;
   box-sizing: border-box;
 }
 #calendarDayView {
