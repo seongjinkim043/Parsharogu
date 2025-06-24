@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     	
     	return userDTO;
     }
-
+    @Test
     @Override
     public void signup(SignupFormDTO signupFormDTO) {
         System.out.println("Service reached!!!!");

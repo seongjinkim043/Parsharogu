@@ -30,18 +30,18 @@ public class UserController {
 	
 	 @PostMapping("/login")
 	 public String login(LoginFormDTO form, Model model, HttpSession session) {
-		    try {
-		        System.out.println("로그인 시도: " + form.getLoginid()); // 디버깅용
-		        UserDTO loginUser = userService.login(form.getLoginid(), form.getPassword());
-		        session.setAttribute("loginUser", loginUser);
-		        session.setAttribute("userId", loginUser.getUserId());
-		        System.out.println("로그인 성공: " + loginUser.getLoginid()); // 디버깅용
-		        return "redirect:/main";
-		    } 
-		    catch (RuntimeException e) {
-		    	System.out.println("로그인 실패: " + e.getMessage()); // 디버깅용
-		    	model.addAttribute("errorMessage", "存在しないIDまたはパスワードです");
-		    	return "login";
+		  try {
+		       System.out.println("로그인 시도: " + form.getLoginid()); // 디버깅용
+		       UserDTO loginUser = userService.login(form.getLoginid(), form.getPassword());
+		       session.setAttribute("loginUser", loginUser);
+		       session.setAttribute("userId", loginUser.getUserId());
+		       System.out.println("로그인 성공: " + loginUser.getLoginid()); // 디버깅용
+		       return "redirect:/main";
+		   } 
+		  catch (RuntimeException e) {
+			   System.out.println("로그인 실패: " + e.getMessage()); // 디버깅용
+		       model.addAttribute("errorMessage", "存在しないIDまたはパスワードです");
+		       return "login";
 		    }
 	 }
 	
@@ -59,8 +59,9 @@ public class UserController {
 	        return "redirect:/login";
 	    }
 	    catch (RuntimeException e) {
-	        model.addAttribute("error", e.getMessage());
+	        model.addAttribute("errorMessage", "入力下さった情報で問題があります。再確認してください。");
 	        return "signup";
+	        
 	    }
 	}
 	
@@ -70,7 +71,14 @@ public class UserController {
 	    boolean exists = userService.isLoginidDuplicate(loginid);
 	    return Map.of("exists", exists);
 	}
-	 
+	
+	@ResponseBody
+	@GetMapping("/check-nickname")
+    public Map<String, Boolean> checkNickname(@RequestParam("nickname") String nickname) {
+        boolean exists = userService.isNicknameDuplicate(nickname);
+        return Map.of("exists", exists);
+    }
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 	    session.invalidate();
