@@ -2,10 +2,15 @@ package com.pa.service;
 
 
 import com.pa.dto.RegionDTO;
+import com.pa.dto.ReviewDTO;
 import com.pa.entity.Region;
+import com.pa.entity.Review;
+import com.pa.entity.ReviewImage;
 import com.pa.repository.RegionRepository;
+import com.pa.repository.ReviewRepository;
 import com.pa.service.RegionService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,14 +24,17 @@ import org.springframework.stereotype.Service;
 public class RegionServiceImpl implements RegionService {
 	
 	private final RegionRepository regionRepository;
+	
+	private final ReviewRepository reviewRepository;
 
 	/**
 	 * 생성자 주입을 통해 RegionRepository를 전달받아 초기화
 	 * 
 	 * @param regionRepository 지역 정보에 접근하는 JPA 리포지토리
 	 */
-    public RegionServiceImpl(RegionRepository regionRepository) {
+    public RegionServiceImpl(RegionRepository regionRepository, ReviewRepository reviewRepository) {
         this.regionRepository = regionRepository;
+        this.reviewRepository = reviewRepository;
     }
     
     /**
@@ -59,7 +67,41 @@ public class RegionServiceImpl implements RegionService {
         dto.setRegionId(region.getRegionId());
         dto.setName(region.getName());
         dto.setSvgId(region.getSvgId());
+        
+        List<ReviewDTO> reviews = getReviewsForRegion(regionId);
+        dto.setReviews(reviews);
+        
         return dto;
+    }
+    
+    @Override
+    public List<ReviewDTO> getReviewsForRegion(String regionId) {
+        List<Review> reviews = reviewRepository.findByRegionRegionId(regionId);
+        List<ReviewDTO> dtoList = new ArrayList<>();
+
+        for (Review review : reviews) {
+            ReviewDTO dto = new ReviewDTO();
+            
+            if (review.getUser() != null) {
+                dto.setUserId(review.getUser().getNickname());
+                dto.setProfileImg(review.getUser().getProfileImg());
+            } else {
+                dto.setUserId("익명");
+                
+            }
+
+            dto.setDate(review.getCreateAt() != null ? review.getCreateAt().toString() : "");
+            dto.setContent(review.getContent());
+            dto.setRating(review.getRating());
+
+            List<String> imageUrls = review.getImages() != null ?
+                review.getImages().stream().map(ReviewImage::getImagePath).toList()
+                : List.of();
+
+            dto.setImageUrls(imageUrls);
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
 

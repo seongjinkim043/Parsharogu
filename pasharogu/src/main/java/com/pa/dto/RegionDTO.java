@@ -1,5 +1,7 @@
 package com.pa.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -12,6 +14,8 @@ public class RegionDTO {
 	private String svgId;
 	private double rating;
 	private Double averageRating;
+	
+	private List<ReviewDTO> reviews;
 	
 }
 
