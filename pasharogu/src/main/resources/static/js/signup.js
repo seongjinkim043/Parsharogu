@@ -24,7 +24,7 @@ function validateForm() {
 
     // ID 검사
     if (!idRegex.test(loginId.value)) {
-        idMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+        idMessage.textContent = "6〜12文字の半角字英数字で入力してください。";
         idMessage.style.color = "red";
         blinkMessage(idMessage);
         if (!firstInvalidField) firstInvalidField = loginId;
@@ -33,7 +33,7 @@ function validateForm() {
 
     // 닉네임 검사
     if (!idRegex.test(nickname.value)) {
-        nickMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+        nickMessage.textContent = "6〜12文字の半角字英数字で入力してください。";
         nickMessage.style.color = "red";
         blinkMessage(nickMessage);
         if (!firstInvalidField) firstInvalidField = nickname;
@@ -68,10 +68,11 @@ function validateForm() {
     }
 
     if (!isValid && firstInvalidField) {
-        firstInvalidField.focus(); // 가장 먼저 잘못된 항목에 포커스
+		alert("入力内容に誤りがあります。内容を確認してください。");
+			        if (firstInvalidField) firstInvalidField.focus();
     }
-
-    return isValid;
+	
+	return isValid;
 }
 
 function checkLoginId() {
@@ -154,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loginId.addEventListener("input", function () {
         if (!idRegex.test(this.value)) {
-            idMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+            idMessage.textContent = "6〜12文字の半角英数字で入力してください。";
             idMessage.style.color = "red";
         } else {
             idMessage.textContent = "生成条件に当たるIDです。";
@@ -164,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     nickname.addEventListener("input", function () {
         if (!idRegex.test(this.value)) {
-            nickMessage.textContent = "6〜12文字の小文字英数字で入力してください。";
+            nickMessage.textContent = "6〜12文字の半角英数字で入力してください。";
             nickMessage.style.color = "red";
         } else {
             nickMessage.textContent = "生成条件に当たるニックネームです。";

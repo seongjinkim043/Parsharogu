@@ -59,8 +59,9 @@ public class UserController {
 	        return "redirect:/login";
 	    }
 	    catch (RuntimeException e) {
-	        model.addAttribute("error", e.getMessage());
+	        model.addAttribute("errorMessage", "入力下さった情報で問題があります。再確認してください。");
 	        return "signup";
+	        
 	    }
 	}
 	

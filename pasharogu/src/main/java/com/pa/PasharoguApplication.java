@@ -27,4 +27,4 @@ public class PasharoguApplication {
 	        return registrationBean;
 	    }
 
-} 
+}

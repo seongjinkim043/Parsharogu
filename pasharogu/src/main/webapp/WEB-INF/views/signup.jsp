@@ -15,6 +15,11 @@
         <header class="header">
         <a href="/" class="logo">パシャログ</a>
 </header>
+        <c:if test="${not empty errorMessage}">
+    <script>
+        alert('${errorMessage}');
+    </script>
+		</c:if>
         
         <main class="main-form">
             <div class="form-container">
