@@ -62,7 +62,7 @@ public class IkitaiServiceImpl implements IkitaiService {
 //        return ikitaiRepository.existsByUserAndRegion(user, region);
     	
     	//임시 false 반환
-    	return false;
+    	return ikitaiRepository.existsByUser_UserIdAndRegion_RegionId(userId, regionId);
     }
 
     @Override

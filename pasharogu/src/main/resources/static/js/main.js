@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         region.addEventListener('click', function() {
             const regionId = region.getAttribute('data-id');
             favBtn.setAttribute('data-region-id', regionId);
+			updateFavoriteStatus(regionId);
 
             fetch(`/ikitai/check?regionId=${regionId}`)
                 .then(res => res.json())

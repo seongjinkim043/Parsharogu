@@ -18,6 +18,8 @@ public interface IkitaiRepository extends JpaRepository<Ikitai, Long> {
 	
 	boolean existsByUserAndRegion(User user, Region region);
 	
+	boolean existsByUser_UserIdAndRegion_RegionId(Long userId, String regionId);
+	
 	@Query("SELECT i.region.regionId FROM Ikitai i WHERE i.user.userId = :userId")
     List<String> findRegionIdsByUserId(@Param("userId") Long userId);
 }
