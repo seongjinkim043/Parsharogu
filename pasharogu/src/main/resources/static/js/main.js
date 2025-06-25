@@ -71,7 +71,8 @@ function loadRegionInfo(regionId) {
 
       document.querySelector(".region-name").textContent = data.name || "이름 없음";
       document.querySelector(".region-desc").textContent = data.description || "설명 없음";
-      document.querySelector(".score").textContent = (data.avgScore || 0).toFixed(1);
+	  
+      document.querySelector(".score").textContent = (data.avgRating || 0).toFixed(1);
       document.querySelector(".stars").textContent = "★".repeat(Math.round(data.avgScore || 0));
 
       const img = document.querySelector(".region-thumbnail img");
@@ -80,6 +81,7 @@ function loadRegionInfo(regionId) {
 	  
 	  document.getElementById('modal-region-name').textContent = data.name || '地域'; //리뷰 작성 모달 지역 설정
 	  document.getElementById('modal-region-name').dataset.regionId = data.regionId || '';
+
 
 	  const reviewList = document.querySelector(".review-list");
 	  reviewList.innerHTML = "";
@@ -116,6 +118,7 @@ function loadRegionInfo(regionId) {
 	  } else {
 	    reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
 	  }
+
 
     })
     .catch(error => {
@@ -325,4 +328,3 @@ function updateFavoriteStatus(regionId) {
       favBtn.textContent = '🤍';
     });
 }
-
