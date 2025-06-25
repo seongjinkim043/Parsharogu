@@ -6,7 +6,7 @@
 
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #E3F2FD;
+            background-color: #F0F8FF;
             min-height: 100vh;
             display: flex;
             flex-direction: column; 
@@ -29,13 +29,13 @@
         }
 
         .logo {
-            
-            font-size: 36px;
-            font-weight: 700;
-            color: #1976D2;
-            text-decoration: none; 
-        }
-
+			font-size: 36px !important;
+			font-weight: bold;
+			color: #2962FF;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		
         .main-form {
             width: 100%;
             max-width: 1000px;
@@ -73,33 +73,33 @@
             display: block;
         }
 
-        .form-input {
-            width: 100%;
-            height: 60px;
-            background-color: #BBDEFB;
-            border: none;
-            border-radius: 10px;
-            padding: 0 20px;
-            font-size: 24px;
-            font-weight: 400;
-            color: #FFFFFF;
-            line-height: 1.2;
-        }
+       .form-input {
+		    width: 100%;
+		    height: 60px;
+		    background-color: #BFBFBF;  /* ← 여기 바뀜 */
+		    border: none;
+		    border-radius: 10px;
+		    padding: 0 20px;
+		    font-size: 24px;
+		    font-weight: 400;
+		    color: #FFFFFF;
+		    line-height: 1.2;
+		}
 
         .form-input::placeholder {
             color: #FFFFFF;
             opacity: 1
         }
 
-        .form-input:focus {
-            outline: none;
-            background-color: #BFBFBF; /* 갈색 */
-        }
+       .form-input:focus {
+		    outline: none;
+		    background-color: #BBDEFB; /* ← 여기 바뀜 */
+		}
 
         .login-button {
             width: 100%;
             height: 60px;
-            background-color: #42A5F5;
+            background-color: #89b5ff;
             border: none;
             border-radius: 10px;
             font-size: 24px;
@@ -109,11 +109,11 @@
         }
 
         .login-button:hover {
-            background-color: #2196F3;
+            background-color: #1976D2;
         }
 
         .login-button:active {
-            background-color: #1976D2;
+            background-color: #89b5ff;
         }
 
         .forgot-link {

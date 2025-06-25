@@ -76,7 +76,11 @@ public class ReviewController {
     			String originalFilename = file.getOriginalFilename();
     			String cleandFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
     			String filename = UUID.randomUUID() + "_" + cleandFilename;
-    			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
+    			String uploadDir = System.getProperty("user.dir") + "/upload/img";
+    			File uploadFolder = new File(uploadDir);
+    			if (!uploadFolder.exists()) {
+    			    uploadFolder.mkdirs();
+    			} // 또는 상대 경로 new File("upload/img")
     			File dest = new File(uploadDir, filename);
     			file.transferTo(dest);
     			

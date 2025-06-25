@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
-            	String uploadDir = "C:/spring_uploads/";
+            	String uploadDir = "C:/upload/img/";
             	File uploadPath = new File(uploadDir);
             	if (!uploadPath.exists()) {
             	    uploadPath.mkdirs();
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             	String fileName = UUID.randomUUID() + "_" + originalFilename;
             	File dest = new File(uploadDir + fileName);
             	imageFile.transferTo(dest);
-            	user.setProfileImg("/uploads/" + fileName);
+            	user.setProfileImg("/upload/" + fileName);
             } catch (IOException e) {
                 e.printStackTrace(); 
                 throw new RuntimeException("이미지 업로드 실패: " + e.getMessage());
