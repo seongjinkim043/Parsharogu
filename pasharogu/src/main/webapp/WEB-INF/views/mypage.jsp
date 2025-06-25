@@ -55,7 +55,6 @@
 			  </div>
 		</div>	  
 	</div>
-
 	<script src="/js/mypage.js" defer></script>
 </body>
 </html>
