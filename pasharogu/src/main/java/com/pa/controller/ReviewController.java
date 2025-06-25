@@ -46,7 +46,7 @@ public class ReviewController {
     public String writeReview(@RequestParam("regionId") String regionId,
     						  @RequestParam("rating") int rating,
     						  @RequestParam("content") String content,
-    						  @RequestParam("images") MultipartFile[] images,
+    						  @RequestParam(value = "images", required = false) MultipartFile[] images,
     						  HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
     	
@@ -71,25 +71,30 @@ public class ReviewController {
     	
     	
 //    	2. 이미지 저장
-    	for (MultipartFile file : images) {
-    		if(!file.isEmpty()) {
-    			String originalFilename = file.getOriginalFilename();
-    			String cleandFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
-    			String filename = UUID.randomUUID() + "_" + cleandFilename;
-    			String uploadDir = System.getProperty("user.dir") + "/upload/img";
-    			File uploadFolder = new File(uploadDir);
-    			if (!uploadFolder.exists()) {
-    			    uploadFolder.mkdirs();
-    			} // 또는 상대 경로 new File("upload/img")
-    			File dest = new File(uploadDir, filename);
-    			file.transferTo(dest);
-    			
-    			ReviewImage img = new ReviewImage();
-    			img.setImagePath("/upload/" + filename);
-    			img.setReview(review); // 연관관계 설정
-    			reviewImages.add(img);
-    		}
+    	if (images != null) {  // 이미지 배열이 아예 null 일 수도 있으니 체크
+    	    for (MultipartFile file : images) {
+    	        if (file != null && !file.isEmpty()) {
+    	            String originalFilename = file.getOriginalFilename();
+    	            String cleandFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    	            String filename = UUID.randomUUID() + "_" + cleandFilename;
+
+    	            String uploadDir = System.getProperty("user.dir") + "/upload/img";
+    	            File uploadFolder = new File(uploadDir);
+    	            if (!uploadFolder.exists()) {
+    	                uploadFolder.mkdirs();
+    	            }
+
+    	            File dest = new File(uploadFolder, filename);
+    	            file.transferTo(dest);
+
+    	            ReviewImage img = new ReviewImage();
+    	            img.setImagePath("/upload/" + filename);
+    	            img.setReview(review);
+    	            reviewImages.add(img);
+    	        }
+    	    }
     	}
+
     	
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
