@@ -94,6 +94,8 @@ function loadRegionInfo(regionId) {
 	      const imageHtml = (review.imageUrls || []).map(url => 
 	        `<img src="${url}" alt="리뷰이미지">`
 	      ).join('');
+		  
+		  
 
 	      item.innerHTML = `
 	        <div class="review-header">
@@ -101,7 +103,7 @@ function loadRegionInfo(regionId) {
 			  	<img src="${!review.profileImg || review.profileImg === 'null' ? '/img/default_profile.svg' : review.profileImg}" alt="유저사진" class="user-photo">
 	            <div class="user-info">
 	              <span class="user-name">${review.userId || '익명'}</span>
-	              <span class="review-date">${review.Date || ''}</span>
+	              <span class="review-date">${review.date || ''}</span>
 	              <div class="review-rating">
 	                <span class="score">${(review.rating || 0).toFixed(1)}</span>
 	                <span class="stars">${'★'.repeat(Math.round(review.rating || 0))}</span>
