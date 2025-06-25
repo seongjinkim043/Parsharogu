@@ -166,14 +166,20 @@
 }
 
 .favorite-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
   background: none;
   border: none;
-  font-size: 28px;
-  color: red;
   cursor: pointer;
+  font-size: 24px;
+  transition: color 0.2s;
+}
+
+.favorite-btn i {
+  color: #ccc; /* 기본 회색 */
+  transition: color 0.2s ease;
+}
+
+.favorite-btn i.liked {
+  color: red; /* 좋아요 눌렀을 때 채워진 느낌 */
 }
 
 /* ===== 리뷰 ===== */
@@ -190,30 +196,30 @@
 }
 
 .review-item {
-  border: 1px solid #eee;
+  background-color: #FAFAFA;
   border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 .review-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .user-section {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
   flex-wrap: wrap;
   flex: 1;
 }
 
 .user-photo {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -222,7 +228,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 16px;
   color: #333;
 }
 
@@ -232,30 +238,31 @@
 
 .review-date {
   color: #999;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .review-rating {
   display: flex;
+  margin-left: auto;
   align-items: center;
   justify-content: flex-end;
   min-width: 60px;
 }
 
 .review-rating .score {
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
+  margin-right: 5px;
 }
 
 .review-rating .stars {
   color: orange;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .review-content {
-  font-size: 13px;
+  font-size: 14px;
   color: #444;
-  margin: 5px 0;
+  margin: 15px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -264,13 +271,13 @@
 
 .review-images {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   margin-top: 5px;
 }
 
 .review-images img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -290,7 +297,7 @@
 .review-write-btn button {
   width: 40px;
   height: 40px;
-  font-size: 32px;
+  font-size: 24px;
   border: none;
   border-radius: 50%;
   background-color: #89b5ff;
@@ -382,17 +389,22 @@
 }
 
 .review-modal-close {
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 10px;
   background: none;
   border: none;
   font-size: 24px;
+  color: #eee;
   cursor: pointer;
+  padding: 0;
   line-height: 1;
-  border: 2px solid red;
-
 }
-.review-modal-close:hover {
-  color: #f00; /* 호버 시 색상 변경 (선택) */
+
+.review-modal-close:hover i {
+  color: #333;
+}
+
+.review-modal-close i {
+  pointer-events: none; /* 클릭 이벤트가 버튼에만 적용되도록 */
 }
