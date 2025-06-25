@@ -3,6 +3,7 @@
 <html>
 <head>
 	<title>パシャログ</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -42,7 +43,9 @@
 					</div>
 					<div class="region-desc"></div>
 				</div>
-				<button class="favorite-btn" data-region-id="${region.regionId}" }>❤</button>
+				<button class="favorite-btn" data-region-id="${region.regionId}">
+					<i class="fas fa-heart"></i>
+				</button>
 			</div>
 		
 			<!-- 리뷰 리스트 -->
@@ -52,9 +55,11 @@
 		
 			<!-- 리뷰 작성 버튼 -->
 			<div class="review-write-btn">
-			  <button id="review-write-btn" 
+				<button id="review-write-btn" 
 			          data-region-id="${region.regionId}"
-			          data-login="${not empty sessionScope.loginUser}">＋</button>
+			          data-login="${not empty sessionScope.loginUser}">
+			  		<i class="fas fa-plus"></i>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -78,7 +83,9 @@
 		  <input type="file" id="review-image" name="review-image" multiple>
 	    </label>
 	    <button id="review-submit">등록</button>
-	    <button class="review-modal-close">×</button>
+	    <button class="review-modal-close">
+			<i class="fas fa-times"></i>
+		</button>
 	  </div>
 	</div>
 	
