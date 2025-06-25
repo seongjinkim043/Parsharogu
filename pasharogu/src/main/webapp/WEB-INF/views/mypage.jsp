@@ -27,7 +27,7 @@
 			    行きたい　: <strong>${ikitaiCount}</strong></div>
 			  </div>
 		</section>
-	<hr style="width: 95%; border: none; border-top: 2px solid #ccc; margin: 0 auto 30px auto;" /> 
+	<hr class="profileline" /> 
 		
 		<div class="wrapper">
 		    <div class="top-row">

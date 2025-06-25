@@ -32,13 +32,24 @@ function renderReview(index) {
     imageHtml = review.imageUrls.map(url => `<img src="${url}" alt="리뷰 이미지" class="review-image">`).join('');
   }
 
+  // ⭐ 별점 시각화 추가
+   const rating = review.rating || 0;
+   const fullStars = Math.floor(rating);
+   const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+   const emptyStars = 5 - fullStars - halfStar;
+
+   const starHtml =
+     '★'.repeat(fullStars) +
+     (halfStar ? '☆' : '') +
+     '✩'.repeat(emptyStars);
+	 
   const item = document.createElement('div');
   item.className = 'review-item';
   item.innerHTML = `
     <div class="review-header">
-	  <span class="review-region">${review.regionName || ''}</span>
-      <span class="review-date">${review.date || ''}</span><br>
-      <span class="review-rating">評点: ${(review.rating || 0).toFixed(1)}</span><br>
+	  <span class="review-region">${review.regionName || ''}</span>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;
+      <span class="review-date">${(review.date || '').substring(0, 10)}</span>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;
+      <span class="review-rating">${(review.rating || 0).toFixed(1)} <span class="stars">${starHtml}</span></span><br>
     </div>
     <div class="review-content">${review.content || ''}</div>
     <div class="review-images">${imageHtml}</div>
