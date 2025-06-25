@@ -71,7 +71,8 @@ function loadRegionInfo(regionId) {
 
       document.querySelector(".region-name").textContent = data.name || "이름 없음";
       document.querySelector(".region-desc").textContent = data.description || "설명 없음";
-      document.querySelector(".score").textContent = (data.avgScore || 0).toFixed(1);
+	  
+      document.querySelector(".score").textContent = (data.avgRating || 0).toFixed(1);
       document.querySelector(".stars").textContent = "★".repeat(Math.round(data.avgScore || 0));
 
       const img = document.querySelector(".region-thumbnail img");
@@ -96,10 +97,10 @@ function loadRegionInfo(regionId) {
               <div class="user-section">
                 <img src="${review.userImageUrl || 'default-profile.jpg'}" alt="유저사진" class="user-photo">
                 <div class="user-info">
-                  <span class="user-name">${review.userName || '익명'}</span>
+                  <span class="user-name">${review.userNickname || '익명'}</span>
                   <span class="review-date">${review.date || ''}</span>
                   <div class="review-rating">
-                    <span class="score">${(review.score || 0).toFixed(1)}</span>
+                    <span class="score">${(review.rating || 0).toFixed(1)}</span>
                     <span class="stars">${'★'.repeat(Math.round(review.score || 0))}</span>
                   </div>
                 </div>
