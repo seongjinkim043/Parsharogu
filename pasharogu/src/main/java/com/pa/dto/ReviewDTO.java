@@ -13,4 +13,5 @@ public class ReviewDTO {
     private String Date;   // 작성일 (문자열로 포맷팅)
     private String profileImg;        // 프로필 이미지 경로
     private List<String> imageUrls;   // 리뷰 이미지 리스트 (3장까지 가능)
+    
 }
