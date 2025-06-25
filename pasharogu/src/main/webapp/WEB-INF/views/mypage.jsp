@@ -22,7 +22,7 @@
 			    <button class="nickname-btn" onclick="handleClick()"></button>
 			  </div>
 			
-			  <div style="text-align: right; font-size: 14px; margin-right: 20px;">
+			  <div class="reviewcounter">
 			    <div>レビュー地域　:　　 <strong>${reviewCount}</strong>
 			    行きたい　: <strong>${ikitaiCount}</strong></div>
 			  </div>
@@ -45,18 +45,11 @@
 		        </section>
 		
 				<section class="myreview">
-				        <c:if test="${not empty reviews}">
-						    <div class="review-wrapper">   
-						        <jsp:include page="myreview.jsp" />
-						    </div>
-					    </c:if>
-						
-						<c:if test="${empty reviews}">
-							<div class="review-wrapper">
-						  	  <p style="padding: 40px; color: #666; font-size: 25px">レビューがありません。</p>
-						    </div>
-						</c:if>
+				  	<button class="arrow left" onclick="showPreviousReview()">◀</button>
+  						<div id="review-container"></div>
+  					<button class="arrow right" onclick="showNextReview()">▶</button>
 				</section>
+
 			  </div>
   
 		      <div class="ikitai-review">		  

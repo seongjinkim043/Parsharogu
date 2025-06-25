@@ -45,6 +45,12 @@
 		  background-color: #0056b3;
 		}
 		
+		.reviewcounter{
+		text-align: right;
+		font-size: 14px;
+		margin-right: 20px;
+		}
+		
         .wrapper {
 		  min-height: auto;
 		}
@@ -90,6 +96,7 @@
 		}
 
         .review-wrapper {
+        	position: relative;
 		    flex: 1;
 		    min-width: 900px;
 		    height: 400px;
