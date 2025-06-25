@@ -168,40 +168,50 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    favBtn.addEventListener('click', function() {
-        const regionId = favBtn.getAttribute('data-region-id');
+	favBtn.addEventListener('click', function () {
+	    const regionId = favBtn.getAttribute('data-region-id');
+	    const isLoggedIn = favBtn.getAttribute('data-login') === 'true'; // ← 추가한 부분
 
-        if (!regionId) {
-            alert("地域を選択してください！");
-            return;
-        }
+	    if (!regionId) {
+	        alert("地域を選択してください！");
+	        return;
+	    }
 
-        fetch('/ikitai/toggle', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ regionId: regionId }),
-            credentials: 'same-origin'
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error("登録に失敗しました。");
-            }
-        })
-        .then(result => {
-			const icon = favBtn.querySelector('i');
-			if (result === 'added') {
-				icon.classList.add('liked');
-			} else {
-				icon.classList.remove('liked');
-			}
-        })
-        .catch(error => {
-            console.error(error);
-            alert("エラーが発生しました。");
-        });
-    });
+	    // ⛔ 로그인 안 한 경우 안내 후 로그인 페이지로 이동
+	    if (!isLoggedIn) {
+	        if (confirm("이 기능은 로그인 후 이용 가능합니다. 로그인 하시겠습니까?")) {
+	            window.location.href = "/login";
+	        }
+	        return;
+	    }
+
+	    // ✅ 로그인 한 경우에만 toggle 진행
+	    fetch('/ikitai/toggle', {
+	        method: 'POST',
+	        headers: { 'Content-type': 'application/json' },
+	        body: JSON.stringify({ regionId: regionId }),
+	        credentials: 'same-origin'
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            return response.text();
+	        } else {
+	            throw new Error("登録に失敗しました。");
+	        }
+	    })
+	    .then(result => {
+	        const icon = favBtn.querySelector('i');
+	        if (result === 'added') {
+	            icon.classList.add('liked');
+	        } else {
+	            icon.classList.remove('liked');
+	        }
+	    })
+	    .catch(error => {
+	        console.error(error);
+	        alert("エラーが発生しました。");
+	    });
+	});
 });
 
 
