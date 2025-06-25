@@ -12,11 +12,14 @@ import com.pa.entity.ReviewImage;
 import com.pa.repository.ReviewRepository;
 import com.pa.service.RegionService;
 import com.pa.service.ReviewService;
+import com.pa.repository.UserRepository;
+import com.pa.entity.User;
 
 import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,8 +28,11 @@ import java.util.UUID;
 @RequestMapping("/api/reviews")
 public class ReviewController {
 	
-	 @Autowired
-	 private ReviewRepository reviewRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
     private final ReviewService reviewService;
     
@@ -50,12 +56,16 @@ public class ReviewController {
     		return "redirect:/login";
     	}
     	
+    	User user = userRepository.findById(userId)
+    			.orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    	
     	// 1. 리뷰 저장
     	Review review = new Review();
+    	review.setUser(user);
     	review.setRegionId(regionId);
-    	review.setUserId(userId);
     	review.setContent(content);
     	review.setRating(rating);
+    	review.setCreateAt(LocalDateTime.now());
     	
     	List<ReviewImage> reviewImages = new ArrayList<>();
     	
@@ -63,7 +73,9 @@ public class ReviewController {
 //    	2. 이미지 저장
     	for (MultipartFile file : images) {
     		if(!file.isEmpty()) {
-    			String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+    			String originalFilename = file.getOriginalFilename();
+    			String cleandFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    			String filename = UUID.randomUUID() + "_" + cleandFilename;
     			String uploadDir = "C:/upload/img"; // 또는 상대 경로 new File("upload/img")
     			File dest = new File(uploadDir, filename);
     			file.transferTo(dest);
