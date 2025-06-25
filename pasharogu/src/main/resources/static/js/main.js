@@ -102,11 +102,11 @@ function loadRegionInfo(regionId) {
 	            <div class="user-info">
 	              <span class="user-name">${review.userId || '익명'}</span>
 	              <span class="review-date">${review.Date || ''}</span>
-	              <div class="review-rating">
-	                <span class="score">${(review.rating || 0).toFixed(1)}</span>
-	                <span class="stars">${'★'.repeat(Math.round(review.rating || 0))}</span>
-	              </div>
 	            </div>
+	            <div class="review-rating">
+	            	<span class="score">${(review.rating || 0).toFixed(1)}</span>
+	                <span class="stars">${'★'.repeat(Math.round(review.rating || 0))}</span>
+	           	</div>
 	          </div>
 	        </div>
 	        <div class="review-content">${review.content || ''}</div>
@@ -127,7 +127,7 @@ function loadRegionInfo(regionId) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function() {
     const regions = document.querySelectorAll('.region');
     const favBtn = document.querySelector('.favorite-btn');
 
@@ -136,7 +136,12 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/ikitai/check?regionId=${initRegionId}`)
             .then(res => res.json())
             .then(data => {
-                favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+				const icon = favBtn.querySelector('i');
+				if (data.isAdded) {
+					icon.classList.add('liked');
+				} else {
+					icon.classList.remove('liked');
+				}
             });
     }
 
@@ -153,7 +158,12 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/ikitai/check?regionId=${regionId}`)
                 .then(res => res.json())
                 .then(data => {
-                    favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+					const icon = favBtn.querySelector('i');
+					if (data.isAdded) {
+						icon.classList.add('liked');
+					} else {
+						icon.classList.remove('liked');
+					}
                 });
         });
     });
@@ -180,7 +190,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(result => {
-            favBtn.textContent = (result === 'added') ? '❤️' : '🤍';
+			const icon = favBtn.querySelector('i');
+			if (result === 'added') {
+				icon.classList.add('liked');
+			} else {
+				icon.classList.remove('liked');
+			}
         })
         .catch(error => {
             console.error(error);
@@ -321,7 +336,12 @@ function updateFavoriteStatus(regionId) {
   fetch(`/ikitai/check?regionId=${regionId}`)
     .then(res => res.json())
     .then(data => {
-      favBtn.textContent = data.isAdded ? '❤️' : '🤍';
+		const icon = favBtn.querySelector('i');
+		if (data.isAdded) {
+			icon.classList.add('liked');
+		} else {
+			icon.classList.remove('liked');
+		}
     })
     .catch(err => {
       console.error("하트 상태 로드 실패", err);
