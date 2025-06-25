@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Noto Sans JP', sans-serif;
-    background-color: #E3F2FD;
+    background-color: #F0F8FF;
     min-height: 100vh;
     position: relative;
 }
@@ -26,13 +26,12 @@ body {
 }
 
 .logo {
-    font-size: 36px;
-    font-weight: 700;
-    color: #1976D2;
-    line-height: 1.2;
-    text-decoration: none;
-}
-
+			font-size: 36px !important;
+			font-weight: bold;
+			color: #2962FF;
+			text-decoration: none;
+			cursor: pointer;
+		}
 .main-form {
     position: absolute;
     top: 190px;
@@ -98,7 +97,7 @@ body {
 
 /* 공통 버튼 스타일 */
 .image-action-button {
-    background-color: #4da6ff;
+    background-color: #89b5ff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -157,7 +156,7 @@ body {
 }
 
 .btn-check-nickname {
-    background-color: #4da6ff;
+    background-color: #89b5ff;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -173,7 +172,7 @@ body {
     background-color: #1976D2;
 }
 .btn-check-id {
-    background-color: #4da6ff;
+    background-color: #89b5ff;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -192,7 +191,7 @@ body {
 .submit-button {
     width: 100%;
     height: 60px;
-    background-color: #42A5F5;
+    background-color: #89b5ff;
     border: none;
     border-radius: 10px;
     font-size: 24px;
@@ -205,11 +204,11 @@ body {
 }
 
 .submit-button:hover {
-    background-color: #6D6D6D;
+    background-color: #1976D2;
 }
 
 .submit-button:active {
-    background-color: #5D5D5D;
+    background-color: #1976D2;
 }
 
 .input-message {
