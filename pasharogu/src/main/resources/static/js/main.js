@@ -82,39 +82,44 @@ function loadRegionInfo(regionId) {
 	  document.getElementById('modal-region-name').textContent = data.name || '地域'; //리뷰 작성 모달 지역 설정
 	  document.getElementById('modal-region-name').dataset.regionId = data.regionId || '';
 
-      const reviewList = document.querySelector(".review-list");
-      reviewList.innerHTML = "";
 
-      if (data.reviews && data.reviews.length > 0) {
-        data.reviews.forEach(review => {
-          const item = document.createElement("div");
-          item.className = "review-item";
+	  const reviewList = document.querySelector(".review-list");
+	  reviewList.innerHTML = "";
 
-          const imageHtml = (review.imageUrls || []).map(url => `<img src="${url}" alt="리뷰이미지">`).join('');
+	  if (data.reviews && data.reviews.length > 0) {
+	    data.reviews.forEach(review => {
+	      const item = document.createElement("div");
+	      item.className = "review-item";
 
-          item.innerHTML = `
-            <div class="review-header">
-              <div class="user-section">
-                <img src="${review.userImageUrl || 'default-profile.jpg'}" alt="유저사진" class="user-photo">
-                <div class="user-info">
-                  <span class="user-name">${review.userNickname || '익명'}</span>
-                  <span class="review-date">${review.date || ''}</span>
-                  <div class="review-rating">
-                    <span class="score">${(review.rating || 0).toFixed(1)}</span>
-                    <span class="stars">${'★'.repeat(Math.round(review.score || 0))}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="review-content">${review.content || ''}</div>
-            <div class="review-images">${imageHtml}</div>
-          `;
+	      const imageHtml = (review.imageUrls || []).map(url => 
+	        `<img src="${url}" alt="리뷰이미지">`
+	      ).join('');
 
-          reviewList.appendChild(item);
-        });
-      } else {
-        reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
-      }
+	      item.innerHTML = `
+	        <div class="review-header">
+	          <div class="user-section">
+			  	<img src="${!review.profileImg || review.profileImg === 'null' ? '/img/default_profile.svg' : review.profileImg}" alt="유저사진" class="user-photo">
+	            <div class="user-info">
+	              <span class="user-name">${review.userId || '익명'}</span>
+	              <span class="review-date">${review.Date || ''}</span>
+	              <div class="review-rating">
+	                <span class="score">${(review.rating || 0).toFixed(1)}</span>
+	                <span class="stars">${'★'.repeat(Math.round(review.rating || 0))}</span>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="review-content">${review.content || ''}</div>
+	        <div class="review-images">${imageHtml}</div>
+	      `;
+
+	      reviewList.appendChild(item);
+	    });
+	  } else {
+	    reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
+	  }
+
+
     })
     .catch(error => {
       console.error("지역 정보 로드 실패", error);
@@ -187,32 +192,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   const modal = document.getElementById('review-modal');
-  const openBtn = document.querySelector('.review-write-btn button'); // + 버튼
+  const openBtn = document.getElementById('review-write-btn'); // + 버튼
   const closeBtn = modal.querySelector('.review-modal-close');
   const submitBtn = document.getElementById('review-submit');
   const starElements = modal.querySelectorAll('.review-stars span');
   let selectedScore = 0;
 
   if (!openBtn) {
-    console.warn('리뷰 작성 버튼이 없습니다 (로그인하지 않았거나 조건 미충족).');
-    return; // 버튼이 없으면 이후 코드 실행 안 함
+    console.warn('리뷰 작성 버튼이 없습니다.');
+    return;
   }
 
-  // 모달 열기
+  // 모달 열기 (로그인 여부 체크)
   openBtn.addEventListener('click', function() {
     const regionId = this.getAttribute('data-region-id');
+    const isLoggedIn = this.getAttribute('data-login') === 'true';
+
+    if (!isLoggedIn) {
+      if (confirm('리뷰 작성은 로그인 후 가능합니다. 로그인하시겠습니까?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
     if (!regionId) {
       alert('모달을 열 때 지역 정보가 필요합니다!');
       return;
     }
 
     submitBtn.setAttribute('data-region-id', regionId);
-    modal.style.display = 'block';
+	document.querySelector('.modal-overlay').style.display = 'block';
+	document.getElementById('review-modal').style.display = 'flex';
   });
 
   // 모달 닫기
   closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
+	document.querySelector('.modal-overlay').style.display = 'none';
+	document.getElementById('review-modal').style.display = 'none';
     resetModal();
   });
 
@@ -295,6 +311,7 @@ document.addEventListener("DOMContentLoaded", function() {
     updateStars(0);
   }
 });
+
 
 
 function updateFavoriteStatus(regionId) {

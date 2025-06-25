@@ -28,7 +28,7 @@
 			  <div class="profile-image-wrapper">
 			  <label for="profile-image" class="form-label">プロフィールイメージ</label>
 				  <div class="profile-image">
-				    <img id="profilePreview" src="/img/default-profile.png" alt="選択しないと基本イメージになります" 
+				    <img id="profilePreview" src="/img/default_profile.svg" alt="選択しないと基本イメージになります" 
 				         style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">	 
 				  </div>
 				  <div class="profile-image-buttons">
