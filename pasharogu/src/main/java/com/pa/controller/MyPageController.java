@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pa.dto.IkitaiDTO;
 import com.pa.dto.ReviewDTO;
@@ -55,5 +56,15 @@ public class MyPageController {
             return "error"; // 예외 발생 시 에러 페이지로 이동 (원하는 대로 수정 가능)
         }
     	    return "mypage"; // => /WEB-INF/views/mypage.jsp    	
+    }
+    
+    @GetMapping("/myreviews")
+    @ResponseBody
+    public List<ReviewDTO> getMyReviews(HttpSession session) {
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return List.of(); // 빈 리스트 반환 (비로그인 시)
+        }
+        return reviewService.getReviewsByUserId(loginUser.getUserId());
     }
 }
