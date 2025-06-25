@@ -36,6 +36,7 @@ function renderReview(index) {
   item.className = 'review-item';
   item.innerHTML = `
     <div class="review-header">
+	  <span class="review-region">${review.regionName || ''}</span>
       <span class="review-date">${review.date || ''}</span><br>
       <span class="review-rating">評点: ${(review.rating || 0).toFixed(1)}</span><br>
     </div>

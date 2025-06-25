@@ -59,7 +59,8 @@ public class ReviewServiceImpl implements ReviewService {
         dto.setContent(review.getContent());
         dto.setRating(review.getRating());
         dto.setDate(review.getCreateAt().toString());  // 포맷 변경 원하면 DateTimeFormatter 사용
-
+        dto.setRegionId(review.getRegion().getRegionId());
+        dto.setRegionName(review.getRegion().getName());
         dto.setImageUrls(
             review.getImages().stream()
                   .map(img -> img.getImagePath())
