@@ -156,7 +156,6 @@
   line-height: 1;
 }
 
-
 .region-desc {
   font-size: 16px;
   color: #666;
@@ -178,6 +177,17 @@
 }
 
 /* ===== 리뷰 ===== */
+.review-list {
+  height: 600px;
+  overflow-y: auto;
+  /* 스크롤바 숨기기 - Webkit (Chrome, Safari) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE, Edge */
+  }
+  
+.review-list::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari */
+}
 
 .review-item {
   border: 1px solid #eee;
@@ -269,16 +279,18 @@
 } 
 
 .review-write-btn {
-  position: sticky;
-  bottom: 10px;
-  display: flex;
-  justify-content: flex-end;
+	position: fixed;
+    bottom: 30px;
+	right: 30px;
+	display: flex;
+	justify-content: flex-end;
+	z-index: 1000; /* 다른 요소 위에 보이도록 */
 }
 
 .review-write-btn button {
   width: 40px;
   height: 40px;
-  font-size: 24px;
+  font-size: 32px;
   border: none;
   border-radius: 50%;
   background-color: #89b5ff;

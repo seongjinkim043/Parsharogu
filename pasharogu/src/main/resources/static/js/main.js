@@ -81,39 +81,42 @@ function loadRegionInfo(regionId) {
 	  document.getElementById('modal-region-name').textContent = data.name || '地域'; //리뷰 작성 모달 지역 설정
 	  document.getElementById('modal-region-name').dataset.regionId = data.regionId || '';
 
-      const reviewList = document.querySelector(".review-list");
-      reviewList.innerHTML = "";
+	  const reviewList = document.querySelector(".review-list");
+	  reviewList.innerHTML = "";
 
-      if (data.reviews && data.reviews.length > 0) {
-        data.reviews.forEach(review => {
-          const item = document.createElement("div");
-          item.className = "review-item";
+	  if (data.reviews && data.reviews.length > 0) {
+	    data.reviews.forEach(review => {
+	      const item = document.createElement("div");
+	      item.className = "review-item";
 
-          const imageHtml = (review.imageUrls || []).map(url => `<img src="${url}" alt="리뷰이미지">`).join('');
+	      const imageHtml = (review.imageUrls || []).map(url => 
+	        `<img src="${url}" alt="리뷰이미지">`
+	      ).join('');
 
-          item.innerHTML = `
-            <div class="review-header">
-              <div class="user-section">
-                <img src="${review.userImageUrl || 'default-profile.jpg'}" alt="유저사진" class="user-photo">
-                <div class="user-info">
-                  <span class="user-name">${review.userName || '익명'}</span>
-                  <span class="review-date">${review.date || ''}</span>
-                  <div class="review-rating">
-                    <span class="score">${(review.score || 0).toFixed(1)}</span>
-                    <span class="stars">${'★'.repeat(Math.round(review.score || 0))}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="review-content">${review.content || ''}</div>
-            <div class="review-images">${imageHtml}</div>
-          `;
+	      item.innerHTML = `
+	        <div class="review-header">
+	          <div class="user-section">
+			  	<img src="${!review.profileImg || review.profileImg === 'null' ? '/img/default_profile.svg' : review.profileImg}" alt="유저사진" class="user-photo">
+	            <div class="user-info">
+	              <span class="user-name">${review.userId || '익명'}</span>
+	              <span class="review-date">${review.Date || ''}</span>
+	              <div class="review-rating">
+	                <span class="score">${(review.rating || 0).toFixed(1)}</span>
+	                <span class="stars">${'★'.repeat(Math.round(review.rating || 0))}</span>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="review-content">${review.content || ''}</div>
+	        <div class="review-images">${imageHtml}</div>
+	      `;
 
-          reviewList.appendChild(item);
-        });
-      } else {
-        reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
-      }
+	      reviewList.appendChild(item);
+	    });
+	  } else {
+	    reviewList.innerHTML = "<div class='no-reviews'>아직 리뷰가 없습니다.</div>";
+	  }
+
     })
     .catch(error => {
       console.error("지역 정보 로드 실패", error);
