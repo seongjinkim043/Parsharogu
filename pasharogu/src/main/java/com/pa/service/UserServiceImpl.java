@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("이미지 업로드 실패: " + e.getMessage());
             }
         }	else {
-            user.setProfileImg("/img/default-profile.png");
+            user.setProfileImg("/img/default_profile.svg");
         }
         System.out.println("Saving user to DB................");
         userRepository.save(user);
