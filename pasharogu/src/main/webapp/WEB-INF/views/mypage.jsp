@@ -23,11 +23,11 @@
 			  </div>
 			
 			  <div class="reviewcounter">
-			    <div>レビュー地域　:　　 <strong>${reviewCount}</strong>
+			    <div>レビュー地域　: <strong>${reviewCount}</strong>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;
 			    行きたい　: <strong>${ikitaiCount}</strong></div>
 			  </div>
 		</section>
-	<hr style="border: none; border-top: 2px solid #ccc; margin: 0 0 30px 0;" /> 
+	<hr class="profileline" /> 
 		
 		<div class="wrapper">
 		    <div class="top-row">
@@ -45,9 +45,7 @@
 		        </section>
 		
 				<section class="myreview">
-				  	<button class="arrow left" onclick="showPreviousReview()">◀</button>
-  						<div id="review-container"></div>
-  					<button class="arrow right" onclick="showNextReview()">▶</button>
+				  	<jsp:include page="myreview.jsp" />
 				</section>
 
 			  </div>

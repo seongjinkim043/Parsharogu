@@ -171,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	favBtn.addEventListener('click', function () {
 	    const regionId = favBtn.getAttribute('data-region-id');
 	    const isLoggedIn = favBtn.getAttribute('data-login') === 'true'; // ← 추가한 부분
+		
+		console.log("userId : ", isLoggedIn);
 
 	    if (!regionId) {
 	        alert("地域を選択してください！");
@@ -307,8 +309,9 @@ document.addEventListener("DOMContentLoaded", function() {
       if (res.ok) {
         alert('리뷰가 등록되었습니다.');
         modal.style.display = 'none';
+		document.querySelector('.modal-overlay').style.display = 'none';
         resetModal();
-        location.reload();
+        loadReviewPanel(regionId);
       } else {
         alert('리뷰 등록 실패');
       }

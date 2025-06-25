@@ -1,7 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <section class="reviews" id="reviews">
-    <h2>マイリビュー</h2>
+    <h1 class="review-title">マイリビュー</h1>
+    <p class="review-subtitle">自分のレビューを確認して、クリックで編集できます</p>
 
     <div class="review-scroll-container">
         <button class="arrow left" onclick="showPreviousReview()">◀</button>
