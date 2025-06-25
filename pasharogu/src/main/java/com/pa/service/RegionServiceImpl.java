@@ -71,6 +71,13 @@ public class RegionServiceImpl implements RegionService {
         List<ReviewDTO> reviews = getReviewsForRegion(regionId);
         dto.setReviews(reviews);
         
+        double avg = reviews.stream()
+        		.mapToDouble(ReviewDTO::getRating)
+        		.average()
+        		.orElse(0.0);
+        
+        dto.setAvgRating(avg);
+        
         return dto;
     }
     
@@ -78,7 +85,7 @@ public class RegionServiceImpl implements RegionService {
     public List<ReviewDTO> getReviewsForRegion(String regionId) {
         List<Review> reviews = reviewRepository.findByRegionRegionId(regionId);
         List<ReviewDTO> dtoList = new ArrayList<>();
-
+        
         for (Review review : reviews) {
             ReviewDTO dto = new ReviewDTO();
             
@@ -100,6 +107,8 @@ public class RegionServiceImpl implements RegionService {
 
             dto.setImageUrls(imageUrls);
             dtoList.add(dto);
+            
+       
         }
         return dtoList;
     }

@@ -13,7 +13,7 @@ public class RegionDTO {
 	private String description;
 	private String svgId;
 	private double rating;
-	private Double averageRating;
+	private Double avgRating;
 	
 	private List<ReviewDTO> reviews;
 	
