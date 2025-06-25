@@ -309,8 +309,9 @@ document.addEventListener("DOMContentLoaded", function() {
       if (res.ok) {
         alert('리뷰가 등록되었습니다.');
         modal.style.display = 'none';
+		document.querySelector('.modal-overlay').style.display = 'none';
         resetModal();
-        location.reload();
+        loadReviewPanel(regionId);
       } else {
         alert('리뷰 등록 실패');
       }

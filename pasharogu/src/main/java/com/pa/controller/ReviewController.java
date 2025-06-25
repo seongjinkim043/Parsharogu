@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -43,17 +45,20 @@ public class ReviewController {
     }
     
     @PostMapping("/write")
-    public String writeReview(@RequestParam("regionId") String regionId,
-    						  @RequestParam("rating") int rating,
-    						  @RequestParam("content") String content,
-    						  @RequestParam(value = "images", required = false) MultipartFile[] images,
-    						  HttpSession session) throws IOException  {
+    @ResponseBody
+    public Map<String, Object> writeReview(@RequestParam("regionId") String regionId,
+    						   @RequestParam("rating") int rating,
+    						   @RequestParam("content") String content,
+    						   @RequestParam(value = "images", required = false) MultipartFile[] images,
+    						   HttpSession session) throws IOException  {
     	Long userId = (Long) session.getAttribute("userId");
-    	
+    	Map<String, Object> result = new HashMap<>();
   
     	if (userId == null) {
     		
-    		return "redirect:/login";
+    		result.put("status", "fail");
+    		result.put("redirect", "/login");
+    		return result;
     	}
     	
     	User user = userRepository.findById(userId)
@@ -98,7 +103,9 @@ public class ReviewController {
     	
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
-    	return "redirect:/main";
+
+    	result.put("status", "success");
+    	return result;
     }
     			
 
