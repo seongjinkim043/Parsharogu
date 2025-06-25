@@ -90,29 +90,37 @@ function scrollIkitaiRight() {
 }
 
 function toggleIkitai(el, regionId) {
-  fetch('/ikitai/toggle', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ regionId: regionId })
-  })
-    .then(response => response.text())
-    .then(result => {
-      console.log('Toggle result:', result);
+	    fetch('/ikitai/toggle', {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'   // ✅ 수정
+	        },
+	        body: JSON.stringify({ regionId: regionId })  // ✅ 수정
+	    })
+	    .then(response => response.text())
+	    .then(result => {
+	        console.log('Toggle result:', result);
 
-      if (result === 'added') {
-        el.textContent = '❤️';
-      } else if (result === 'removed') {
-        const card = el.closest('.ikitai-card');
-        card.style.transition = 'opacity 0.15s ease';
-        card.style.opacity = '0';
-        setTimeout(() => {
-          card.remove();
-        }, 500);
-      }
-    });
-}
+	        if (result === 'added') {
+	            el.textContent = '❤️';
+	        } else if (result === 'removed') {
+	            const card = el.closest('.ikitai-card');
+	            card.style.transition = 'opacity 0.15s ease';
+	            card.style.opacity = '0';
+	            setTimeout(() => {
+	                card.remove();
+	                // ✅ 카운트 숫자 줄이기
+	                const countEl = document.querySelector('.profile strong:last-child');
+	                if (countEl) {
+	                    let count = parseInt(countEl.textContent);
+	                    if (!isNaN(count) && count > 0) {
+	                        countEl.textContent = count - 1;
+	                    }
+	                }
+	            }, 500);
+	        }
+	    });
+	}
 
 function handleClick() {
   alert('マイプロフィールに移動しますか？');
