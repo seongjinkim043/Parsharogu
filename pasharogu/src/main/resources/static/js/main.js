@@ -171,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	favBtn.addEventListener('click', function () {
 	    const regionId = favBtn.getAttribute('data-region-id');
 	    const isLoggedIn = favBtn.getAttribute('data-login') === 'true'; // ← 추가한 부분
+		
+		console.log("userId : ", isLoggedIn);
 
 	    if (!regionId) {
 	        alert("地域を選択してください！");
