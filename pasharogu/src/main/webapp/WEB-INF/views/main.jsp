@@ -43,7 +43,7 @@
 					</div>
 					<div class="region-desc"></div>
 				</div>
-				<button class="favorite-btn" data-region-id="${region.regionId}">
+				<button class="favorite-btn" data-login="${isLoggedIn}" data-region-id="${regionId}">
 					<i class="fas fa-heart"></i>
 				</button>
 			</div>
