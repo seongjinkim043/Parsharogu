@@ -11,6 +11,10 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
+    // ⭐ 유저별 일정 조회 추가
+    List<Schedule> findByUserUserId(Long userId);
+
+    // 기존 금액 관련 쿼리
     @Query(value = "SELECT COALESCE(SUM(amount), 0) " +
                    "FROM schedule " +
                    "WHERE TO_CHAR(start_date, 'YYYY-MM') = :yearMonth", nativeQuery = true)
