@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<footer class="footer" style="text-align:center; margin-top: 60px; font-size: 16px; color: #89b5ff;">
+<footer class="footer" style="text-align:center; margin-top: 60px; font-size: 25px; color: #89b5ff;">
         パシャログをご利用いただきありがとうございます。
 </footer>
 </body>
