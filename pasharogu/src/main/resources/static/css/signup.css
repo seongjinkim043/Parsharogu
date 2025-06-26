@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background-color: #F0F8FF;
+	font-family: 'Noto Sans', 'Noto Sans JP', sans-serif;
+	background-color: #F0F8FF;
     min-height: 100vh;
     position: relative;
 }
