@@ -49,7 +49,7 @@
 						</div>
 	                    
 	                    <div class="forgot-link">
-	                        <a href="http://localhost:8080/signup" class="forgot-password-link">ログインができない方はこちら</a>
+	                        <a href="/cannotlogin" class="forgot-password-link">ログインができない方はこちら</a>
 	                    </div>
 	                    
 	                    <div class="alert-password">
