@@ -73,7 +73,6 @@ function loadRegionInfo(regionId) {
       document.querySelector(".region-desc").textContent = data.description || "설명 없음";
 	  
       document.querySelector(".score").textContent = (data.avgRating || 0).toFixed(1);
-      document.querySelector(".stars").textContent = "★".repeat(Math.round(data.avgScore || 0));
 
 	  const img = document.querySelector(".region-thumbnail img");
 	  img.alt = `${data.name || "지역"} 썸네일`;

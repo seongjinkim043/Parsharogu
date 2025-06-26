@@ -173,16 +173,16 @@ body{
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 24px;
-  transition: transform 0.5s ease, background-color 0.2s ease;
-}
-.favorite-btn:hover{
-	transform: scale(1.1);
+  font-size: 32px;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .favorite-btn i {
   color: #ccc; /* 기본 회색 */
-  transition: color 0.2s ease;
+}
+
+.favorite-btn i:hover{
+  transform: scale(1.1);
 }
 
 .favorite-btn i.liked {
