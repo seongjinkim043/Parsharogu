@@ -84,7 +84,7 @@ public class ReviewController {
     	            String cleandFilename = originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
     	            String filename = UUID.randomUUID() + "_" + cleandFilename;
 
-    	            String uploadDir = System.getProperty("user.dir") + "/upload/img";
+    	            String uploadDir = "\\\\192.168.0.48\\img";
     	            File uploadFolder = new File(uploadDir);
     	            if (!uploadFolder.exists()) {
     	                uploadFolder.mkdirs();
