@@ -66,7 +66,10 @@
 	
 				    <div class="form-group">
 				        <label for="password" class="form-label">パスワード</label>
-				        <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
+				          <div class="password-wrapper">
+						    <input type="password" id="password" name="password" class="form-input" placeholder="パスワードを入力" required>
+						    <i id="togglePassword" class="fa-solid fa-eye toggle-password"></i>
+						  </div>
 				        	<div class="input-guide">※英数字で6~12文字で入力してください</div>
 				        	<div class="input-message" id="password-message"></div>
 				    </div>
