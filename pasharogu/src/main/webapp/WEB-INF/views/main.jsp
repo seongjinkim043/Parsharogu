@@ -1,13 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 
 <html>
 <head>
 	<title>パシャログ</title>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> 
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
 	<div class="container">
 		<!-- 지도 -->
 		<div class="map-panel">

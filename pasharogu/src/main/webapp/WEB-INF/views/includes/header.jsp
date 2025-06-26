@@ -11,7 +11,6 @@
 
     <!-- 내비게이션 -->
     <nav class="nav-menu">
-      <a href="/mypage">マイページ</a>
       <c:choose>
         <c:when test="${not empty sessionScope.loginUser}">
           <a href="/logout">ログアウト</a>
@@ -20,6 +19,7 @@
           <a href="/login">ログイン</a>
         </c:otherwise>
       </c:choose>
+      <a href="/mypage">マイページ</a>
     </nav>	
 
   </div>
