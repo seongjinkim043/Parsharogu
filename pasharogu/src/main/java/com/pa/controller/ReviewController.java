@@ -100,6 +100,12 @@ public class ReviewController {
     	        }
     	    }
     	}
+    	
+    	if (content.length() > 1000) {
+    		result.put("status", "fail");
+    		result.put("error", "리뷰는 1000자 이내로 작성해야 합니다.");
+    		return result;
+    	}
 
     	
     	review.setImages(reviewImages);

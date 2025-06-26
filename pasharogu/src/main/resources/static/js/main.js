@@ -291,6 +291,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const imageInput = document.getElementById('review-image');
     const images = imageInput ? imageInput.files : [];
     const regionId = submitBtn.getAttribute('data-region-id');
+	
+	if (text.length > 1000) {
+		alert(`리뷰는 1000자 이내로 작성해주세요. (현재 ${text.length}자)`)
+		return;
+	}
 
     if (!regionId) {
       alert('지역 정보가 없습니다.');
