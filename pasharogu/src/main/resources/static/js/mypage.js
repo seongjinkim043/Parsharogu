@@ -51,8 +51,10 @@ function renderReview(index) {
       <span class="review-date">${(review.date || '').substring(0, 10)}</span>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;
       <span class="review-rating">${(review.rating || 0).toFixed(1)} <span class="stars">${starHtml}</span></span><br>
     </div>
-    <div class="review-content">${review.content || ''}</div>
-    <div class="review-images">${imageHtml}</div>
+	<div class="review-scroll-container">
+	    <div class="review-content">${review.content || ''}</div><br>
+	    <div class="review-images">${imageHtml}</div>
+	</div>
   `;
 
   container.appendChild(item);
@@ -73,20 +75,23 @@ function showPreviousReview() {
 }
 
 
-// 다음 리뷰 보기
+// 다음 리뷰 보기(순환)
 function showNextReview() {
-  if (currentIndex < reviews.length - 1) {
+  if (currentIndex >= reviews.length - 1) {
+    currentIndex = 0;  // 마지막에서 첫 번째로 순환
+  } else {
     currentIndex++;
-    renderReview(currentIndex);
   }
+  renderReview(currentIndex);
 }
-
-// 이전 리뷰 보기
+//이전 리뷰 보기(순환)
 function showPreviousReview() {
-  if (currentIndex > 0) {
+  if (currentIndex <= 0) {
+    currentIndex = reviews.length - 1;  // 첫 번째에서 마지막으로 순환
+  } else {
     currentIndex--;
-    renderReview(currentIndex);
   }
+  renderReview(currentIndex);
 }
 
 // 이하 기존 함수 유지
