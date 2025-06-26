@@ -83,7 +83,7 @@ public class RegionServiceImpl implements RegionService {
     
     @Override
     public List<ReviewDTO> getReviewsForRegion(String regionId) {
-        List<Review> reviews = reviewRepository.findByRegionRegionId(regionId);
+        List<Review> reviews = reviewRepository.findReviewsByRegionIdOrdered(regionId);
         List<ReviewDTO> dtoList = new ArrayList<>();
         
         for (Review review : reviews) {
@@ -110,6 +110,9 @@ public class RegionServiceImpl implements RegionService {
             
        
         }
+        
+        System.out.println("리뷰 갯수: " + reviews.size());
+        System.out.println("첫 리뷰 작성일: " + reviews.get(0).getCreateAt());
         return dtoList;
     }
 
