@@ -49,13 +49,20 @@ html {
 <div class="calendar-wrapper">
   <!-- 첫 번째 달력 + 왼쪽 화살표 -->
   <div class="calendar-box">
-    <button id="prevBtn" class="arrow-btn calendar-arrow-left">&#8592;</button>
+    <!-- 왼쪽 버튼 -->
+<button id="prevBtn" class="arrow-btn calendar-arrow-left">
+  <i class="fa-solid fa-chevron-left"></i>
+</button>
+
     <div id="calendar1"></div>
   </div>
 
   <!-- 두 번째 달력 + 오른쪽 화살표 -->
   <div class="calendar-box">
-    <button id="nextBtn" class="arrow-btn calendar-arrow-right">&#8594;</button>
+   <!-- 오른쪽 버튼 -->
+<button id="nextBtn" class="arrow-btn calendar-arrow-right">
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
     <div id="calendar2"></div>
   </div>
 

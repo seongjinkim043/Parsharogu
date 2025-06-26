@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
-            	String uploadDir = "C:/upload/img/";
+            	String uploadDir = System.getProperty("user.dir") + "/upload/img/";            	
             	File uploadPath = new File(uploadDir);
             	if (!uploadPath.exists()) {
             	    uploadPath.mkdirs();
