@@ -75,9 +75,15 @@ function loadRegionInfo(regionId) {
       document.querySelector(".score").textContent = (data.avgRating || 0).toFixed(1);
       document.querySelector(".stars").textContent = "★".repeat(Math.round(data.avgScore || 0));
 
-      const img = document.querySelector(".region-thumbnail img");
-      img.src = data.thumbnailUrl || "/img/basic.jpg";
-      img.alt = `${data.name || "지역"} 썸네일`;
+	  const img = document.querySelector(".region-thumbnail img");
+	  img.alt = `${data.name || "지역"} 썸네일`;
+	  if (data.thumbnailBase64) {
+	    img.src = data.thumbnailBase64;
+	  } else if (data.thumbnailUrl) {
+	    img.src = data.thumbnailUrl;
+	  } else {
+	    img.src = "/img/basic.jpg";
+	  }
 	  
 	  document.getElementById('modal-region-name').textContent = data.name || '地域'; //리뷰 작성 모달 지역 설정
 	  document.getElementById('modal-region-name').dataset.regionId = data.regionId || '';
@@ -91,9 +97,14 @@ function loadRegionInfo(regionId) {
 	      const item = document.createElement("div");
 	      item.className = "review-item";
 
-	      const imageHtml = (review.imageUrls || []).map(url => 
-	        `<img src="${url}" alt="리뷰이미지">`
-	      ).join('');
+		  const imageHtml = (review.imageUrls || []).map(url =>
+		    `<img src="${url}" alt="리뷰이미지" class="thumbnail-image">`
+		  ).join('');
+
+		  const fullImageHtml = (review.imageUrls || []).map(url =>
+		    `<img src="${url}" alt="리뷰이미지" class="full-image">`
+		  ).join('');
+
 
 	      item.innerHTML = `
 	        <div class="review-header">
@@ -109,9 +120,23 @@ function loadRegionInfo(regionId) {
 	           	</div>
 	          </div>
 	        </div>
-	        <div class="review-content">${review.content || ''}</div>
-	        <div class="review-images">${imageHtml}</div>
+			<div class="review-summary">
+			   <div class="review-content">${review.content || ''}</div>
+			   <div class="review-thumbnails">${imageHtml}</div>
+			 </div>
+
+			 <div class="review-detail">
+			   <div class="review-full-content">${review.content || ''}</div>
+			   <div class="review-full-images">${fullImageHtml}</div>
+			 </div>
 	      `;
+		  
+		  item.addEventListener('click', () => {
+		    document.querySelectorAll('.review-item.expanded').forEach(el => {
+		      if (el !== item) el.classList.remove('expanded');
+		    });
+		    item.classList.toggle('expanded');
+		  });
 
 	      reviewList.appendChild(item);
 	    });

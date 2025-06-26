@@ -30,6 +30,7 @@ body{
   padding: 20px;
   box-sizing: border-box;
   transition: transform 0.5s ease, opacity 0.5s ease;  /* opacity 속도 일치 */
+  overflow: visible;
 }
 
 .container.active .review-panel {
@@ -155,7 +156,7 @@ body{
 
 .region-rating .stars {
   color: rgb(255, 213, 0);
-  font-size: 14px;
+  font-size: 24px;
   line-height: 1;
 }
 
@@ -173,7 +174,10 @@ body{
   border: none;
   cursor: pointer;
   font-size: 24px;
-  transition: color 0.2s;
+  transition: transform 0.5s ease, background-color 0.2s ease;
+}
+.favorite-btn:hover{
+	transform: scale(1.1);
 }
 
 .favorite-btn i {
@@ -201,8 +205,17 @@ body{
 .review-item {
   background-color: #FAFAFA;
   border-radius: 8px;
+  margin: 10px 0;
   padding: 15px;
   margin-bottom: 20px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  transform-origin: center center;
+  position: relative;
+}
+
+.review-item:hover{
+  cursor: pointer;
+  background-color: aliceblue;
 }
 
 .review-header {
@@ -272,18 +285,41 @@ body{
   overflow: hidden;
 }
 
-.review-images {
-  display: flex;
-  gap: 10px;
-  margin-top: 5px;
+.review-full-content {
+  font-size: 14px;
+  color: #444;
+  margin: 15px 0;
+  word-wrap: break-word;
+  white-space: pre-wrap; 
+  overflow-wrap: break-word;
 }
 
-.review-images img {
+.review-detail {
+  display: none;
+}
+
+.review-item.expanded .review-detail {
+  display: block;
+}
+
+.review-item.expanded .review-summary {
+  display: none;
+}
+
+.thumbnail-image {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 5px;
 }
+
+.full-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
 .no-reviews{
 	color: gray;
 } 

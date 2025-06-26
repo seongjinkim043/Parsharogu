@@ -38,8 +38,8 @@
 					<div class="region-name-rating">
 						<div class="region-name"></div>
 						<div class="region-rating">
+							<span class="stars"><i class="fa-solid fa-star"></i></span>
 							<span class="score"></span>
-							<span class="stars"></span>
 						</div>
 					</div>
 					<div class="region-desc"></div>
@@ -72,11 +72,11 @@
 	    <div class="review-modal-header">
 	      <span class="review-modal-title"><span id="modal-region-name"></span>は…</span>
 	      <div class="review-stars">
-	        <span data-value="1">★</span>
-	        <span data-value="2">★</span>
-	        <span data-value="3">★</span>
-	        <span data-value="4">★</span>
-	        <span data-value="5">★</span>
+	        <span data-value="1"><i class="fa-solid fa-star"></i></span>
+	        <span data-value="2"><i class="fa-solid fa-star"></i></span>
+	        <span data-value="3"><i class="fa-solid fa-star"></i></span>
+	        <span data-value="4"><i class="fa-solid fa-star"></i></span>
+	        <span data-value="5"><i class="fa-solid fa-star"></i></span>
 	      </div>
 	    </div>
 	    <textarea id="review-text" placeholder="리뷰 내용을 작성해주세요"></textarea>
