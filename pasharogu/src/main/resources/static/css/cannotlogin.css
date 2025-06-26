@@ -1,0 +1,130 @@
+   * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Noto Sans JP', sans-serif;
+        background-color: #F0F8FF;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+        padding: 60px 20px;
+    }
+
+    /* 로고 - 페이지 맨 위 중앙 */
+    .logo {
+        font-size: 36px !important;
+        font-weight: bold;
+        color: #2962FF;
+        text-decoration: none;
+        cursor: pointer;
+        margin-bottom: 60px;
+        user-select: none;
+        text-align: center;
+    }
+
+    /* 컨테이너: 좌우 박스 감싸기 */
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    /* 좌우 흰색 박스 스타일 */
+    .box {
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 80px 60px;
+        box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+    }
+
+    /* 안내문구 스타일 */
+    .info-text {
+        font-size: 20px;
+        font-weight: 500;
+        color: #2962FF;
+        margin-bottom: 40px;
+        text-align: center;
+        width: 100%;
+        user-select: none;
+    }
+
+    /* 버튼 공통 스타일 */
+ .btn {
+    width: 100%;
+    max-width: 300px;
+    height: 60px;
+    background-color: #89b5ff; /* 버튼 기본 색상 변경 */
+    border: none;
+    border-radius: 10px;
+    font-size: 24px;
+    color: #FFFFFF;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+
+    /* 텍스트 완전 가운데 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #1976D2;
+}
+
+.btn:active {
+    background-color: #89b5ff; /* 원래 색상과 동일 */
+}
+    /* 오른쪽 박스 버튼 위아래 배치 */
+    .btn-group {
+        width: 100%;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+        body {
+            padding: 40px 20px;
+        }
+        .logo {
+            font-size: 28px !important;
+            margin-bottom: 40px;
+        }
+        .container {
+            flex-direction: column;
+            gap: 30px;
+        }
+        .box {
+            padding: 40px 30px;
+            min-height: auto;
+        }
+        .info-text {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .btn {
+            max-width: 100%;
+            height: 50px;
+            font-size: 20px;
+        }
+    }

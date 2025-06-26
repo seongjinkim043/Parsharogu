@@ -3,6 +3,7 @@ package com.pa.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -22,6 +23,10 @@ public class Region {
 	
 	@Column(name = "SVG_ID")
 	private String svgId;  
+	
+	@Lob
+	@Column(name = "thumbnail_image")
+	private byte[] thumbnailImage;
 	
 
 }
