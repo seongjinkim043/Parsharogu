@@ -65,6 +65,11 @@ public class UserController {
 	    }
 	}
 	
+	@GetMapping("/cannotlogin")
+	public String cannotLogin() {
+		return "cannotlogin";
+	}
+	
 	@ResponseBody
 	@GetMapping("/check-username")
 	public Map<String, Boolean> checkLoginid(@RequestParam("loginid") String loginid) {

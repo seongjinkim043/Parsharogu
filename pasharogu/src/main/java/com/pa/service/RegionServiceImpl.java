@@ -13,6 +13,8 @@ import com.pa.service.RegionService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Base64;
+
 
 import org.springframework.stereotype.Service;
 
@@ -68,6 +70,13 @@ public class RegionServiceImpl implements RegionService {
         dto.setName(region.getName());
         dto.setSvgId(region.getSvgId());
         
+        if (region.getThumbnailImage() != null && region.getThumbnailImage().length > 0) {
+        	String base64 = Base64.getEncoder().encodeToString(region.getThumbnailImage());
+        	dto.setThumbnailBase64("data:/image/png;base64," + base64);
+        } else {
+        	dto.setThumbnailBase64(null);
+        }
+        
         List<ReviewDTO> reviews = getReviewsForRegion(regionId);
         dto.setReviews(reviews);
         
@@ -111,8 +120,6 @@ public class RegionServiceImpl implements RegionService {
        
         }
         
-        System.out.println("리뷰 갯수: " + reviews.size());
-        System.out.println("첫 리뷰 작성일: " + reviews.get(0).getCreateAt());
         return dtoList;
     }
 
