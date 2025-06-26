@@ -44,6 +44,7 @@ public class ReviewController {
     	return "write";
     }
     
+    // 리뷰 작성 
     @PostMapping("/write")
     @ResponseBody
     public Map<String, Object> writeReview(@RequestParam("regionId") String regionId,
