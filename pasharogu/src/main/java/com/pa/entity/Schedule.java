@@ -40,16 +40,22 @@ public class Schedule {
     @Column(name = "AMOUNT")
     private Integer amount;// 쓴 돈 저장
     
+    // ⭐ 추가! (User와 연결)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
+    
     // 기본 생성자 필수
     public Schedule() {}
 
     // 필요하면 생성자 추가 가능
-    public Schedule(String scheduleId, String title, LocalDateTime startDate, LocalDateTime endDate, Integer allDay) {
+    public Schedule(String scheduleId, String title, LocalDateTime startDate, LocalDateTime endDate, Integer allDay, User user) {
         this.scheduleId = scheduleId;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.allDay = allDay;
+        this.user = user;
     }
 
 }

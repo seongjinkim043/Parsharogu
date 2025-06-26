@@ -48,4 +48,8 @@ public class ScheduleService {
                 ));
     }
 
+    // ⭐ 유저별 일정 조회 추가
+    public List<Schedule> findByUser(Long userId) {
+        return scheduleRepository.findByUserUserId(userId);
+    }
 }
