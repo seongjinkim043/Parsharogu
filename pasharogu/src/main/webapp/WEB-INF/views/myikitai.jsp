@@ -3,25 +3,32 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-
-
 <style>
+.ikitai-wrapper {
+    padding: 20px;
+}
+
+.ikitai-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px 0;
+}
+
 .ikitai-card {
-    width: 180px;   /* 카드 가로 크기 */
-    padding: 10px;
+    position: relative;
+    width: 180px;
+    height: 250px;
     border-radius: 10px;
     background-color: #fff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    text-align: center;
-}
-
-.ikitai-card img {
-   width: 100%;         /* 가로는 카드 너비에 맞춤 */
-    height: 160px;       /* 세로 높이 제한 */
-    object-fit: cover;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .ikitai-card:hover {
@@ -29,46 +36,99 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.ikitai-card img {
+    width: 100%;
+    height: 205px;  /* ✅ 이미지 영역 더 크게 */
+    object-fit: cover;
+    background-color: #d9d9d9; /* 이미지 없을 때 회색 */
+    font-size: 0;
+}
+
+/* 하단 정보 */
+.ikitai-card .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;      /* ✅ 텍스트 baseline 정렬 */
+    height: 45px;
+    padding: 5px;
+}
+
+.place-name {
+    font-size: 17px;            /* ✅ 조금 더 크고 강조 */
+    font-weight: bold;
+    color: #333;
+    margin-left: 5px;
+    line-height: 1.1;
+}
+
+.rating {
+    font-size: 14px;            /* ✅ 살짝 작게 */
+    color: #666;
+    margin-right: 4px;
+    padding-bottom: 1px;        /* ✅ 살짝 내려서 줄 맞춤 */
+}
+
+/* 하트 아이콘: 오른쪽 상단 고정 */
+.heart {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
 .heart i {
-    font-size: 14px;
-    vertical-align: middle;
+    font-size: 20px;
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .heart:hover i {
-    color: #ff4d4d;          /* hover 시 색 바뀜 */
-    transform: scale(1.2);    /* 약간 커짐 */
+    color: #ff4d4d;
+    transform: scale(1.2);
 }
 
-.heart {
-    display: inline-block;
+/* 스크롤 버튼 */
+.arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
     cursor: pointer;
+    padding: 10px;
 }
-
 </style>
 
-
 <section class="ikitai-wrapper">
-    <h2>行きたい</h2>
-
+  <h2>行きたい</h2>
     <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
     <div class="ikitai-list" id="ikitaiList">
         <c:forEach var="ikitai" items="${ikitaiList}">
             <div class="ikitai-card">
-                <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
+                <!-- 이미지 (상단 지역명 제거됨) -->
+                <c:choose>
+                    <c:when test="${not empty ikitai.imageUrl}">
+                        <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
+                    </c:when>
+                    <c:otherwise>
+                        <img src="" alt="${ikitai.regionName}" />
+                    </c:otherwise>
+                </c:choose>
+
+                <!-- 오른쪽 상단 하트 -->
+                <div class="heart" onclick="toggleIkitai(this, '${ikitai.regionId}')">
+                    <c:choose>
+                        <c:when test="${ikitai.liked}">
+                            <i class="fa-solid fa-heart" style="color: red;"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="fa-regular fa-heart" style="color: gray;"></i>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+                <!-- 하단 정보 -->
                 <div class="info">
                     <div class="place-name">${ikitai.regionName}</div>
-                    <div class="rating">${ikitai.averageRating} ★★★★★</div>
-                    <div class="heart" onclick="toggleIkitai(this, '${ikitai.regionId}')">
-                        <c:choose>
-                            <c:when test="${ikitai.liked}">
-                                <i class="fa-solid fa-heart" style="color: red; font-size: 16px; vertical-align: middle;"></i>
-                            </c:when>
-                            <c:otherwise>
-                                <i class="fa-regular fa-heart" style="color: gray; font-size: 16px; vertical-align: middle;"></i>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
+                    <div class="rating">★${ikitai.averageRating}</div>
                 </div>
             </div>
         </c:forEach>
@@ -77,54 +137,46 @@
 </section>
 
 <script>
-    function scrollIkitaiLeft() {
-        const container = document.getElementById('ikitaiList');
-        container.scrollBy({ left: -220, behavior: 'smooth' });
-    }
+function scrollIkitaiLeft() {
+    const container = document.getElementById('ikitaiList');
+    container.scrollBy({ left: -220, behavior: 'smooth' });
+}
 
-    function scrollIkitaiRight() {
-        const container = document.getElementById('ikitaiList');
-        container.scrollBy({ left: 220, behavior: 'smooth' });
-    }
+function scrollIkitaiRight() {
+    const container = document.getElementById('ikitaiList');
+    container.scrollBy({ left: 220, behavior: 'smooth' });
+}
 
-    function toggleIkitai(el, regionId) {
-        fetch('/ikitai/toggle', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ regionId: regionId })
-        })
-        .then(response => response.text())
-        .then(result => {
-            const icon = el.querySelector('i');
-
-            if (result === 'added') {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-                icon.style.color = 'red';
-            } else if (result === 'removed') {
-                // ⭐ 하트 먼저 변화
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
-                icon.style.color = 'gray';
-                icon.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                icon.style.opacity = '0';
-                icon.style.transform = 'scale(0.5)';
-
-                // ⭐ 느리게 삭제 — 카드 페이드아웃 1.5초
+function toggleIkitai(el, regionId) {
+    fetch('/ikitai/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ regionId })
+    })
+    .then(response => response.text())
+    .then(result => {
+        const icon = el.querySelector('i');
+        if (result === 'added') {
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            icon.style.color = 'red';
+        } else if (result === 'removed') {
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+            icon.style.color = 'gray';
+            icon.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            icon.style.opacity = '0';
+            icon.style.transform = 'scale(0.5)';
+            setTimeout(() => {
+                const card = el.closest('.ikitai-card');
+                card.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.1)';
                 setTimeout(() => {
-                    const card = el.closest('.ikitai-card');
-                    card.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.1)';
-                    setTimeout(() => {
-                        card.remove();
-                    }, 1500);  // transition 과 일치
-                }, 500);  // 하트 변화 후 0.5초 delay
-            }
-        });
-    }
-
-
+                    card.remove();
+                }, 1500);
+            }, 500);
+        }
+    });
+}
 </script>
