@@ -13,6 +13,7 @@
     overflow-x: auto;
     gap: 20px;
     padding: 10px 0;
+    padding-left: 40px;  
 }
 
 .ikitai-card {
@@ -38,7 +39,7 @@
 
 .ikitai-card img {
     width: 100%;
-    height: 205px;  /* ✅ 이미지 영역 더 크게 */
+    height: 200px;  /* ✅ 이미지 영역 더 크게 */
     object-fit: cover;
     background-color: #d9d9d9; /* 이미지 없을 때 회색 */
     font-size: 0;
@@ -49,7 +50,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;      /* ✅ 텍스트 baseline 정렬 */
-    height: 45px;
+    height: 40px;
     padding: 5px;
 }
 
