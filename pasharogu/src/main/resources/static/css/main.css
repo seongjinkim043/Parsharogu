@@ -174,19 +174,19 @@ body{
   border: none;
   cursor: pointer;
   font-size: 32px;
-  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .favorite-btn i {
-  color: #ccc; /* 기본 회색 */
+  color: #ccc; 
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.favorite-btn i:hover{
+.favorite-btn:hover i{
   transform: scale(1.1);
 }
 
 .favorite-btn i.liked {
-  color: red; /* 좋아요 눌렀을 때 채워진 느낌 */
+  color: red; 
 }
 
 /* ===== 리뷰 ===== */
