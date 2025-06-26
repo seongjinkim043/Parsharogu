@@ -44,7 +44,7 @@
 					</div>
 					<div class="region-desc"></div>
 				</div>
-				<button class="favorite-btn" data-login="${empty userId ? 'false' : 'true'}" data-region-id="${regionId}">
+				<button class="favorite-btn" data-region-id="${region.regionId}" data-login="${not empty sessionScope.loginUser}">
 					<i class="fas fa-heart"></i>
 				</button>
 			</div>
