@@ -98,7 +98,12 @@
 </style>
 
 <section class="ikitai-wrapper">
-  <h2>行きたい</h2>
+   <h2 style="margin-bottom: 5px; padding-left: 10px;">行きたい</h2>
+
+  <!-- 설명 문구 -->
+  <p style="font-size: 13px; color: #999; margin-bottom: 20px; padding-left: 10px;">
+    旅先候補をリストアップ！
+  </p>
     <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
     <div class="ikitai-list" id="ikitaiList">
         <c:forEach var="ikitai" items="${ikitaiList}">
