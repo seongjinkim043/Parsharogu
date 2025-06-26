@@ -69,6 +69,7 @@ public class RegionServiceImpl implements RegionService {
         dto.setRegionId(region.getRegionId());
         dto.setName(region.getName());
         dto.setSvgId(region.getSvgId());
+        dto.setImagePath(region.getImagePath());
         
         
         

@@ -75,14 +75,8 @@ function loadRegionInfo(regionId) {
       document.querySelector(".score").textContent = (data.avgRating || 0).toFixed(1);
 
 	  const img = document.querySelector(".region-thumbnail img");
+	  img.src = data.imagePath || "/img/basic.jpg";
 	  img.alt = `${data.name || "지역"} 썸네일`;
-	  if (data.thumbnailBase64) {
-	    img.src = data.thumbnailBase64;
-	  } else if (data.thumbnailUrl) {
-	    img.src = data.thumbnailUrl;
-	  } else {
-	    img.src = "/img/basic.jpg";
-	  }
 	  
 	  document.getElementById('modal-region-name').textContent = data.name || '地域'; //리뷰 작성 모달 지역 설정
 	  document.getElementById('modal-region-name').dataset.regionId = data.regionId || '';

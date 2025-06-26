@@ -24,6 +24,8 @@ public class Region {
 	@Column(name = "SVG_ID")
 	private String svgId;  
 	
+	@Column(name = "IMAGE_PATH")
+	private String imagePath;
 	
 
 }
