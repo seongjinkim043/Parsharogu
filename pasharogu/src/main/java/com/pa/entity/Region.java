@@ -24,9 +24,6 @@ public class Region {
 	@Column(name = "SVG_ID")
 	private String svgId;  
 	
-	@Lob
-	@Column(name = "thumbnail_image")
-	private byte[] thumbnailImage;
 	
 
 }

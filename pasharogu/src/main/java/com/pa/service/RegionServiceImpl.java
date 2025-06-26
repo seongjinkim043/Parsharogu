@@ -70,12 +70,7 @@ public class RegionServiceImpl implements RegionService {
         dto.setName(region.getName());
         dto.setSvgId(region.getSvgId());
         
-        if (region.getThumbnailImage() != null && region.getThumbnailImage().length > 0) {
-        	String base64 = Base64.getEncoder().encodeToString(region.getThumbnailImage());
-        	dto.setThumbnailBase64("data:/image/png;base64," + base64);
-        } else {
-        	dto.setThumbnailBase64(null);
-        }
+        
         
         List<ReviewDTO> reviews = getReviewsForRegion(regionId);
         dto.setReviews(reviews);
@@ -92,7 +87,7 @@ public class RegionServiceImpl implements RegionService {
     
     @Override
     public List<ReviewDTO> getReviewsForRegion(String regionId) {
-        List<Review> reviews = reviewRepository.findReviewsByRegionIdOrdered(regionId);
+        List<Review> reviews = reviewRepository.findByRegionRegionId(regionId);
         List<ReviewDTO> dtoList = new ArrayList<>();
         
         for (Review review : reviews) {

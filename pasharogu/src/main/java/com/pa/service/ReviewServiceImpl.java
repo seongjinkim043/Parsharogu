@@ -45,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public List<ReviewDTO> getReviewsByRegion(String regionName) {
-        List<Review> reviews = reviewRepository.findReviewsByRegionIdOrdered(regionName);
+        List<Review> reviews = reviewRepository.findByRegionRegionId(regionName);
 
         return reviews.stream()
                 .map(this::toDTO)

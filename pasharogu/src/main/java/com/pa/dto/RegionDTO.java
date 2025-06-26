@@ -14,7 +14,6 @@ public class RegionDTO {
 	private String svgId;
 	private double rating;
 	private Double avgRating;
-	private String thumbnailBase64;
 	
 	private List<ReviewDTO> reviews;
 	

@@ -11,9 +11,7 @@ import com.pa.entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByUserUserId(Long userId);
-   
-    @Query("SELECT r FROM Review r WHERE r.region.regionId = :regionId ORDER BY r.createAt DESC")
-    List<Review> findReviewsByRegionIdOrdered(@Param("regionId") String regionId);
+	List<Review> findByRegionRegionId(String regionId);
 	
 	  @Query("SELECT AVG(r.rating) FROM Review r WHERE r.regionId = :regionId")
 	    Double findAverageRatingByRegionId(@Param("regionId") String regionId);
