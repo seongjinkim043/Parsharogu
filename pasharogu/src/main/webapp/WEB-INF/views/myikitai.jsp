@@ -39,23 +39,22 @@
 
 .ikitai-card img {
     width: 100%;
-    height: 200px;  /* ✅ 이미지 영역 더 크게 */
+    height: 200px;
     object-fit: cover;
-    background-color: #d9d9d9; /* 이미지 없을 때 회색 */
+    background-color: #d9d9d9;
     font-size: 0;
 }
 
-/* 하단 정보 */
 .ikitai-card .info {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;      /* ✅ 텍스트 baseline 정렬 */
+    align-items: flex-end;
     height: 40px;
     padding: 5px;
 }
 
 .place-name {
-    font-size: 17px;            /* ✅ 조금 더 크고 강조 */
+    font-size: 17px;
     font-weight: bold;
     color: #333;
     margin-left: 5px;
@@ -63,13 +62,12 @@
 }
 
 .rating {
-    font-size: 14px;            /* ✅ 살짝 작게 */
+    font-size: 14px;
     color: #666;
     margin-right: 4px;
-    padding-bottom: 1px;        /* ✅ 살짝 내려서 줄 맞춤 */
+    padding-bottom: 1px;
 }
 
-/* 하트 아이콘: 오른쪽 상단 고정 */
 .heart {
     position: absolute;
     top: 8px;
@@ -88,7 +86,6 @@
     transform: scale(1.2);
 }
 
-/* 스크롤 버튼 */
 .arrow {
     background: none;
     border: none;
@@ -99,27 +96,26 @@
 </style>
 
 <section class="ikitai-wrapper">
-   <h2 style="margin-bottom: 5px; padding-left: 10px;">行きたい</h2>
+    <h2 style="margin-bottom: 5px; padding-left: 10px;">行きたい</h2>
+    <p style="font-size: 13px; color: #999; margin-bottom: 20px; padding-left: 10px;">
+        旅先候補をリストアップ！
+    </p>
 
-  <!-- 설명 문구 -->
-  <p style="font-size: 13px; color: #999; margin-bottom: 20px; padding-left: 10px;">
-    旅先候補をリストアップ！
-  </p>
     <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
     <div class="ikitai-list" id="ikitaiList">
         <c:forEach var="ikitai" items="${ikitaiList}">
             <div class="ikitai-card">
-                <!-- 이미지 (상단 지역명 제거됨) -->
+                <!-- 이미지 -->
                 <c:choose>
                     <c:when test="${not empty ikitai.imageUrl}">
                         <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
                     </c:when>
                     <c:otherwise>
-                        <img src="" alt="${ikitai.regionName}" />
+                        <img src="/images/default.jpg" alt="No image" />
                     </c:otherwise>
                 </c:choose>
 
-                <!-- 오른쪽 상단 하트 -->
+                <!-- 하트 -->
                 <div class="heart" onclick="toggleIkitai(this, '${ikitai.regionId}')">
                     <c:choose>
                         <c:when test="${ikitai.liked}">
@@ -131,7 +127,7 @@
                     </c:choose>
                 </div>
 
-                <!-- 하단 정보 -->
+                <!-- 이름 + 평점 -->
                 <div class="info">
                     <div class="place-name">${ikitai.regionName}</div>
                     <div class="rating">★${ikitai.averageRating}</div>

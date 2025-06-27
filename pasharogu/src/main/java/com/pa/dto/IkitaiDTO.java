@@ -10,4 +10,5 @@ public class IkitaiDTO {
     private String imageUrl;       // 현재는 "" 처리
     private double averageRating;  // 지금은 고정 4.5
     private boolean liked;         // true
+    private String imagePath;
 }

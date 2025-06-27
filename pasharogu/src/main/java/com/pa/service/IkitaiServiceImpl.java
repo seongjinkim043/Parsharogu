@@ -27,6 +27,7 @@ public class IkitaiServiceImpl implements IkitaiService {
     private final UserRepository userRepository;
     private final IkitaiRepository ikitaiRepository;
     private final ReviewRepository reviewRepository;
+
     @Transactional
     @Override
     public boolean toggleIkitai(Long userId, String regionId) {
@@ -63,26 +64,20 @@ public class IkitaiServiceImpl implements IkitaiService {
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<Ikitai> ikitais = ikitaiRepository.findByUser(user);
-        
-        System.out.println("sadfsadf");
 
         return ikitais.stream().map(ikitai -> {
             IkitaiDTO dto = new IkitaiDTO();
             dto.setRegionId(ikitai.getRegion().getRegionId());
 
-            // ⭐ JSP 에서 regionName 사용하므로 추가
+            // ✅ JSP에서 출력용 데이터 설정
             dto.setRegionName(ikitai.getRegion().getName());
+            dto.setImageUrl(ikitai.getRegion().getImagePath());  // ✅ DB 경로 그대로 사용
 
-            // ⭐ 이미지 경로 예시 (원하는 경로 규칙에 맞춰 수정 가능)
-            dto.setImageUrl("/images/region/" + ikitai.getRegion().getRegionId() + ".jpg");
-
-            // ⭐ 평균 평점 (현재 Region 에 없음 → 임시 고정 값 사용 중)
+            // ✅ 평균 평점 계산
             Double avgRating = reviewRepository.findAverageRatingByRegionId(ikitai.getRegion().getRegionId());
             dto.setAverageRating(avgRating != null ? Math.round(avgRating * 10) / 10.0 : 0.0);
 
-
             dto.setLiked(true);
-
             return dto;
         }).collect(Collectors.toList());
     }
@@ -97,4 +92,10 @@ public class IkitaiServiceImpl implements IkitaiService {
     public List<String> getRegionIdsByUser(Long userId) {
         return ikitaiRepository.findRegionIdsByUserId(userId);
     }
+
+	@Override
+	public List<IkitaiDTO> getIkitaiListForUser(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

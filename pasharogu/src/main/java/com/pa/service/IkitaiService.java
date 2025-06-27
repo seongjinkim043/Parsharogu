@@ -13,4 +13,6 @@ public interface IkitaiService {
     int countByUserId(Long userId);
     
     List<String> getRegionIdsByUser(Long userId);
+    
+    List<IkitaiDTO> getIkitaiListForUser(Long userId);
 }
