@@ -3,119 +3,29 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-.ikitai-wrapper {
-    padding: 20px;
-}
-
-.ikitai-list {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    padding: 10px 0;
-    padding-left: 40px;  
-}
-
-.ikitai-card {
-    position: relative;
-    width: 180px;
-    height: 250px;
-    border-radius: 10px;
-    background-color: #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.ikitai-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.ikitai-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background-color: #d9d9d9;
-    font-size: 0;
-}
-
-.ikitai-card .info {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 40px;
-    padding: 5px;
-}
-
-.place-name {
-    font-size: 17px;
-    font-weight: bold;
-    color: #333;
-    margin-left: 5px;
-    line-height: 1.1;
-}
-
-.rating {
-    font-size: 14px;
-    color: #666;
-    margin-right: 4px;
-    padding-bottom: 1px;
-}
-
-.heart {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.heart i {
-    font-size: 20px;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.heart:hover i {
-    color: #ff4d4d;
-    transform: scale(1.2);
-}
-
-.arrow {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px;
-}
-</style>
 
 <section class="ikitai-wrapper">
-    <h2 style="margin-bottom: 5px; padding-left: 10px;">行きたい</h2>
-    <p style="font-size: 13px; color: #999; margin-bottom: 20px; padding-left: 10px;">
-        旅先候補をリストアップ！
-    </p>
+   <h2 style="margin-bottom: 5px; padding-left: 10px;">行きたい</h2>
 
+  <!-- 설명 문구 -->
+  <p style="font-size: 13px; color: #999; margin-bottom: 20px; padding-left: 10px;">
+    旅先候補をリストアップ！
+  </p>
     <button class="arrow left" onclick="scrollIkitaiLeft()">&#9664;</button>
     <div class="ikitai-list" id="ikitaiList">
         <c:forEach var="ikitai" items="${ikitaiList}">
             <div class="ikitai-card">
-                <!-- 이미지 -->
+                <!-- 이미지 (상단 지역명 제거됨) -->
                 <c:choose>
                     <c:when test="${not empty ikitai.imageUrl}">
                         <img src="${ikitai.imageUrl}" alt="${ikitai.regionName}" />
                     </c:when>
                     <c:otherwise>
-                        <img src="/images/default.jpg" alt="No image" />
+                        <img src="" alt="${ikitai.regionName}" />
                     </c:otherwise>
                 </c:choose>
 
-                <!-- 하트 -->
+                <!-- 오른쪽 상단 하트 -->
                 <div class="heart" onclick="toggleIkitai(this, '${ikitai.regionId}')">
                     <c:choose>
                         <c:when test="${ikitai.liked}">
@@ -127,7 +37,7 @@
                     </c:choose>
                 </div>
 
-                <!-- 이름 + 평점 -->
+                <!-- 하단 정보 -->
                 <div class="info">
                     <div class="place-name">${ikitai.regionName}</div>
                     <div class="rating">★${ikitai.averageRating}</div>
