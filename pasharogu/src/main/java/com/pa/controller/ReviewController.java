@@ -67,11 +67,7 @@ public class ReviewController {
     	
     	// 1. 리뷰 저장
     	Review review = new Review();
-    	review.setUser(user);
-    	review.setRegionId(regionId);
-    	review.setContent(content);
-    	review.setRating(rating);
-    	review.setCreateAt(LocalDateTime.now());
+
     	
     	List<ReviewImage> reviewImages = new ArrayList<>();
     	
@@ -108,6 +104,11 @@ public class ReviewController {
     	}
 
     	
+    	review.setUser(user);
+    	review.setRegionId(regionId);
+    	review.setContent(content);
+    	review.setRating(rating);
+    	review.setCreateAt(LocalDateTime.now());
     	review.setImages(reviewImages);
     	reviewRepository.save(review);
 

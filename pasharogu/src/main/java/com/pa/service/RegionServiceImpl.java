@@ -50,6 +50,7 @@ public class RegionServiceImpl implements RegionService {
     				RegionDTO dto = new RegionDTO();
     				dto.setRegionId(region.getRegionId());
     				dto.setName(region.getName());
+    				dto.setDescription(region.getDescription());
     				dto.setSvgId(region.getSvgId());
     				return dto;
     			}).collect(Collectors.toList());
@@ -69,6 +70,7 @@ public class RegionServiceImpl implements RegionService {
         dto.setRegionId(region.getRegionId());
         dto.setName(region.getName());
         dto.setSvgId(region.getSvgId());
+        dto.setDescription(region.getDescription());
         dto.setImagePath(region.getImagePath());
         
         
